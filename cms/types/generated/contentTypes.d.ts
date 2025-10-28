@@ -467,6 +467,123 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiQuizQuestionQuizQuestion
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'quiz_questions';
+  info: {
+    displayName: 'Quiz Question';
+    pluralName: 'quiz-questions';
+    singularName: 'quiz-question';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    correctOption: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    difficulty: Schema.Attribute.Enumeration<['Easy', 'Medium', 'Hard']>;
+    explanation: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::quiz-question.quiz-question'
+    > &
+      Schema.Attribute.Private;
+    options: Schema.Attribute.JSON;
+    publishedAt: Schema.Attribute.DateTime;
+    question: Schema.Attribute.String & Schema.Attribute.Required;
+    quiz_subtopic: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::quiz-subtopic.quiz-subtopic'
+    >;
+    quiz_topic: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::quiz-topic.quiz-topic'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiQuizSubtopicQuizSubtopic
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'quiz_subtopics';
+  info: {
+    displayName: 'Quiz Subtopic';
+    pluralName: 'quiz-subtopics';
+    singularName: 'quiz-subtopic';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::quiz-subtopic.quiz-subtopic'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    quiz_questions: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::quiz-question.quiz-question'
+    >;
+    quiz_topic: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::quiz-topic.quiz-topic'
+    >;
+    slug: Schema.Attribute.UID<'name'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiQuizTopicQuizTopic extends Struct.CollectionTypeSchema {
+  collectionName: 'quiz_topics';
+  info: {
+    displayName: 'Quiz Topic';
+    pluralName: 'quiz-topics';
+    singularName: 'quiz-topic';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::quiz-topic.quiz-topic'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    quiz_questions: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::quiz-question.quiz-question'
+    >;
+    quiz_subtopics: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::quiz-subtopic.quiz-subtopic'
+    >;
+    slug: Schema.Attribute.UID<'topicName'>;
+    topicIcon: Schema.Attribute.String;
+    topicName: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -978,6 +1095,9 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::quiz-question.quiz-question': ApiQuizQuestionQuizQuestion;
+      'api::quiz-subtopic.quiz-subtopic': ApiQuizSubtopicQuizSubtopic;
+      'api::quiz-topic.quiz-topic': ApiQuizTopicQuizTopic;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

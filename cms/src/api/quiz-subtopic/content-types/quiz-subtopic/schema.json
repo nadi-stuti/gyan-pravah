@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "quiz_subtopics",
+  "info": {
+    "singularName": "quiz-subtopic",
+    "pluralName": "quiz-subtopics",
+    "displayName": "Quiz Subtopic"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "quiz_topic": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::quiz-topic.quiz-topic",
+      "inversedBy": "quiz_subtopics"
+    },
+    "quiz_questions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::quiz-question.quiz-question",
+      "mappedBy": "quiz_subtopic"
+    }
+  }
+}
