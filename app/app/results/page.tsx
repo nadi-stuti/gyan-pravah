@@ -7,8 +7,7 @@ import { useQuizStore } from '@/stores/useQuizStore'
 import { useUserPreferences } from '@/stores/useUserPreferences'
 
 import { ResultsLoadingScreen } from '@/components/ui/LoadingScreen'
-import { FadeTransition } from '@/components/animations/PageTransition'
-import { trackEvent, trackPageView, trackQuizPerformance } from '@/lib/analytics'
+import { trackEvent, trackQuizPerformance } from '@/lib/analytics'
 import { getQuizConfig, isBonusRound } from '@/lib/quiz-config'
 
 function ResultsContent() {
@@ -50,10 +49,7 @@ function ResultsContent() {
   const config = getQuizConfig(quizMode)
 
   useEffect(() => {
-    // Track page view
-    trackPageView('results')
-
-    // Track results viewed (use stored values)
+    // Track results viewed (page view tracking handled by ClientLayout)
 
     trackEvent('results_viewed', {
       final_score: finalScore,
@@ -137,13 +133,12 @@ function ResultsContent() {
     <div className="min-h-screen p-3 sm:p-4" style={{ backgroundColor: '#8B7FC8' }}>
       <div className="max-w-2xl mx-auto">
         {/* Score Display */}
-        <FadeTransition pageKey="score-display">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 mb-4 sm:mb-6 text-center shadow-xl"
-          >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 mb-4 sm:mb-6 text-center shadow-xl"
+        >
             <div className="text-4xl sm:text-6xl mb-3 sm:mb-4">
               {percentage >= 80 ? '🏆' : percentage >= 60 ? '🎉' : percentage >= 40 ? '👍' : '💪'}
             </div>
@@ -167,8 +162,7 @@ function ResultsContent() {
                 </div>
               )
             })()}
-          </motion.div>
-        </FadeTransition>
+        </motion.div>
 
         {/* Performance Message */}
         <motion.div

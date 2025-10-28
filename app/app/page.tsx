@@ -10,9 +10,9 @@ import { strapiClient } from '@/lib/strapi'
 import PlayNowButton from '@/components/home/PlayNowButton'
 import ExpertModeToggle from '@/components/home/ExpertModeToggle'
 import FactsCard from '@/components/home/FactsCard'
+import NavigationButton from '@/components/navigation/NavigationButton'
 import { DataLoadingScreen } from '@/components/ui/LoadingScreen'
-import { FadeTransition } from '@/components/animations/PageTransition'
-import { trackEvent, trackPageView } from '@/lib/analytics'
+import { trackEvent } from '@/lib/analytics'
 
 export default function Home() {
   const router = useRouter()
@@ -37,9 +37,8 @@ export default function Home() {
     isStale
   } = useSubtopicStore()
 
-  // Track page view and handle first visit
+  // Handle first visit (page view tracking handled by ClientLayout)
   useEffect(() => {
-    trackPageView('home')
 
     // Load subtopic availability if cache is stale
     const loadAvailabilityIfNeeded = async () => {
@@ -125,8 +124,7 @@ export default function Home() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#8B7FC8' }}>
       <main className="flex min-h-screen flex-col items-center justify-center px-3 sm:px-4 py-6 sm:py-8">
-        <FadeTransition pageKey="home-page">
-          <div className="w-full max-w-sm sm:max-w-md mx-auto">
+        <div className="w-full max-w-sm sm:max-w-md mx-auto">
             {/* App Title */}
             <motion.div
               initial={{ opacity: 0, y: -15 }}
@@ -170,10 +168,10 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <button
-                  onClick={() => router.push('/topics')}
+                <NavigationButton
+                  to="/topics"
                   className="w-full bg-white rounded-2xl p-3 sm:p-4 hover:shadow-lg transition-all duration-200 transform hover:scale-105 min-h-touch-lg touch-manipulation"
-                  role="button"
+                  trackingData={{ source: 'home_page', action: 'choose_topics' }}
                 >
                   <div className="flex items-center justify-between">
                     <div className="text-left">
@@ -195,7 +193,7 @@ export default function Home() {
                       </svg>
                     </div>
                   </div>
-                </button>
+                </NavigationButton>
               </motion.div>
 
               {/* Expert Mode Toggle */}
@@ -211,7 +209,6 @@ export default function Home() {
               <FactsCard />
             </div>
           </div>
-        </FadeTransition>
       </main>
     </div>
   )

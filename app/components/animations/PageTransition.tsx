@@ -44,21 +44,19 @@ export default function PageTransition({
   const variants = transitionVariants[direction]
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={pageKey}
-        initial={variants.initial}
-        animate={variants.animate}
-        exit={variants.exit}
-        transition={{
-          duration,
-          ease: "easeInOut"
-        }}
-        className={className}
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <motion.div
+      key={pageKey}
+      initial={variants.initial}
+      animate={variants.animate}
+      exit={variants.exit}
+      transition={{
+        duration,
+        ease: "easeInOut"
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
   )
 }
 

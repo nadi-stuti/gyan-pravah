@@ -139,6 +139,36 @@ export interface QuizAnalyticsEvents {
     referrer?: string
   }
   
+  'browser_navigation': {
+    from_path: string
+    navigation_type: 'back_forward' | 'refresh' | 'close'
+    has_quiz_data: boolean
+    game_status: string
+  }
+  
+  'quiz_abandoned': {
+    reason: 'browser_navigation' | 'manual_exit' | 'timeout'
+    questions_answered: number
+    total_questions: number
+  }
+  
+  'back_button_clicked': {
+    from_page: string
+    to_page: string
+  }
+  
+  'navigation_button_clicked': {
+    from_page: string
+    to_page: string
+    [key: string]: any
+  }
+  
+  'quiz_tab_switched': {
+    questions_answered: number
+    total_questions: number
+    game_status: string
+  }
+  
   // Error events
   'quiz_error': {
     error_type: 'api_failure' | 'no_questions' | 'network_error' | 'unknown'

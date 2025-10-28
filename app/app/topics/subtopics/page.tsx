@@ -8,9 +8,9 @@ import { useUserPreferences } from '@/stores/useUserPreferences'
 import { useSubtopicStore } from '@/stores/useSubtopicStore'
 import { strapiClient } from '@/lib/strapi'
 import { DataLoadingScreen } from '@/components/ui/LoadingScreen'
-import { FadeTransition } from '@/components/animations/PageTransition'
-import { trackEvent, trackPageView } from '@/lib/analytics'
+import { trackEvent } from '@/lib/analytics'
 import TopicIcon from '@/components/ui/TopicIcon'
+import BackButton from '@/components/navigation/BackButton'
 import type { QuizTopic, QuizSubtopic } from '@gyan-pravah/types'
 
 // Topic colors based on design system
@@ -48,7 +48,7 @@ function SubtopicsContent() {
   const { availability: subtopicAvailability } = useSubtopicStore()
 
   useEffect(() => {
-    trackPageView('subtopics')
+    // Page view tracking handled by ClientLayout
     loadSelectedTopic()
   }, [])
 
@@ -100,9 +100,7 @@ function SubtopicsContent() {
     await startQuiz(topicSlug, subtopicSlug)
   }
 
-  const handleBack = () => {
-    router.push('/topics')
-  }
+
 
   const startQuiz = async (topicSlug: string, subtopicSlug: string) => {
     setIsStartingQuiz(true)
@@ -191,20 +189,10 @@ function SubtopicsContent() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#8B7FC8' }}>
-      <FadeTransition pageKey="subtopics-page">
-        <div className="px-4 py-8">
+      <div className="px-4 py-8">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
-            <motion.button
-              onClick={handleBack}
-              className="p-3 rounded-xl bg-white text-[#8B7FC8] shadow-md"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </motion.button>
+            <BackButton to="/topics" />
             
             <div className="w-10" /> {/* Spacer */}
           </div>
@@ -357,7 +345,6 @@ function SubtopicsContent() {
             )}
           </motion.div>
         </div>
-      </FadeTransition>
     </div>
   )
 }
