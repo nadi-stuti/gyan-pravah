@@ -14,7 +14,7 @@
   },
   "workspaces": [
     "app",
-    "cms", 
+    "cms",
     "scripts",
     "packages/*"
   ],

@@ -1,0 +1,337 @@
+'use client'
+
+import { motion } from 'motion/react'
+import { useState, useEffect } from 'react'
+import { QuizQuestion } from '@gyan-pravah/types'
+import { getQuizConfig } from '@/lib/quiz-config'
+
+interface QuestionCardProps {
+  question: QuizQuestion
+  questionNumber: number
+  totalQuestions: number
+  timeRemaining: number
+  onTimeUp: () => void
+  onAnswer: (answer: 'A' | 'B' | 'C' | 'D') => void
+  selectedAnswer?: 'A' | 'B' | 'C' | 'D'
+  isAnswered: boolean
+  className?: string
+}
+
+export default function QuestionCard({
+  question,
+  questionNumber,
+  totalQuestions,
+  timeRemaining,
+  onTimeUp,
+  onAnswer,
+  selectedAnswer,
+  isAnswered,
+  className = ''
+}: QuestionCardProps) {
+  const config = getQuizConfig('quizup')
+  const maxTime = config.questionTimeLimit
+  
+  // State for reading timer (3 seconds before showing options)
+  const [readingTime, setReadingTime] = useState(3)
+  const [showOptions, setShowOptions] = useState(false)
+  
+  // Shuffle answers order to prevent pattern recognition
+  const [shuffledOptions, setShuffledOptions] = useState<Array<{key: 'A' | 'B' | 'C' | 'D', text: string}>>([])
+  
+  // Initialize shuffled options when question changes
+  useEffect(() => {
+    const options = Object.entries(question.options).map(([key, text]) => ({
+      key: key as 'A' | 'B' | 'C' | 'D',
+      text
+    }))
+    
+    // Fisher-Yates shuffle algorithm
+    const shuffled = [...options]
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+    }
+    
+    setShuffledOptions(shuffled)
+    setReadingTime(3)
+    setShowOptions(false)
+  }, [question.id, question.options])
+  
+  // Reading timer countdown
+  useEffect(() => {
+    if (readingTime > 0) {
+      const timer = setTimeout(() => {
+        setReadingTime(prev => prev - 1)
+      }, 1000)
+      return () => clearTimeout(timer)
+    } else {
+      setShowOptions(true)
+    }
+  }, [readingTime])
+  
+  return (
+    <motion.div
+      key={question.id}
+      initial={{ opacity: 0, scale: 0.9, y: 30 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.9, y: -30 }}
+      transition={{
+        type: "spring",
+        stiffness: 400,
+        damping: 25,
+        duration: 0.4
+      }}
+      className={`w-full max-w-lg mx-auto ${className}`}
+    >
+      {/* Question Card - White background like reference */}
+      <div className="bg-white rounded-3xl p-6 mb-6 shadow-lg">
+        {/* Category Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="text-center mb-4"
+        >
+          <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold text-white"
+                style={{ backgroundColor: questionNumber > 6 ? '#F59E0B' : '#FBBF24' }}>
+            {questionNumber > 6 ? '🎯 BONUS ROUND' : (question.quiz_subtopic?.quiz_topic?.topicName || 'General Knowledge')}
+          </span>
+        </motion.div>
+
+        {/* Question text */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.4 }}
+          className="text-center mb-6"
+        >
+          <h2 className="text-lg sm:text-xl font-poppins font-semibold text-gray-900 leading-relaxed">
+            {question.question}
+          </h2>
+        </motion.div>
+
+        {/* Divider with padding */}
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0 }}
+          animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ delay: 0.3, duration: 0.4 }}
+          className="mb-6 px-8"
+        >
+          <div className="h-px bg-gray-200"></div>
+        </motion.div>
+
+        {/* Reading Timer or Main Timer */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4 }}
+          className="mb-6"
+        >
+          {!showOptions ? (
+            // Reading timer (3 seconds)
+            <div className="text-center">
+              <motion.div
+                key={readingTime}
+                initial={{ scale: 1.2, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#8B7FC8] text-white text-2xl font-bold mb-2"
+              >
+                {readingTime}
+              </motion.div>
+              <p className="text-sm text-gray-600 font-poppins">
+                Read the question carefully...
+              </p>
+            </div>
+          ) : (
+            // Main quiz timer
+            <div className="relative">
+              <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                <motion.div
+                  className={`h-full rounded-full ${questionNumber > 6 ? 'bg-orange-500' : 'bg-green-500'}`}
+                  initial={{ width: '100%' }}
+                  animate={{ width: `${(timeRemaining / maxTime) * 100}%` }}
+                  transition={{ duration: 1, ease: "linear" }}
+                />
+              </div>
+              <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 -translate-y-full">
+                <div className="bg-white border-2 border-gray-300 rounded-full w-8 h-8 flex items-center justify-center">
+                  <span className="text-sm font-bold text-gray-900">{timeRemaining}</span>
+                </div>
+              </div>
+            </div>
+          )}
+        </motion.div>
+
+        {/* Answer options - only show after reading timer */}
+        {showOptions && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <ShuffledAnswerOptions
+              question={question}
+              shuffledOptions={shuffledOptions}
+              selectedAnswer={selectedAnswer}
+              onAnswer={onAnswer}
+              isDisabled={isAnswered}
+            />
+          </motion.div>
+        )}
+      </div>
+    </motion.div>
+  )
+}
+
+// Shuffled Answer Options Component
+interface ShuffledAnswerOptionsProps {
+  question: QuizQuestion
+  shuffledOptions: Array<{key: 'A' | 'B' | 'C' | 'D', text: string}>
+  selectedAnswer?: 'A' | 'B' | 'C' | 'D'
+  onAnswer: (answer: 'A' | 'B' | 'C' | 'D') => void
+  isDisabled?: boolean
+  showCorrectAnswer?: boolean
+  className?: string
+}
+
+function ShuffledAnswerOptions({
+  question,
+  shuffledOptions,
+  selectedAnswer,
+  onAnswer,
+  isDisabled = false,
+  showCorrectAnswer = false,
+  className = ''
+}: ShuffledAnswerOptionsProps) {
+  
+  return (
+    <div className={`space-y-3 ${className}`}>
+      {shuffledOptions.map(({ key: optionKey, text: optionText }, index) => {
+        const option = optionKey as 'A' | 'B' | 'C' | 'D'
+        const isSelected = selectedAnswer === option
+        const isCorrect = question.correctOption === option
+        const isWrong = showCorrectAnswer && isSelected && !isCorrect
+        
+        return (
+          <ShuffledAnswerOption
+            key={`${question.id}-${optionKey}`}
+            option={option}
+            text={optionText}
+            isSelected={isSelected}
+            isCorrect={showCorrectAnswer ? isCorrect : undefined}
+            isWrong={isWrong}
+            isDisabled={isDisabled}
+            onClick={() => onAnswer(option)}
+            animationDelay={index * 0.1}
+          />
+        )
+      })}
+    </div>
+  )
+}
+
+// Individual Shuffled Answer Option Component
+interface ShuffledAnswerOptionProps {
+  option: 'A' | 'B' | 'C' | 'D'
+  text: string
+  isSelected: boolean
+  isCorrect?: boolean
+  isWrong?: boolean
+  isDisabled: boolean
+  onClick: () => void
+  animationDelay: number
+}
+
+function ShuffledAnswerOption({
+  option,
+  text,
+  isSelected,
+  isCorrect,
+  isWrong,
+  isDisabled,
+  onClick,
+  animationDelay
+}: ShuffledAnswerOptionProps) {
+  
+  // Determine the visual state
+  const getOptionState = () => {
+    if (isWrong) return 'wrong'
+    if (isCorrect) return 'correct'
+    if (isSelected) return 'selected'
+    return 'default'
+  }
+  
+  const optionState = getOptionState()
+  
+  // Style classes based on state - following design system rules (no gradients)
+  const getStateClasses = () => {
+    switch (optionState) {
+      case 'correct':
+        return 'border-green-400 bg-green-400 text-white'
+      case 'wrong':
+        return 'border-red-400 bg-red-400 text-white'
+      case 'selected':
+        return 'border-[#8B7FC8] bg-[#8B7FC8] text-white'
+      default:
+        return 'border-gray-200 bg-white text-gray-900 hover:border-[#B4A5E8] hover:bg-[#B4A5E8] hover:text-white'
+    }
+  }
+  
+  return (
+    <motion.button
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ 
+        delay: animationDelay, 
+        duration: 0.3,
+        type: "spring",
+        stiffness: 200
+      }}
+      whileHover={!isDisabled && optionState === 'default' ? { scale: 1.02 } : {}}
+      whileTap={!isDisabled ? { scale: 0.98 } : {}}
+      onClick={onClick}
+      disabled={isDisabled}
+      className={`
+        w-full p-4 rounded-xl border-2 transition-all duration-200 text-left
+        font-poppins font-medium text-base
+        disabled:cursor-not-allowed transform
+        ${getStateClasses()}
+        ${isDisabled && optionState === 'default' ? 'opacity-60' : ''}
+      `}
+    >
+      <div className="flex items-center">
+        {/* Option text */}
+        <span className="flex-1 px-4">
+          {text}
+        </span>
+        
+        {/* State indicator */}
+        {optionState === 'correct' && (
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="shrink-0 w-6 h-6 rounded-full bg-white flex items-center justify-center"
+          >
+            <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </motion.div>
+        )}
+        
+        {optionState === 'wrong' && (
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="shrink-0 w-6 h-6 rounded-full bg-white flex items-center justify-center"
+          >
+            <svg className="w-4 h-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </motion.div>
+        )}
+      </div>
+    </motion.button>
+  )
+}

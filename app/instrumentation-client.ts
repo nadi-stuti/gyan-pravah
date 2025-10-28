@@ -9,6 +9,7 @@
 // });
 
 import posthog from "posthog-js";
+import { initializeUserTracking } from "./lib/analytics";
 
 // Detect environment
 const isDevelopment = process.env.NODE_ENV === "development";
@@ -28,7 +29,11 @@ posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
     posthog.register({
       environment: environment,
       app_version: "0.0.1", // You can update this later
+      app_name: "Gyan Pravah Quiz",
     });
+
+    // Initialize user tracking after PostHog is loaded
+    initializeUserTracking();
 
     // Optional: Completely disable tracking in development
     // Uncomment the next 2 lines if you don't want ANY dev events

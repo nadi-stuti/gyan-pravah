@@ -68,3 +68,25 @@ export type QuizSubtopicsResponse = StrapiCollectionResponse<QuizSubtopic>;
 export type QuizSubtopicResponse = StrapiSingleResponse<QuizSubtopic>;
 export type QuizQuestionsResponse = StrapiCollectionResponse<QuizQuestion>;
 export type QuizQuestionResponse = StrapiSingleResponse<QuizQuestion>;
+
+// Quiz Session and Game State types
+export interface QuizSession {
+  id: string;
+  questions: QuizQuestion[];
+  userAnswers: Record<number, string>;
+  score: number;
+  totalPossibleScore: number;
+  completedAt?: Date;
+  mode: 'normal' | 'expert' | 'first-visit';
+  timeTaken: number;
+}
+
+export interface StoredUserPreferences {
+  isFirstVisit: boolean;
+  expertModeEnabled: boolean;
+  soundEnabled: boolean;
+  lastPlayedTopic?: string;
+  lastPlayedSubtopic?: string;
+  totalGamesPlayed: number;
+  bestScore: number;
+}
