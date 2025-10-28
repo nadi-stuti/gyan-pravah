@@ -57,16 +57,16 @@ export default function ScoreDisplay({
 
   return (
     <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
+      initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ 
         type: "spring", 
         stiffness: 300, 
         damping: 25,
-        duration: 0.6 
+        duration: 0.5 
       }}
       className={`
-        relative p-8 rounded-3xl border-2 text-center max-w-md mx-auto
+        relative p-6 sm:p-8 rounded-2xl sm:rounded-3xl border-2 text-center max-w-sm sm:max-w-md mx-auto
         ${getPerformanceBg(percentage)}
       `}
     >
@@ -116,7 +116,7 @@ export default function ScoreDisplay({
         transition={{ delay: 0.2, duration: 0.5 }}
         className="mb-4"
       >
-        <h1 className="text-2xl font-poppins font-bold text-text-primary mb-2">
+        <h1 className="text-xl sm:text-2xl font-poppins font-bold text-text-primary mb-2">
           Quiz Complete!
         </h1>
         
@@ -125,12 +125,12 @@ export default function ScoreDisplay({
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ 
-              delay: 0.5, 
+              delay: 0.4, 
               type: "spring", 
               stiffness: 400,
               damping: 20 
             }}
-            className={`text-6xl font-bold font-poppins ${getPerformanceColor(percentage)}`}
+            className={`text-4xl sm:text-6xl font-bold font-poppins ${getPerformanceColor(percentage)}`}
           >
             {animatedScore}
           </motion.div>
@@ -138,8 +138,8 @@ export default function ScoreDisplay({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="text-lg text-text-secondary font-poppins"
+            transition={{ delay: 0.6 }}
+            className="text-base sm:text-lg text-text-secondary font-poppins"
           >
             out of {totalPossible} points
           </motion.div>
@@ -156,10 +156,10 @@ export default function ScoreDisplay({
           stiffness: 300,
           damping: 25 
         }}
-        className="relative w-32 h-32 mx-auto mb-4"
+        className="relative w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-4"
       >
         {/* Background circle */}
-        <svg className="w-32 h-32 transform -rotate-90" viewBox="0 0 120 120">
+        <svg className="w-24 h-24 sm:w-32 sm:h-32 transform -rotate-90" viewBox="0 0 120 120">
           <circle
             cx="60"
             cy="60"
@@ -200,7 +200,7 @@ export default function ScoreDisplay({
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.5, duration: 0.3 }}
-            className={`text-2xl font-bold font-poppins ${getPerformanceColor(percentage)}`}
+            className={`text-xl sm:text-2xl font-bold font-poppins ${getPerformanceColor(percentage)}`}
           >
             {animatedPercentage}%
           </motion.span>
@@ -214,7 +214,7 @@ export default function ScoreDisplay({
         transition={{ delay: 1.8, duration: 0.4 }}
         className="text-text-secondary font-poppins"
       >
-        <div className="text-sm">
+        <div className="text-xs sm:text-sm">
           {Math.round((animatedPercentage / 100) * totalQuestions)} out of {totalQuestions} questions correct
         </div>
       </motion.div>

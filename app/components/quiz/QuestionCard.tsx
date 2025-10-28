@@ -4,6 +4,8 @@ import { motion } from 'motion/react'
 import { useState, useEffect } from 'react'
 import { QuizQuestion } from '@gyan-pravah/types'
 import { getQuizConfig } from '@/lib/quiz-config'
+import { questionCardVariants, answerOptionVariants, getAccessibleVariants } from '@/lib/mobile-animations'
+import { handleTouchPress } from '@/lib/mobile-gestures'
 
 interface QuestionCardProps {
   question: QuizQuestion
@@ -72,19 +74,14 @@ export default function QuestionCard({
   return (
     <motion.div
       key={question.id}
-      initial={{ opacity: 0, scale: 0.9, y: 30 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.9, y: -30 }}
-      transition={{
-        type: "spring",
-        stiffness: 400,
-        damping: 25,
-        duration: 0.4
-      }}
-      className={`w-full max-w-lg mx-auto ${className}`}
+      variants={getAccessibleVariants(questionCardVariants)}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className={`w-full max-w-lg mx-auto px-2 sm:px-0 ${className}`}
     >
       {/* Question Card - White background like reference */}
-      <div className="bg-white rounded-3xl p-6 mb-6 shadow-lg">
+      <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 mb-4 sm:mb-6 shadow-mobile-card sm:shadow-lg">
         {/* Category Badge */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -100,12 +97,12 @@ export default function QuestionCard({
 
         {/* Question text */}
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
-          className="text-center mb-6"
+          transition={{ delay: 0.1, duration: 0.3 }}
+          className="text-center mb-4 sm:mb-6"
         >
-          <h2 className="text-lg sm:text-xl font-poppins font-semibold text-gray-900 leading-relaxed">
+          <h2 className="text-base sm:text-lg md:text-xl font-poppins font-semibold text-gray-900 leading-relaxed px-2">
             {question.question}
           </h2>
         </motion.div>
@@ -114,29 +111,29 @@ export default function QuestionCard({
         <motion.div
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
-          className="mb-6 px-8"
+          transition={{ delay: 0.2, duration: 0.3 }}
+          className="mb-4 sm:mb-6 px-4 sm:px-8"
         >
           <div className="h-px bg-gray-200"></div>
         </motion.div>
 
         {/* Reading Timer or Main Timer */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.4 }}
-          className="mb-6"
+          transition={{ delay: 0.3 }}
+          className="mb-4 sm:mb-6"
         >
           {!showOptions ? (
             // Reading timer (3 seconds)
             <div className="text-center">
               <motion.div
                 key={readingTime}
-                initial={{ scale: 1.2, opacity: 0 }}
+                initial={{ scale: 1.1, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.8, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#8B7FC8] text-white text-2xl font-bold mb-2"
+                exit={{ scale: 0.9, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-[#8B7FC8] text-white text-xl sm:text-2xl font-bold mb-2"
               >
                 {readingTime}
               </motion.div>
@@ -156,8 +153,8 @@ export default function QuestionCard({
                 />
               </div>
               <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 -translate-y-full">
-                <div className="bg-white border-2 border-gray-300 rounded-full w-8 h-8 flex items-center justify-center">
-                  <span className="text-sm font-bold text-gray-900">{timeRemaining}</span>
+                <div className="bg-white border-2 border-gray-300 rounded-full w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center">
+                  <span className="text-xs sm:text-sm font-bold text-gray-900">{timeRemaining}</span>
                 </div>
               </div>
             </div>
@@ -207,7 +204,7 @@ function ShuffledAnswerOptions({
 }: ShuffledAnswerOptionsProps) {
   
   return (
-    <div className={`space-y-3 ${className}`}>
+    <div className={`space-y-2 sm:space-y-3 ${className}`}>
       {shuffledOptions.map(({ key: optionKey, text: optionText }, index) => {
         const option = optionKey as 'A' | 'B' | 'C' | 'D'
         const isSelected = selectedAnswer === option
@@ -281,29 +278,29 @@ function ShuffledAnswerOption({
   
   return (
     <motion.button
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ 
-        delay: animationDelay, 
-        duration: 0.3,
-        type: "spring",
-        stiffness: 200
-      }}
-      whileHover={!isDisabled && optionState === 'default' ? { scale: 1.02 } : {}}
-      whileTap={!isDisabled ? { scale: 0.98 } : {}}
-      onClick={onClick}
+      variants={getAccessibleVariants(answerOptionVariants)}
+      initial="initial"
+      animate="animate"
+      whileHover={!isDisabled && optionState === 'default' ? "hover" : undefined}
+      whileTap={!isDisabled ? "tap" : undefined}
+      custom={animationDelay * 10} // Convert to index for stagger
+      onClick={() => handleTouchPress(onClick)}
       disabled={isDisabled}
       className={`
-        w-full p-4 rounded-xl border-2 transition-all duration-200 text-left
-        font-poppins font-medium text-base
-        disabled:cursor-not-allowed transform
+        w-full p-3 sm:p-4 rounded-lg sm:rounded-xl border-2 transition-all duration-150 text-left
+        font-poppins font-medium text-sm sm:text-base min-h-touch
+        disabled:cursor-not-allowed transform touch-manipulation
         ${getStateClasses()}
         ${isDisabled && optionState === 'default' ? 'opacity-60' : ''}
       `}
+      // Mobile accessibility
+      role="button"
+      aria-pressed={isSelected}
+      aria-disabled={isDisabled}
     >
       <div className="flex items-center">
         {/* Option text */}
-        <span className="flex-1 px-4">
+        <span className="flex-1 px-2 sm:px-4">
           {text}
         </span>
         
@@ -312,9 +309,9 @@ function ShuffledAnswerOption({
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="shrink-0 w-6 h-6 rounded-full bg-white flex items-center justify-center"
+            className="shrink-0 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white flex items-center justify-center"
           >
-            <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </motion.div>
@@ -324,9 +321,9 @@ function ShuffledAnswerOption({
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="shrink-0 w-6 h-6 rounded-full bg-white flex items-center justify-center"
+            className="shrink-0 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white flex items-center justify-center"
           >
-            <svg className="w-4 h-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </motion.div>

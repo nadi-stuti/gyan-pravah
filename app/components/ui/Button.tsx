@@ -2,6 +2,8 @@
 
 import { motion } from 'motion/react'
 import { ReactNode } from 'react'
+import { buttonAnimationVariants, getAccessibleVariants } from '@/lib/mobile-animations'
+import { handleTouchPress } from '@/lib/mobile-gestures'
 
 interface ButtonProps {
   children: ReactNode
@@ -38,9 +40,9 @@ export default function Button({
   }
   
   const sizeClasses = {
-    sm: 'px-3 py-2 text-sm',
-    md: 'px-4 py-3 text-base',
-    lg: 'px-6 py-4 text-lg'
+    sm: 'px-3 py-2 text-sm min-h-touch',
+    md: 'px-4 py-3 text-base min-h-touch-lg',
+    lg: 'px-6 py-4 text-lg min-h-touch-lg'
   }
   
   const widthClass = fullWidth ? 'w-full' : ''
@@ -51,22 +53,16 @@ export default function Button({
     <motion.button
       className={buttonClasses}
       disabled={disabled || isLoading}
-      whileHover={!disabled && !isLoading ? { 
-        scale: 1.02,
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)'
-      } : {}}
-      whileTap={!disabled && !isLoading ? { 
-        scale: 0.98,
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-      } : {}}
-      transition={{ 
-        type: "spring", 
-        stiffness: 400, 
-        damping: 25,
-        duration: 0.15
-      }}
-      onClick={onClick}
+      variants={getAccessibleVariants(buttonAnimationVariants)}
+      initial="initial"
+      animate="animate"
+      whileHover={!disabled && !isLoading ? "hover" : undefined}
+      whileTap={!disabled && !isLoading ? "tap" : undefined}
+      onClick={onClick ? () => handleTouchPress(onClick) : undefined}
       type={type}
+      // Mobile accessibility
+      role="button"
+      aria-disabled={disabled || isLoading}
     >
       {isLoading ? (
         <motion.div

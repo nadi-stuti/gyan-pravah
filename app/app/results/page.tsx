@@ -134,7 +134,7 @@ function ResultsContent() {
   }
 
   return (
-    <div className="min-h-screen p-4" style={{ backgroundColor: '#8B7FC8' }}>
+    <div className="min-h-screen p-3 sm:p-4" style={{ backgroundColor: '#8B7FC8' }}>
       <div className="max-w-2xl mx-auto">
         {/* Score Display */}
         <FadeTransition pageKey="score-display">
@@ -142,17 +142,17 @@ function ResultsContent() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="bg-white rounded-3xl p-8 mb-6 text-center shadow-xl"
+            className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 mb-4 sm:mb-6 text-center shadow-xl"
           >
-            <div className="text-6xl mb-4">
+            <div className="text-4xl sm:text-6xl mb-3 sm:mb-4">
               {percentage >= 80 ? '🏆' : percentage >= 60 ? '🎉' : percentage >= 40 ? '👍' : '💪'}
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Quiz Complete!</h1>
-            <div className="text-5xl font-bold text-purple-600 mb-2">{finalScore}</div>
-            <div className="text-lg text-gray-600 mb-4">out of {maxPossibleScore} points</div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Quiz Complete!</h1>
+            <div className="text-4xl sm:text-5xl font-bold text-purple-600 mb-2">{finalScore}</div>
+            <div className="text-base sm:text-lg text-gray-600 mb-3 sm:mb-4">out of {maxPossibleScore} points</div>
 
-            <div className="text-2xl font-semibold text-gray-800">{percentage}% Correct</div>
-            <div className="text-gray-600">{questionsCorrect} out of {totalQuestions} questions</div>
+            <div className="text-xl sm:text-2xl font-semibold text-gray-800">{percentage}% Correct</div>
+            <div className="text-sm sm:text-base text-gray-600">{questionsCorrect} out of {totalQuestions} questions</div>
             {(() => {
               // Calculate actual bonus questions from the quiz questions
               const actualBonusQuestions = questions.filter((_, index) => isBonusRound(index, config)).length
@@ -175,9 +175,9 @@ function ResultsContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-white rounded-2xl p-6 mb-6 text-center shadow-lg"
+          className="bg-white rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6 text-center shadow-lg"
         >
-          <div className="text-xl font-poppins font-semibold text-gray-900">
+          <div className="text-lg sm:text-xl font-poppins font-semibold text-gray-900">
             {percentage >= 80 && "🎉 Excellent work! You're a quiz master!"}
             {percentage >= 60 && percentage < 80 && "👏 Great job! Keep it up!"}
             {percentage >= 40 && percentage < 60 && "👍 Good effort! Practice makes perfect!"}
@@ -190,25 +190,28 @@ function ResultsContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="space-y-3"
+          className="space-y-2 sm:space-y-3"
         >
           <button
             onClick={handleReplaySame}
-            className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-200 transform hover:scale-105 shadow-lg"
+            className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-2xl transition-all duration-200 transform hover:scale-105 shadow-lg min-h-touch-lg touch-manipulation"
+            role="button"
           >
             🔄 Play Again
           </button>
 
           <button
             onClick={handleReplayExpert}
-            className="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-4 px-6 rounded-2xl transition-all duration-200 transform hover:scale-105 shadow-lg"
+            className="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-2xl transition-all duration-200 transform hover:scale-105 shadow-lg min-h-touch-lg touch-manipulation"
+            role="button"
           >
             ⚡ {isExpertMode ? 'Try Normal Mode' : 'Try Expert Mode'}
           </button>
 
           <button
             onClick={handleReturnHome}
-            className="w-full bg-white hover:bg-gray-50 text-gray-900 font-bold py-4 px-6 rounded-2xl transition-all duration-200 transform hover:scale-105 shadow-lg border-2 border-gray-200"
+            className="w-full bg-white hover:bg-gray-50 text-gray-900 font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-2xl transition-all duration-200 transform hover:scale-105 shadow-lg border-2 border-gray-200 min-h-touch-lg touch-manipulation"
+            role="button"
           >
             🏠 Choose New Topic
           </button>
@@ -220,10 +223,10 @@ function ResultsContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="mt-6 bg-white rounded-2xl p-6 shadow-lg"
+            className="mt-4 sm:mt-6 bg-white rounded-2xl p-4 sm:p-6 shadow-lg"
           >
-            <h3 className="text-lg font-bold text-gray-900 mb-4 text-center">Question Summary</h3>
-            <div className="grid grid-cols-5 gap-2">
+            <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-3 sm:mb-4 text-center">Question Summary</h3>
+            <div className="grid grid-cols-5 gap-1 sm:gap-2">
               {questions.map((question, index) => {
                 const userAnswer = selectedAnswers[index] as 'A' | 'B' | 'C' | 'D' | undefined
                 const isCorrect = userAnswer === question.correctOption
@@ -232,7 +235,7 @@ function ResultsContent() {
                   <div
                     key={question.id}
                     className={`
-                      w-12 h-12 rounded-full flex items-center justify-center text-white font-bold
+                      w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base
                       ${isCorrect ? 'bg-green-500' : userAnswer ? 'bg-red-500' : 'bg-gray-400'}
                     `}
                   >
@@ -241,7 +244,7 @@ function ResultsContent() {
                 )
               })}
             </div>
-            <div className="flex justify-center gap-6 mt-4 text-sm">
+            <div className="flex justify-center gap-3 sm:gap-6 mt-3 sm:mt-4 text-xs sm:text-sm">
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 bg-green-500 rounded-full"></div>
                 <span>Correct</span>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'motion/react'
 import { useQuizStore } from '@/stores/useQuizStore'
@@ -30,7 +30,7 @@ const topicColors: Record<string, string> = {
   'rituals': '#EF4444' // red-500
 }
 
-export default function SubtopicsPage() {
+function SubtopicsContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [topics, setTopics] = useState<QuizTopic[]>([])
@@ -359,5 +359,17 @@ export default function SubtopicsPage() {
         </div>
       </FadeTransition>
     </div>
+  )
+}
+
+export default function SubtopicsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#8B7FC8' }}>
+        <DataLoadingScreen />
+      </div>
+    }>
+      <SubtopicsContent />
+    </Suspense>
   )
 }

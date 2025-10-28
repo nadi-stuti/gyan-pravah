@@ -89,13 +89,15 @@ export default function PlayNowButton() {
       <button
         onClick={handlePlayNow}
         disabled={isLoading}
-        className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-4 px-6 rounded-2xl transition-all duration-200 transform hover:scale-105 shadow-lg text-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+        className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-4 px-6 rounded-2xl transition-all duration-200 transform hover:scale-105 shadow-lg text-lg sm:text-xl min-h-touch-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none touch-manipulation"
+        role="button"
+        aria-disabled={isLoading}
       >
         {isLoading ? '⏳ Starting Quiz...' : '🚀 Play Now'}
       </button>
       
       <motion.p 
-        className="text-center text-white opacity-90 text-sm mt-3"
+        className="text-center text-white opacity-90 text-xs sm:text-sm mt-3"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}

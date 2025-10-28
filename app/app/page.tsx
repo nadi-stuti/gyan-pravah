@@ -124,25 +124,25 @@ export default function Home() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#8B7FC8' }}>
-      <main className="flex min-h-screen flex-col items-center justify-center px-4 py-8">
+      <main className="flex min-h-screen flex-col items-center justify-center px-3 sm:px-4 py-6 sm:py-8">
         <FadeTransition pageKey="home-page">
-          <div className="w-full max-w-md mx-auto">
+          <div className="w-full max-w-sm sm:max-w-md mx-auto">
             {/* App Title */}
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, y: -15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-center mb-8"
+              transition={{ duration: 0.4 }}
+              className="text-center mb-6 sm:mb-8"
             >
-              <h1 className="text-4xl font-bold text-white mb-2">
+              <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
                 Gyan Pravah
               </h1>
-              <p className="text-white opacity-90">
+              <p className="text-white opacity-90 text-sm sm:text-base px-2">
                 Test your knowledge with engaging animated quizzes
               </p>
             </motion.div>
 
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Play Now Section */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -172,20 +172,21 @@ export default function Home() {
               >
                 <button
                   onClick={() => router.push('/topics')}
-                  className="w-full bg-white rounded-2xl p-4 hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+                  className="w-full bg-white rounded-2xl p-3 sm:p-4 hover:shadow-lg transition-all duration-200 transform hover:scale-105 min-h-touch-lg touch-manipulation"
+                  role="button"
                 >
                   <div className="flex items-center justify-between">
                     <div className="text-left">
-                      <h3 className="font-semibold text-gray-900 mb-1">
+                      <h3 className="font-semibold text-gray-900 mb-1 text-sm sm:text-base">
                         Choose Topics & Start Quiz
                       </h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-xs sm:text-sm text-gray-600">
                         Select your favorite topics and customize your experience
                       </p>
                     </div>
-                    <div className="text-gray-600">
+                    <div className="text-gray-600 shrink-0 ml-2">
                       <svg
-                        className="w-6 h-6"
+                        className="w-5 h-5 sm:w-6 sm:h-6"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"

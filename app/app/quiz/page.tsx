@@ -41,7 +41,7 @@ export default function QuizPage() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#8B7FC8' }}>
-      <div className="max-w-2xl mx-auto px-4 py-6">
+      <div className="max-w-2xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
         <QuizTransition pageKey="quiz-game">
           <QuizGameLogic
             questions={questions}

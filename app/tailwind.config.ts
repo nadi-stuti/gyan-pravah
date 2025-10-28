@@ -118,6 +118,9 @@ const config: Config = {
       spacing: {
         '18': '4.5rem',
         '88': '22rem',
+        // Touch-friendly spacing
+        'touch': '44px', // Minimum touch target size
+        'touch-lg': '48px', // Large touch target
       },
       // Border radius for cartoony feel
       borderRadius: {
@@ -131,6 +134,9 @@ const config: Config = {
         'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
         'button': '0 2px 4px rgba(0, 0, 0, 0.1)',
         'button-hover': '0 4px 8px rgba(0, 0, 0, 0.15)',
+        // Mobile-optimized shadows
+        'mobile-card': '0 2px 4px rgba(0, 0, 0, 0.1)',
+        'mobile-button': '0 1px 3px rgba(0, 0, 0, 0.12)',
       },
     },
   },

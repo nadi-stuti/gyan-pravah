@@ -2,6 +2,8 @@
 
 import { motion } from 'motion/react'
 import { ReactNode } from 'react'
+import { cardAnimationVariants, getAccessibleVariants } from '@/lib/mobile-animations'
+import { handleTouchPress } from '@/lib/mobile-gestures'
 
 interface CardProps {
   children: ReactNode
@@ -32,7 +34,7 @@ export default function Card({
   
   const paddingClasses = {
     none: '',
-    sm: 'p-3',
+    sm: 'p-3 sm:p-4',
     md: 'p-4 sm:p-6',
     lg: 'p-6 sm:p-8'
   }
@@ -53,22 +55,13 @@ export default function Card({
   
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ 
-        type: "spring", 
-        stiffness: 300, 
-        damping: 30,
-        duration: 0.3
-      }}
-      whileHover={hoverable || onClick ? {
-        scale: 1.02,
-        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
-      } : {}}
-      whileTap={onClick ? {
-        scale: 0.98
-      } : {}}
+      variants={getAccessibleVariants(cardAnimationVariants)}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      whileHover={hoverable || onClick ? "hover" : undefined}
+      whileTap={onClick ? "tap" : undefined}
+      onClick={onClick ? () => handleTouchPress(onClick) : undefined}
       className="w-full"
     >
       {cardContent}

@@ -311,10 +311,11 @@ export default function TopicSelector() {
                 return (
                   <motion.button
                     key={topic.id}
-                    className="w-full p-4 text-left bg-neutral-50 hover:bg-neutral-100 rounded-xl transition-colors"
+                    className="w-full p-3 sm:p-4 text-left bg-neutral-50 hover:bg-neutral-100 rounded-xl transition-colors min-h-touch touch-manipulation"
                     onClick={() => handleTopicSelect(topic)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                    role="button"
                   >
                     <div className="flex items-center">
                       <span className="text-2xl mr-3">{topic.topicIcon || '📚'}</span>
@@ -385,16 +386,18 @@ export default function TopicSelector() {
                     <motion.button
                       key={subtopic.id}
                       className={`
-                        w-full p-4 text-left rounded-xl transition-colors
+                        w-full p-3 sm:p-4 text-left rounded-xl transition-colors min-h-touch touch-manipulation
                         ${hasQuestions 
                           ? 'bg-neutral-50 hover:bg-neutral-100 cursor-pointer' 
                           : 'bg-gray-100 cursor-not-allowed opacity-60'
                         }
                       `}
                       onClick={() => handleSubtopicSelect(subtopic)}
-                      whileHover={hasQuestions ? { scale: 1.02 } : {}}
-                      whileTap={hasQuestions ? { scale: 0.98 } : {}}
+                      whileHover={hasQuestions ? { scale: 1.01 } : {}}
+                      whileTap={hasQuestions ? { scale: 0.99 } : {}}
                       disabled={!hasQuestions}
+                      role="button"
+                      aria-disabled={!hasQuestions}
                     >
                       <div className="flex items-center justify-between">
                         <div>
@@ -459,11 +462,13 @@ export default function TopicSelector() {
               {difficultyOptions.map((option) => (
                 <motion.button
                   key={option.value}
-                  className="w-full p-4 text-left bg-neutral-50 hover:bg-neutral-100 rounded-xl transition-colors"
+                  className="w-full p-3 sm:p-4 text-left bg-neutral-50 hover:bg-neutral-100 rounded-xl transition-colors min-h-touch touch-manipulation"
                   onClick={() => handleDifficultySelect(option.value)}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
                   disabled={isLoading}
+                  role="button"
+                  aria-disabled={isLoading}
                 >
                   <div className="flex items-center justify-between">
                     <div>

@@ -83,6 +83,91 @@ textarea:focus-visible {
   color: #ffffff;
 }
 
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  /* Optimize touch targets */
+  button, 
+  [role="button"],
+  input[type="button"],
+  input[type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent zoom on input focus */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea,
+  select {
+    font-size: 16px;
+  }
+  
+  /* Optimize scrolling */
+  body {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  
+  /* Prevent text selection on UI elements */
+  button,
+  [role="button"] {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+}
+
+/* Safe area support for devices with notches */
+@supports (padding: max(0px)) {
+  .safe-area-top {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+  
+  .safe-area-left {
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+  }
+  
+  .safe-area-right {
+    padding-right: max(0.75rem, env(safe-area-inset-right));
+  }
+}
+
+/* Touch-friendly utilities */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+.touch-pan-y {
+  touch-action: pan-y;
+}
+
+.touch-pan-x {
+  touch-action: pan-x;
+}
+
+/* Minimum touch target sizes */
+.min-h-touch {
+  min-height: 44px;
+}
+
+.min-h-touch-lg {
+  min-height: 48px;
+}
+
+/* Mobile-optimized shadows */
+.shadow-mobile-card {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-mobile-button {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
 /* Reduced motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
   *,
