@@ -1,7 +1,7 @@
 import { fetchFromStrapi } from "@/lib/strapi";
 
 export default async function TestPage() {
-  const data = await fetchFromStrapi("/quiz-topics");
+  const data = await fetchFromStrapi("/quiz-topics?populate=quiz_subtopics");
 
   return (
     <div className="p-8">

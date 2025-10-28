@@ -1,23 +1,32 @@
 // Strapi Population Script for Gyan Pravah Quiz App
-// Version 3 - Fixed for Strapi v5 Draft & Publish system
+// Version 4 - TypeScript with shared types
 
-const fs = require("fs");
-const path = require("path");
-const axios = require("axios");
-require("dotenv").config();
-const { allQuestionsPath } = require("../lib/get-path");
-const { ALL_SUBTOPICS,TOPICS } = require("../../content/listing/topics-list");
-
+import fs from "fs";
+import path from "path";
+import axios, { AxiosInstance } from "axios";
+import { 
+  QuizTopic, 
+  QuizSubtopic, 
+  QuizQuestion,
+  ParsedQuestion,
+  ParsedMarkdownFile,
+  PopulationConfig,
+  PopulationStats,
+  StrapiCollectionResponse
+} from "@gyan-pravah/types";
+import { allQuestionsPath } from "@/lib/get-path";
+import { ALL_SUBTOPICS, TOPICS } from "@/data/topics-list";
+import "@/lib/load-dotenv";
 
 // ==================== CONFIGURATION ====================
-const CONFIG = {
+const CONFIG: PopulationConfig = {
   strapiUrl: process.env.STRAPI_URL || "http://localhost:1337",
   apiToken: process.env.STRAPI_API_TOKEN || "",
   markdownFilesDir: allQuestionsPath(),
 };
 
 // ==================== API SETUP ====================
-const api = axios.create({
+const api: AxiosInstance = axios.create({
   baseURL: `${CONFIG.strapiUrl}/api`,
   headers: {
     Authorization: `Bearer ${CONFIG.apiToken}`,
@@ -30,7 +39,7 @@ const api = axios.create({
 /**
  * Parse markdown file and extract questions
  */
-function parseMarkdownFile(filepath) {
+function parseMarkdownFile(filepath: string): ParsedMarkdownFile {
   if (!fs.existsSync(filepath)) {
     console.warn(`  ⚠️  File not found: ${filepath}`);
     return { questions: [] };
@@ -38,7 +47,7 @@ function parseMarkdownFile(filepath) {
 
   let content = fs.readFileSync(filepath, "utf-8");
   content = content.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-  const questions = [];
+  const questions: ParsedQuestion[] = [];
 
   const questionPattern =
     /### Question (\d+)\s*\*\*Q:\*\*\s*(.+?)\s*\*\*A\)\*\*\s*(.+?)\s*\*\*B\)\*\*\s*(.+?)\s*\*\*C\)\*\*\s*(.+?)\s*\*\*D\)\*\*\s*(.+?)\s*\*\*Correct Answer:\*\*\s*([A-D])\s*\*\*Difficulty:\*\*\s*(.+?)\s*\*\*Explanation:\*\*\s*(.+?)(?=\n###|\n---|\n##|$)/gs;
@@ -66,7 +75,7 @@ function parseMarkdownFile(filepath) {
         C: optionC.trim(),
         D: optionD.trim(),
       },
-      correctOption: correctAnswer.trim(),
+      correctOption: correctAnswer.trim() as 'A' | 'B' | 'C' | 'D',
       difficulty: difficulty.trim(),
       explanation: explanation.trim(),
     });
@@ -78,14 +87,14 @@ function parseMarkdownFile(filepath) {
 /**
  * Fetch existing entry by slug (uses documentId from Strapi v5)
  */
-async function fetchBySlug(endpoint, slug) {
+async function fetchBySlug(endpoint: string, slug: string): Promise<QuizTopic | QuizSubtopic | null> {
   try {
-    const response = await api.get(
+    const response = await api.get<StrapiCollectionResponse<QuizTopic | QuizSubtopic>>(
       `${endpoint}?filters[slug][$eq]=${slug}&status=published`
     );
     const items = response.data.data;
     return items && items.length > 0 ? items[0] : null;
-  } catch (error) {
+  } catch (error: any) {
     console.error(
       `Error fetching ${endpoint} by slug "${slug}":`,
       error.message
@@ -97,10 +106,10 @@ async function fetchBySlug(endpoint, slug) {
 /**
  * Create or get topic (uses documentId)
  */
-async function createOrGetTopic(topicData) {
+async function createOrGetTopic(topicData: typeof TOPICS[0]): Promise<QuizTopic | null> {
   try {
     // Check if exists
-    const existing = await fetchBySlug("/quiz-topics", topicData.slug);
+    const existing = await fetchBySlug("/quiz-topics", topicData.slug) as QuizTopic | null;
     if (existing) {
       console.log(
         `  ↻ Topic already exists: ${topicData.topicName} (documentId: ${existing.documentId})`
@@ -117,12 +126,12 @@ async function createOrGetTopic(topicData) {
       },
     });
 
-    const created = response.data.data;
+    const created: QuizTopic = response.data.data;
     console.log(
       `  ✓ Created topic: ${topicData.topicName} (documentId: ${created.documentId})`
     );
     return created;
-  } catch (error) {
+  } catch (error: any) {
     console.error(
       `  ✗ Error with topic "${topicData.topicName}":`,
       error.response?.data || error.message
@@ -134,10 +143,13 @@ async function createOrGetTopic(topicData) {
 /**
  * Create or get subtopic (uses documentId for relations)
  */
-async function createOrGetSubtopic(subtopicData, topicDocumentId) {
+async function createOrGetSubtopic(
+  subtopicData: { name: string; slug: string }, 
+  topicDocumentId: string
+): Promise<QuizSubtopic | null> {
   try {
     // Check if exists
-    const existing = await fetchBySlug("/quiz-subtopics", subtopicData.slug);
+    const existing = await fetchBySlug("/quiz-subtopics", subtopicData.slug) as QuizSubtopic | null;
     if (existing) {
       console.log(
         `    ↻ Subtopic already exists: ${subtopicData.name} (documentId: ${existing.documentId})`
@@ -154,12 +166,12 @@ async function createOrGetSubtopic(subtopicData, topicDocumentId) {
       },
     });
 
-    const created = response.data.data;
+    const created: QuizSubtopic = response.data.data;
     console.log(
       `    ✓ Created subtopic: ${subtopicData.name} (documentId: ${created.documentId})`
     );
     return created;
-  } catch (error) {
+  } catch (error: any) {
     console.error(
       `    ✗ Error with subtopic "${subtopicData.name}":`,
       error.response?.data || error.message
@@ -172,10 +184,10 @@ async function createOrGetSubtopic(subtopicData, topicDocumentId) {
  * Create question (uses documentId for relations)
  */
 async function createQuestion(
-  questionData,
-  subtopicDocumentId,
-  topicDocumentId
-) {
+  questionData: ParsedQuestion,
+  subtopicDocumentId: string,
+  topicDocumentId: string
+): Promise<QuizQuestion | null> {
   try {
     // Normalize question text for exact-match lookup
     const questionText = (questionData.question || "").trim();
@@ -187,7 +199,7 @@ async function createQuestion(
     // Check if an identical question already exists (published)
     try {
       const encodedQ = encodeURIComponent(questionText);
-      const existingResp = await api.get(
+      const existingResp = await api.get<StrapiCollectionResponse<QuizQuestion>>(
         `/quiz-questions?filters[question][$eq]=${encodedQ}&status=published`
       );
       const existingItems = existingResp.data.data;
@@ -200,7 +212,7 @@ async function createQuestion(
         );
         return existingItems[0];
       }
-    } catch (fetchErr) {
+    } catch (fetchErr: any) {
       // Non-fatal: continue to attempt creation if lookup fails
       console.warn(
         "      ⚠️  Failed to check existing question, proceeding to create:",
@@ -221,7 +233,7 @@ async function createQuestion(
     });
 
     return response.data.data;
-  } catch (error) {
+  } catch (error: any) {
     console.error(
       `      ✗ Error creating question: ${questionData.question.substring(
         0,
@@ -238,14 +250,14 @@ async function createQuestion(
 /**
  * Clear all data (using documentId)
  */
-async function clearAllData() {
+async function clearAllData(): Promise<void> {
   console.log("\n⚠️  CLEARING ALL DATA...\n");
 
   try {
     const collections = ["quiz-questions", "quiz-subtopics", "quiz-topics"];
 
     for (const collection of collections) {
-      const response = await api.get(`/${collection}?status=published`);
+      const response = await api.get<StrapiCollectionResponse<any>>(`/${collection}?status=published`);
       const items = response.data.data;
 
       for (const item of items) {
@@ -256,7 +268,7 @@ async function clearAllData() {
     }
 
     console.log("\n✅ All data cleared.\n");
-  } catch (error) {
+  } catch (error: any) {
     console.error("❌ Error clearing data:", error.message);
   }
 }
@@ -264,10 +276,10 @@ async function clearAllData() {
 /**
  * Main populate function
  */
-async function populateStrapi() {
+async function populateStrapi(): Promise<void> {
   console.log("\n🚀 Starting Strapi Population (v5 Compatible)...\n");
 
-  const stats = {
+  const stats: PopulationStats = {
     topicsCreated: 0,
     subtopicsCreated: 0,
     questionsCreated: 0,
@@ -284,7 +296,7 @@ async function populateStrapi() {
     console.log("📚 STEP 1: Creating Topics");
     console.log("━".repeat(50) + "\n");
 
-    const topicMap = {};
+    const topicMap: Record<string, QuizTopic> = {};
     for (const topic of TOPICS) {
       const createdTopic = await createOrGetTopic(topic);
       if (createdTopic) {
@@ -365,7 +377,7 @@ async function populateStrapi() {
     console.log(`Subtopics: ${stats.subtopicsCreated}`);
     console.log(`Questions: ${stats.questionsCreated}`);
     console.log("━".repeat(50) + "\n");
-  } catch (error) {
+  } catch (error: any) {
     console.error("❌ Population failed:", error.message);
     process.exit(1);
   }
@@ -377,7 +389,7 @@ if (require.main === module) {
 }
 
 // Export for testing
-module.exports = {
+export {
   populateStrapi,
   parseMarkdownFile,
   clearAllData,

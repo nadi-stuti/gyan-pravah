@@ -1,20 +1,24 @@
 {
   "name": "scripts",
   "version": "1.0.0",
-  "description": "",
-  "main": "populate-strapi.js",
+  "description": "Population and utility scripts for Gyan Pravah",
+  "main": "dist/database/populate-strapi.js",
   "scripts": {
-    "populate": "node ./database/populate-strapi.js",
-    "populate:clear": "node ./database/populate-strapi.js --clear",
-    "test:populate": "node ./test/test-populate.js"
+    "populate": "tsx ./src/database/populate-strapi.ts",
+    "populate:clear": "tsx ./src/database/populate-strapi.ts --clear",
+    "test:populate": "tsx ./src/test/test-populate.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.6.0"
+    "@gyan-pravah/types": "workspace:*",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
-    "dotenv": "^16.3.1"
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
   }
 }

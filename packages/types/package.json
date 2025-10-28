@@ -1,0 +1,29 @@
+{
+  "name": "@gyan-pravah/types",
+  "version": "1.0.0",
+  "description": "Shared TypeScript types for Gyan Pravah",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./quiz": {
+      "types": "./dist/quiz.d.ts", 
+      "default": "./dist/quiz.js"
+    },
+    "./strapi": {
+      "types": "./dist/strapi.d.ts",
+      "default": "./dist/strapi.js"
+    }
+  }
+}

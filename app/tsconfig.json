@@ -25,6 +25,9 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "@gyan-pravah/types": [
+        "../packages/types/src"
       ]
     }
   },

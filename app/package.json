@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "clean": "rm -rf .next"
   },
   "dependencies": {
+    "@gyan-pravah/types": "workspace:*",
     "axios": "^1.12.2",
     "lottie-react": "^2.4.1",
     "motion": "^12.23.24",

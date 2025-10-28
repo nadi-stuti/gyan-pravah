@@ -1,8 +1,9 @@
-const path = require("path");
-const dotenv = require("dotenv");
+import path from "path";
+import dotenv from "dotenv";
 
-const dotenvPath = path.resolve(__dirname, "..", ".env");
+const dotenvPath = path.resolve(__dirname, "..", "..", ".env");
 const dotenvResult = dotenv.config({ path: dotenvPath });
+
 if (dotenvResult.error) {
   console.warn(
     "dotenv: failed to load .env from",
@@ -12,4 +13,4 @@ if (dotenvResult.error) {
   );
 }
 
-module.exports = dotenvResult;
+export default dotenvResult;
