@@ -25,12 +25,12 @@ export default function NoInternetConnection({ onRetry }: NoInternetConnectionPr
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-primary-50 to-primary-100 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-3xl shadow-card p-8 text-center">
+    <div className="min-h-screen bg-[#B4A5E8] flex items-center justify-center p-4">
+      <div className="max-w-md w-full bg-white rounded-2xl p-8 text-center">
         {/* No Internet Icon */}
-        <div className="w-24 h-24 mx-auto mb-6 bg-danger-100 rounded-full flex items-center justify-center">
+        <div className="w-24 h-24 mx-auto mb-6 bg-red-400 rounded-full flex items-center justify-center">
           <svg 
-            className="w-12 h-12 text-danger-500" 
+            className="w-12 h-12 text-white" 
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24"
@@ -45,30 +45,30 @@ export default function NoInternetConnection({ onRetry }: NoInternetConnectionPr
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl font-bold text-text-primary mb-4">
+        <h1 className="text-2xl font-poppins font-bold text-gray-800 mb-4">
           No Internet Connection
         </h1>
 
         {/* Description */}
-        <p className="text-text-secondary mb-8 leading-relaxed">
+        <p className="text-gray-600 font-poppins mb-8 leading-relaxed">
           Gyan Pravah requires an internet connection to access the latest quiz questions and content. 
           Please check your connection and try again.
         </p>
 
         {/* Connection Tips */}
-        <div className="bg-neutral-50 rounded-2xl p-4 mb-6 text-left">
-          <h3 className="font-semibold text-text-primary mb-3">Connection Tips:</h3>
-          <ul className="text-sm text-text-secondary space-y-2">
+        <div className="bg-gray-100 rounded-2xl p-4 mb-6 text-left">
+          <h3 className="font-poppins font-semibold text-gray-800 mb-3">Connection Tips:</h3>
+          <ul className="text-sm text-gray-600 font-poppins space-y-2">
             <li className="flex items-start">
-              <span className="text-primary-500 mr-2">•</span>
+              <span className="text-[#8B7FC8] mr-2">•</span>
               Check your WiFi or mobile data connection
             </li>
             <li className="flex items-start">
-              <span className="text-primary-500 mr-2">•</span>
+              <span className="text-[#8B7FC8] mr-2">•</span>
               Try moving to an area with better signal
             </li>
             <li className="flex items-start">
-              <span className="text-primary-500 mr-2">•</span>
+              <span className="text-[#8B7FC8] mr-2">•</span>
               Restart your router or toggle airplane mode
             </li>
           </ul>
@@ -78,7 +78,7 @@ export default function NoInternetConnection({ onRetry }: NoInternetConnectionPr
         <button
           onClick={handleRetry}
           disabled={isRetrying}
-          className="w-full bg-primary-500 hover:bg-primary-600 disabled:bg-primary-300 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-200 shadow-button hover:shadow-button-hover disabled:cursor-not-allowed"
+          className="w-full bg-[#8B7FC8] hover:bg-[#6B5FA8] disabled:bg-gray-300 text-white font-poppins font-semibold py-4 px-6 rounded-xl transition-all duration-200 disabled:cursor-not-allowed"
         >
           {isRetrying ? (
             <div className="flex items-center justify-center">
@@ -91,20 +91,20 @@ export default function NoInternetConnection({ onRetry }: NoInternetConnectionPr
         </button>
 
         {/* Alternative Actions */}
-        <div className="mt-6 pt-6 border-t border-neutral-200">
-          <p className="text-sm text-text-secondary mb-4">
+        <div className="mt-6 pt-6 border-t border-gray-200">
+          <p className="text-sm text-gray-600 font-poppins mb-4">
             Still having trouble?
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <button 
               onClick={() => window.location.reload()}
-              className="flex-1 bg-neutral-100 hover:bg-neutral-200 text-text-primary font-medium py-3 px-4 rounded-xl transition-colors duration-200"
+              className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 font-poppins font-medium py-3 px-4 rounded-xl transition-colors duration-200"
             >
               Refresh Page
             </button>
             <button 
               onClick={() => window.history.back()}
-              className="flex-1 bg-neutral-100 hover:bg-neutral-200 text-text-primary font-medium py-3 px-4 rounded-xl transition-colors duration-200"
+              className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 font-poppins font-medium py-3 px-4 rounded-xl transition-colors duration-200"
             >
               Go Back
             </button>
