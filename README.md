@@ -64,9 +64,11 @@ scoop install pnpm
 ```bash
 # Clone the repository
 git clone https://github.com/nadi-stuti/gyan-pravah
+
+cd gyan-pravah
+
 #to check out the MVP branch
 git checkout MVP 
-cd gyan-pravah
 
 # Install all dependencies for the monorepo
 pnpm install
