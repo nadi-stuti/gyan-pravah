@@ -89,6 +89,55 @@ cp scripts/.env.example scripts/.env
 # scripts/.env - Configure population script settings
 ```
 
+#### Configure Strapi Environment
+
+Edit `cms/.env` and **replace all placeholder secrets with strong, random strings**.  
+You MUST set the following secrets for Strapi to run:
+
+```ini
+HOST=0.0.0.0
+PORT=1337
+APP_KEYS="yourStrongKey1,yourStrongKey2"
+API_TOKEN_SALT=yourApiTokenSalt
+ADMIN_JWT_SECRET=yourAdminJwtSecret
+TRANSFER_TOKEN_SALT=yourTransferTokenSalt
+JWT_SECRET=yourJwtSecret
+ENCRYPTION_KEY=yourEncryptionKey
+```
+
+- **Generate secret values** using this Node command:
+
+  ```bash
+  node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+  ```
+
+- Set unique random values for each:
+  - `APP_KEYS` (comma separated, at least 2)
+  - `API_TOKEN_SALT`
+  - `ADMIN_JWT_SECRET`
+  - `TRANSFER_TOKEN_SALT`
+  - `JWT_SECRET`
+  - `ENCRYPTION_KEY`
+
+- **Do not use placeholder values like `tobemodified`.**  
+  Failing to set real secrets will prevent Strapi from starting.
+
+##### Example:
+
+```ini
+APP_KEYS="c1a39...,de4fc..."
+API_TOKEN_SALT="b3ef7..."
+ADMIN_JWT_SECRET="a5cd8..."
+TRANSFER_TOKEN_SALT="1f8ae..."
+JWT_SECRET="98ab3..."
+ENCRYPTION_KEY="d618f..."
+```
+
+Restart the Strapi server (run `npm run dev` or `npm run develop`) after changing these values.
+
+> **If Strapi fails to start and reports a missing admin.auth.secret or JWT secret, verify the secrets in your `.env` and ensure they are both present and non-placeholder.**
+
+
 ### Step 5: Start Development Servers
 
 ```bash
@@ -126,8 +175,8 @@ pnpm --filter app run dev
 2. Under "Global Settings", click on **API Tokens**
 3. Click the **"Create new API Token"** button
 4. Configure the token:
-   - **Name**: `Next.js App Token` (or any descriptive name)
-   - **Description**: `API token for Next.js frontend application`
+   - **Name**: `MVP App Token` (or any descriptive name)
+   - **Description**: `API token for MVP application`
    - **Token duration**: `Unlimited` (recommended for development)
    - **Token type**: `Full access` (gives complete API access)
 5. Click **"Save"** to generate the token
@@ -171,7 +220,20 @@ The population script will:
    - **Quiz Questions** - Should show all questions from markdown files
 5. Click on each content type to verify the data has been imported correctly
 
-### Step 10: Access the Application
+### Step 10: Configure Public API Permissions
+
+1. In the Strapi admin dashboard, go to **Settings** (gear icon in the left sidebar)
+2. Under **Users & Permissions plugin**, click **Roles**
+3. Select the **Public** role
+4. In the permissions list, expand these content types and enable read access:
+   - **quiz-topic**: check `find` and `findOne`
+   - **quiz-subtopic**: check `find` and `findOne`
+   - **quiz-question**: check `find` and `findOne`
+5. Click **Save** to apply the changes
+
+> This allows the frontend to fetch topics, subtopics, and questions without requiring authentication in development.
+
+### Step 11: Access the Application
 
 1. Open `http://localhost:3000` in your browser
 2. The Next.js application should load with quiz data from Strapi
