@@ -97,8 +97,28 @@ export class EnhancedAPIClient {
   async getSubtopicAvailability(): Promise<Record<string, { questionCount: number; hasQuestions: boolean }>> {
     return this.withRetry(
       () => strapiClient.getSubtopicAvailability(),
-      'getSubtopicAvailability',
-      2 // Fewer retries for this expensive operation
+      'getSubtopicAvailability'
+    )
+  }
+
+  async getAvailableSubtopics(): Promise<QuizSubtopic[]> {
+    return this.withRetry(
+      () => strapiClient.getAvailableSubtopics(),
+      'getAvailableSubtopics'
+    )
+  }
+
+  async getAvailableSubtopicsForTopic(topicSlug: string): Promise<QuizSubtopic[]> {
+    return this.withRetry(
+      () => strapiClient.getAvailableSubtopicsForTopic(topicSlug),
+      'getAvailableSubtopicsForTopic'
+    )
+  }
+
+  async getTopicsWithAvailability(): Promise<Array<QuizTopic & { hasAvailableSubtopics: boolean; availableSubtopicCount: number }>> {
+    return this.withRetry(
+      () => strapiClient.getTopicsWithAvailability(),
+      'getTopicsWithAvailability'
     )
   }
 
@@ -161,6 +181,9 @@ export const apiClient = EnhancedAPIClient.getInstance()
 export const getQuestions = (filters?: any) => apiClient.getQuestions(filters)
 export const getTopics = (filters?: any) => apiClient.getTopics(filters)
 export const getSubtopics = (filters?: any) => apiClient.getSubtopics(filters)
+export const getAvailableSubtopics = () => apiClient.getAvailableSubtopics()
+export const getAvailableSubtopicsForTopic = (topicSlug: string) => apiClient.getAvailableSubtopicsForTopic(topicSlug)
+export const getTopicsWithAvailability = () => apiClient.getTopicsWithAvailability()
 export const getRandomQuestions = (count?: number, mode?: 'normal' | 'expert' | 'first-visit') => 
   apiClient.getRandomQuestions(count, mode)
 export const getSubtopicAvailability = () => apiClient.getSubtopicAvailability()

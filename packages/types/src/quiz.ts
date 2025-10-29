@@ -18,6 +18,8 @@ export interface QuizSubtopic {
   documentId: string;
   name: string;
   slug: string;
+  available: boolean;
+  questionCount: number;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;

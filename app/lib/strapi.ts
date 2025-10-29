@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosError } from 'axios'
-import { 
-  QuizQuestion, 
-  QuizTopic, 
+import {
+  QuizQuestion,
+  QuizTopic,
   QuizSubtopic,
   QuizTopicsResponse,
   QuizSubtopicsResponse,
@@ -34,7 +34,7 @@ class StrapiClient {
 
   constructor() {
     this.baseURL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337'
-    
+
     this.client = axios.create({
       baseURL: this.baseURL,
       timeout: 10000,
@@ -95,19 +95,19 @@ class StrapiClient {
   // Fetch questions with filters
   async getQuestions(filters: QuestionFilters = {}): Promise<QuizQuestion[]> {
     const params = new URLSearchParams()
-    
+
     if (filters.topic) {
       params.append('filters[quiz_topic][slug][$eq]', filters.topic)
     }
-    
+
     if (filters.subtopic) {
       params.append('filters[quiz_subtopic][slug][$eq]', filters.subtopic)
     }
-    
+
     if (filters.difficulty) {
       params.append('filters[difficulty][$eq]', filters.difficulty)
     }
-    
+
     if (filters.limit) {
       params.append('pagination[limit]', filters.limit.toString())
     }
@@ -121,109 +121,38 @@ class StrapiClient {
     const response = await this.client.get<QuizQuestionsResponse>(
       `/api/quiz-questions?${params.toString()}`
     )
-    
+
     return response.data.data
   }
 
-  // Fetch topics with subtopics
+  // Fetch topics with subtopics - With proper pagination
   async getTopics(filters: TopicFilters = {}): Promise<QuizTopic[]> {
-    const params = new URLSearchParams()
-    
-    // Populate subtopics by default
-    params.append('populate[quiz_subtopics][fields][0]', 'name')
-    params.append('populate[quiz_subtopics][fields][1]', 'slug')
-
-    const response = await this.client.get<QuizTopicsResponse>(
-      `/api/quiz-topics?${params.toString()}`
-    )
-    
-    return response.data.data
-  }
-
-  // Fetch subtopics with optional topic filter
-  async getSubtopics(filters: SubtopicFilters = {}): Promise<QuizSubtopic[]> {
-    const params = new URLSearchParams()
-    
-    if (filters.topic) {
-      params.append('filters[quiz_topic][slug][$eq]', filters.topic)
-    }
-
-    // Populate topic data
-    params.append('populate[quiz_topic][fields][0]', 'topicName')
-    params.append('populate[quiz_topic][fields][1]', 'slug')
-
-    const response = await this.client.get<QuizSubtopicsResponse>(
-      `/api/quiz-subtopics?${params.toString()}`
-    )
-    
-    return response.data.data
-  }
-
-  // Get subtopic availability (which subtopics have questions) - More efficient approach
-  async getSubtopicAvailability(): Promise<Record<string, { questionCount: number; hasQuestions: boolean }>> {
-    try {
-      // First, get all subtopics
-      const subtopics = await this.getAllSubtopics()
-      console.log('Found subtopics:', subtopics.map(s => ({ slug: s.slug, name: s.name }))) // Debug log
-      
-      const availability: Record<string, { questionCount: number; hasQuestions: boolean }> = {}
-      
-      // For each subtopic, get the count of questions
-      for (const subtopic of subtopics) {
-        try {
-          const params = new URLSearchParams()
-          params.append('filters[quiz_subtopic][slug][$eq]', subtopic.slug)
-          params.append('pagination[limit]', '1') // We only need the count, not the data
-          
-          const url = `/api/quiz-questions?${params.toString()}`
-          console.log(`Fetching questions for ${subtopic.slug}:`, url) // Debug log
-          
-          const response = await this.client.get<QuizQuestionsResponse>(url)
-          
-          const questionCount = response.data.meta?.pagination?.total || 0
-          console.log(`${subtopic.slug}: ${questionCount} questions`) // Debug log
-          
-          availability[subtopic.slug] = {
-            questionCount,
-            hasQuestions: questionCount > 0
-          }
-        } catch (error) {
-          console.error(`Failed to get question count for subtopic ${subtopic.slug}:`, error)
-          availability[subtopic.slug] = {
-            questionCount: 0,
-            hasQuestions: false
-          }
-        }
-      }
-      
-      console.log('Final subtopic availability:', availability) // Debug log
-      return availability
-    } catch (error) {
-      console.error('Failed to get subtopic availability:', error)
-      return {}
-    }
-  }
-
-  // Helper method to get all subtopics with proper pagination
-  private async getAllSubtopics(): Promise<QuizSubtopic[]> {
-    const allSubtopics: QuizSubtopic[] = []
+    const allTopics: QuizTopic[] = []
     let page = 1
     let hasMore = true
-    const pageSize = 100
-    
+    const pageSize = 25 // All 9 topics should fit in one page, but being safe
+
     while (hasMore) {
       try {
         const params = new URLSearchParams()
+
+        // Pagination
         params.append('pagination[page]', page.toString())
         params.append('pagination[pageSize]', pageSize.toString())
-        
-        const response = await this.client.get<QuizSubtopicsResponse>(
-          `/api/quiz-subtopics?${params.toString()}`
+
+        // Populate subtopics with availability info
+        params.append('populate[quiz_subtopics][fields][0]', 'name')
+        params.append('populate[quiz_subtopics][fields][1]', 'slug')
+        params.append('populate[quiz_subtopics][fields][2]', 'available')
+        params.append('populate[quiz_subtopics][fields][3]', 'questionCount')
+
+        const response = await this.client.get<QuizTopicsResponse>(
+          `/api/quiz-topics?${params.toString()}`
         )
-        
+
         const { data, meta } = response.data
-        allSubtopics.push(...data)
-        
+        allTopics.push(...data)
+
         // Check if there are more pages
         const pagination = meta?.pagination
         if (pagination) {
@@ -232,62 +161,331 @@ class StrapiClient {
         } else {
           hasMore = false
         }
-        
-        // Safety break to avoid infinite loops
-        if (page > 50) {
-          console.warn('Reached maximum page limit while fetching subtopics')
+
+        // Safety break
+        if (page > 5) {
+          console.warn('Reached maximum page limit while fetching topics')
           break
         }
-        
+
       } catch (error) {
-        console.error(`Failed to fetch subtopics page ${page}:`, error)
+        console.error(`Failed to fetch topics page ${page}:`, error)
         break
       }
     }
-    
-    console.log(`Fetched ${allSubtopics.length} total subtopics across ${page - 1} pages`) // Debug log
+
+    console.log(`Fetched ${allTopics.length} topics across ${page - 1} pages`)
+    return allTopics
+  }
+
+  // Fetch subtopics with optional topic filter - Optimized with available field
+  async getSubtopics(filters: SubtopicFilters = {}): Promise<QuizSubtopic[]> {
+    const params = new URLSearchParams()
+
+    if (filters.topic) {
+      params.append('filters[quiz_topic][slug][$eq]', filters.topic)
+    }
+
+    // Include essential fields
+    params.append('fields[0]', 'slug')
+    params.append('fields[1]', 'name')
+    params.append('fields[2]', 'available')
+    params.append('fields[3]', 'questionCount')
+
+    // Populate topic data
+    params.append('populate[quiz_topic][fields][0]', 'topicName')
+    params.append('populate[quiz_topic][fields][1]', 'slug')
+
+    const response = await this.client.get<QuizSubtopicsResponse>(
+      `/api/quiz-subtopics?${params.toString()}`
+    )
+
+    return response.data.data
+  }
+
+  // Get only available subtopics for a specific topic
+  async getAvailableSubtopicsForTopic(topicSlug: string): Promise<QuizSubtopic[]> {
+    const params = new URLSearchParams()
+
+    params.append('filters[quiz_topic][slug][$eq]', topicSlug)
+    params.append('filters[available][$eq]', 'true')
+
+    // Include essential fields
+    params.append('fields[0]', 'slug')
+    params.append('fields[1]', 'name')
+    params.append('fields[2]', 'available')
+    params.append('fields[3]', 'questionCount')
+
+    // Populate topic data
+    params.append('populate[quiz_topic][fields][0]', 'topicName')
+    params.append('populate[quiz_topic][fields][1]', 'slug')
+
+    const response = await this.client.get<QuizSubtopicsResponse>(
+      `/api/quiz-subtopics?${params.toString()}`
+    )
+
+    return response.data.data
+  }
+
+  // Get topics with availability status (has available subtopics or not)
+  async getTopicsWithAvailability(): Promise<Array<QuizTopic & { hasAvailableSubtopics: boolean; availableSubtopicCount: number }>> {
+    try {
+      const topics = await this.getTopics()
+      const topicsWithAvailability = topics.map(topic => {
+        const availableSubtopics = topic.quiz_subtopics?.filter(subtopic => subtopic.available) || []
+        return {
+          ...topic,
+          hasAvailableSubtopics: availableSubtopics.length > 0,
+          availableSubtopicCount: availableSubtopics.length
+        }
+      })
+
+      console.log('Topics with availability:', topicsWithAvailability.map(t => ({
+        slug: t.slug,
+        name: t.topicName,
+        hasAvailable: t.hasAvailableSubtopics,
+        count: t.availableSubtopicCount
+      })))
+
+      return topicsWithAvailability
+    } catch (error) {
+      console.error('Failed to get topics with availability:', error)
+      throw error
+    }
+  }
+
+  // Get subtopic availability using the new schema fields - With proper pagination
+  async getSubtopicAvailability(): Promise<Record<string, { questionCount: number; hasQuestions: boolean }>> {
+    try {
+      const allSubtopics: QuizSubtopic[] = []
+      let page = 1
+      let hasMore = true
+      const pageSize = 100
+
+      while (hasMore) {
+        const params = new URLSearchParams()
+
+        // Pagination
+        params.append('pagination[page]', page.toString())
+        params.append('pagination[pageSize]', pageSize.toString())
+
+        // Only fetch essential fields
+        params.append('fields[0]', 'slug')
+        params.append('fields[1]', 'name')
+        params.append('fields[2]', 'available')
+        params.append('fields[3]', 'questionCount')
+
+        const response = await this.client.get<QuizSubtopicsResponse>(
+          `/api/quiz-subtopics?${params.toString()}`
+        )
+
+        const { data, meta } = response.data
+        allSubtopics.push(...data)
+
+        // Check if there are more pages
+        const pagination = meta?.pagination
+        if (pagination) {
+          hasMore = page < pagination.pageCount
+          page++
+        } else {
+          hasMore = false
+        }
+
+        // Safety break
+        if (page > 20) break
+      }
+
+      const availability: Record<string, { questionCount: number; hasQuestions: boolean }> = {}
+
+      allSubtopics.forEach(subtopic => {
+        availability[subtopic.slug] = {
+          questionCount: subtopic.questionCount || 0,
+          hasQuestions: subtopic.available || false
+        }
+      })
+
+      return availability
+    } catch (error) {
+      console.error('Failed to get subtopic availability:', error)
+      return {}
+    }
+  }
+
+  // Get available subtopics only - Single efficient call with proper pagination
+  async getAvailableSubtopics(): Promise<QuizSubtopic[]> {
+    const allSubtopics: QuizSubtopic[] = []
+    let page = 1
+    let hasMore = true
+    const pageSize = 100 // Increase page size for efficiency
+
+    while (hasMore) {
+      try {
+        const params = new URLSearchParams()
+
+        // Filter for available subtopics only
+        params.append('filters[available][$eq]', 'true')
+
+        // Pagination
+        params.append('pagination[page]', page.toString())
+        params.append('pagination[pageSize]', pageSize.toString())
+
+        // Only fetch essential fields
+        params.append('fields[0]', 'slug')
+        params.append('fields[1]', 'name')
+        params.append('fields[2]', 'available')
+        params.append('fields[3]', 'questionCount')
+
+        // Populate topic data
+        params.append('populate[quiz_topic][fields][0]', 'topicName')
+        params.append('populate[quiz_topic][fields][1]', 'slug')
+
+        const response = await this.client.get<QuizSubtopicsResponse>(
+          `/api/quiz-subtopics?${params.toString()}`
+        )
+
+        const { data, meta } = response.data
+        allSubtopics.push(...data)
+
+        // Check if there are more pages
+        const pagination = meta?.pagination
+        if (pagination) {
+          hasMore = page < pagination.pageCount
+          page++
+        } else {
+          hasMore = false
+        }
+
+        // Safety break to avoid infinite loops
+        if (page > 20) {
+          console.warn('Reached maximum page limit while fetching available subtopics')
+          break
+        }
+
+      } catch (error) {
+        console.error(`Failed to fetch available subtopics page ${page}:`, error)
+        break
+      }
+    }
+
+    console.log(`Fetched ${allSubtopics.length} available subtopics across ${page - 1} pages`)
     return allSubtopics
   }
 
-  // Get random questions for "Play Now" functionality with better distribution
+  // Get random questions with proper distribution across topics/subtopics
   async getRandomQuestions(count: number = 5, mode: 'normal' | 'expert' | 'first-visit' = 'normal'): Promise<QuizQuestion[]> {
     try {
-      // First, get all available subtopics with questions
-      const availability = await this.getSubtopicAvailability()
-      const availableSubtopics = Object.keys(availability).filter(slug => availability[slug].hasQuestions)
-      
+      console.log(`Getting ${count} random questions for mode: ${mode}`)
+
+      // First, get all available subtopics to ensure proper distribution
+      const availableSubtopics = await this.getAvailableSubtopics()
+
       if (availableSubtopics.length === 0) {
-        throw new Error('No subtopics with questions available')
+        throw new Error('No available subtopics found')
       }
 
-      // Get questions from multiple subtopics for better variety
-      const questionsPerSubtopic = Math.max(1, Math.ceil(count / Math.min(availableSubtopics.length, 3)))
+      console.log(`Found ${availableSubtopics.length} available subtopics`)
+
+      // Group subtopics by topic for better distribution
+      const subtopicsByTopic: Record<string, QuizSubtopic[]> = {}
+      availableSubtopics.forEach(subtopic => {
+        const topicSlug = subtopic.quiz_topic?.slug || 'unknown'
+        if (!subtopicsByTopic[topicSlug]) {
+          subtopicsByTopic[topicSlug] = []
+        }
+        subtopicsByTopic[topicSlug].push(subtopic)
+      })
+
+      const topicSlugs = Object.keys(subtopicsByTopic)
+      console.log(`Available topics: ${topicSlugs.join(', ')}`)
+
+      // Calculate how many questions to get from each topic for better distribution
+      const questionsPerTopic = Math.max(1, Math.ceil(count / topicSlugs.length))
       const selectedQuestions: QuizQuestion[] = []
-      
-      // Shuffle subtopics to ensure random selection
-      const shuffledSubtopics = this.shuffleArray(availableSubtopics)
-      
-      for (const subtopicSlug of shuffledSubtopics) {
+
+      // Shuffle topics to ensure random selection
+      const shuffledTopics = this.shuffleArray(topicSlugs)
+
+      for (const topicSlug of shuffledTopics) {
         if (selectedQuestions.length >= count) break
-        
+
+        const topicSubtopics = subtopicsByTopic[topicSlug]
+
+        // Select random subtopics from this topic
+        const shuffledSubtopics = this.shuffleArray(topicSubtopics)
+        const subtopicsToUse = shuffledSubtopics.slice(0, Math.min(3, shuffledSubtopics.length)) // Use up to 3 subtopics per topic
+
+        for (const subtopic of subtopicsToUse) {
+          if (selectedQuestions.length >= count) break
+
+          const questionsNeeded = Math.min(
+            questionsPerTopic,
+            count - selectedQuestions.length,
+            Math.ceil(questionsPerTopic / subtopicsToUse.length)
+          )
+
+          try {
+            const params = new URLSearchParams()
+
+            // Filter by this specific subtopic
+            params.append('filters[quiz_subtopic][slug][$eq]', subtopic.slug)
+
+            // Set difficulty based on mode
+            if (mode === 'first-visit') {
+              params.append('filters[difficulty][$eq]', 'Easy')
+            } else if (mode === 'expert') {
+              params.append('filters[difficulty][$in][0]', 'Medium')
+              params.append('filters[difficulty][$in][1]', 'Hard')
+            } else {
+              // Normal mode: easy and medium
+              params.append('filters[difficulty][$in][0]', 'Easy')
+              params.append('filters[difficulty][$in][1]', 'Medium')
+            }
+
+            // Get more questions for randomization
+            params.append('pagination[limit]', (questionsNeeded * 2).toString())
+
+            // Populate related data
+            params.append('populate[quiz_topic][fields][0]', 'topicName')
+            params.append('populate[quiz_topic][fields][1]', 'slug')
+            params.append('populate[quiz_subtopic][fields][0]', 'name')
+            params.append('populate[quiz_subtopic][fields][1]', 'slug')
+
+            const response = await this.client.get<QuizQuestionsResponse>(
+              `/api/quiz-questions?${params.toString()}`
+            )
+
+            const subtopicQuestions = this.shuffleArray(response.data.data)
+            const questionsToAdd = subtopicQuestions.slice(0, questionsNeeded)
+
+            console.log(`Added ${questionsToAdd.length} questions from ${subtopic.name} (${topicSlug})`)
+            selectedQuestions.push(...questionsToAdd)
+
+          } catch (error) {
+            console.error(`Failed to get questions from subtopic ${subtopic.slug}:`, error)
+            // Continue with other subtopics
+          }
+        }
+      }
+
+      // If we don't have enough questions, try to get more from any available subtopic
+      if (selectedQuestions.length < count) {
+        console.log(`Only got ${selectedQuestions.length}/${count} questions, trying to get more...`)
+
         const params = new URLSearchParams()
-        params.append('filters[quiz_subtopic][slug][$eq]', subtopicSlug)
-        
-        // Set difficulty based on mode
+        params.append('filters[quiz_subtopic][available][$eq]', 'true')
+
         if (mode === 'first-visit') {
           params.append('filters[difficulty][$eq]', 'Easy')
         } else if (mode === 'expert') {
           params.append('filters[difficulty][$in][0]', 'Medium')
           params.append('filters[difficulty][$in][1]', 'Hard')
         } else {
-          // Normal mode: mostly easy with some medium
           params.append('filters[difficulty][$in][0]', 'Easy')
           params.append('filters[difficulty][$in][1]', 'Medium')
         }
 
-        params.append('pagination[limit]', (questionsPerSubtopic * 2).toString())
-        
-        // Populate related data
+        params.append('pagination[limit]', ((count - selectedQuestions.length) * 2).toString())
+
         params.append('populate[quiz_topic][fields][0]', 'topicName')
         params.append('populate[quiz_topic][fields][1]', 'slug')
         params.append('populate[quiz_subtopic][fields][0]', 'name')
@@ -296,55 +494,32 @@ class StrapiClient {
         const response = await this.client.get<QuizQuestionsResponse>(
           `/api/quiz-questions?${params.toString()}`
         )
-        
-        // Add shuffled questions from this subtopic
-        const subtopicQuestions = this.shuffleArray(response.data.data)
-        const questionsToAdd = subtopicQuestions.slice(0, Math.min(questionsPerSubtopic, count - selectedQuestions.length))
+
+        // Filter out questions we already have
+        const existingQuestionIds = new Set(selectedQuestions.map(q => q.id))
+        const additionalQuestions = response.data.data.filter(q => !existingQuestionIds.has(q.id))
+
+        const shuffledAdditional = this.shuffleArray(additionalQuestions)
+        const questionsToAdd = shuffledAdditional.slice(0, count - selectedQuestions.length)
+
         selectedQuestions.push(...questionsToAdd)
       }
-      
-      // Final shuffle to mix questions from different subtopics
-      return this.shuffleArray(selectedQuestions).slice(0, count)
-      
+
+      // Final shuffle to mix questions from different topics/subtopics
+      const finalQuestions = this.shuffleArray(selectedQuestions).slice(0, count)
+
+      console.log(`Final selection: ${finalQuestions.length} questions from topics:`,
+        [...new Set(finalQuestions.map(q => q.quiz_topic?.slug))].join(', '))
+
+      return finalQuestions
+
     } catch (error) {
       console.error('Failed to get random questions:', error)
-      // Fallback to original method
-      return this.getRandomQuestionsFallback(count, mode)
+      throw error
     }
   }
 
-  // Fallback method for random questions (original implementation)
-  private async getRandomQuestionsFallback(count: number = 5, mode: 'normal' | 'expert' | 'first-visit' = 'normal'): Promise<QuizQuestion[]> {
-    const params = new URLSearchParams()
-    
-    // Set difficulty based on mode
-    if (mode === 'first-visit') {
-      params.append('filters[difficulty][$eq]', 'Easy')
-    } else if (mode === 'expert') {
-      params.append('filters[difficulty][$in][0]', 'Medium')
-      params.append('filters[difficulty][$in][1]', 'Hard')
-    } else {
-      // Normal mode: mostly easy with some medium
-      params.append('filters[difficulty][$in][0]', 'Easy')
-      params.append('filters[difficulty][$in][1]', 'Medium')
-    }
 
-    params.append('pagination[limit]', (count * 3).toString()) // Get more for better randomization
-    
-    // Populate related data
-    params.append('populate[quiz_topic][fields][0]', 'topicName')
-    params.append('populate[quiz_topic][fields][1]', 'slug')
-    params.append('populate[quiz_subtopic][fields][0]', 'name')
-    params.append('populate[quiz_subtopic][fields][1]', 'slug')
-
-    const response = await this.client.get<QuizQuestionsResponse>(
-      `/api/quiz-questions?${params.toString()}`
-    )
-    
-    // Shuffle the results to ensure randomness
-    const questions = response.data.data
-    return this.shuffleArray(questions).slice(0, count)
-  }
 
   // Utility method to shuffle array
   private shuffleArray<T>(array: T[]): T[] {
@@ -356,78 +531,55 @@ class StrapiClient {
     return shuffled
   }
 
-  // Debug method to test subtopic fetching
-  async debugAllSubtopics(): Promise<void> {
+  // Debug method to test the entire system
+  async debugSystem(): Promise<void> {
     try {
-      console.log('=== DEBUG: Testing subtopic fetching ===')
-      
-      // Test the getAllSubtopics method
-      const allSubtopics = await this.getAllSubtopics()
-      console.log(`Total subtopics found: ${allSubtopics.length}`)
-      
-      // Group by topic for easier analysis
-      const subtopicsByTopic: Record<string, string[]> = {}
-      allSubtopics.forEach(subtopic => {
+      console.log('=== DEBUG: System Analysis ===')
+
+      // Test topics
+      const topics = await this.getTopics()
+      console.log(`Total topics found: ${topics.length}`)
+
+      // Test available subtopics
+      const availableSubtopics = await this.getAvailableSubtopics()
+      console.log(`Available subtopics found: ${availableSubtopics.length}`)
+
+      // Group by topic for analysis
+      const subtopicsByTopic: Record<string, Array<{ slug: string; name: string; questionCount: number }>> = {}
+      availableSubtopics.forEach(subtopic => {
         const topicSlug = subtopic.quiz_topic?.slug || 'unknown'
         if (!subtopicsByTopic[topicSlug]) {
           subtopicsByTopic[topicSlug] = []
         }
-        subtopicsByTopic[topicSlug].push(subtopic.slug)
+        subtopicsByTopic[topicSlug].push({
+          slug: subtopic.slug,
+          name: subtopic.name,
+          questionCount: subtopic.questionCount || 0
+        })
       })
-      
-      console.log('Subtopics by topic:', subtopicsByTopic)
-      
-      // Check specifically for Dham and Sant
-      const dhamSubtopics = allSubtopics.filter(s => s.quiz_topic?.slug === 'dham')
-      const santSubtopics = allSubtopics.filter(s => s.quiz_topic?.slug === 'sant')
-      
-      console.log('Dham subtopics:', dhamSubtopics.map(s => ({ slug: s.slug, name: s.name })))
-      console.log('Sant subtopics:', santSubtopics.map(s => ({ slug: s.slug, name: s.name })))
-      
-    } catch (error) {
-      console.error('Debug all subtopics failed:', error)
-    }
-  }
 
-  // Debug method to test specific subtopic
-  async debugSubtopic(subtopicSlug: string): Promise<void> {
-    try {
-      console.log(`=== DEBUG: Testing subtopic ${subtopicSlug} ===`)
-      
-      // Test 1: Get questions with no filters
-      const allQuestionsResponse = await this.client.get<QuizQuestionsResponse>('/api/quiz-questions?pagination[limit]=5')
-      console.log('Sample questions (no filter):', allQuestionsResponse.data.data.map(q => ({
-        id: q.id,
-        question: q.question.substring(0, 50) + '...',
-        subtopic: q.quiz_subtopic?.slug,
-        topic: q.quiz_topic?.slug
-      })))
-      
-      // Test 2: Get questions for specific subtopic
-      const params = new URLSearchParams()
-      params.append('filters[quiz_subtopic][slug][$eq]', subtopicSlug)
-      params.append('populate[quiz_subtopic][fields][0]', 'slug')
-      params.append('populate[quiz_subtopic][fields][1]', 'name')
-      params.append('populate[quiz_topic][fields][0]', 'slug')
-      params.append('populate[quiz_topic][fields][1]', 'topicName')
-      
-      const subtopicQuestionsResponse = await this.client.get<QuizQuestionsResponse>(
-        `/api/quiz-questions?${params.toString()}`
-      )
-      
-      console.log(`Questions for ${subtopicSlug}:`, {
-        total: subtopicQuestionsResponse.data.meta?.pagination?.total,
-        returned: subtopicQuestionsResponse.data.data.length,
-        questions: subtopicQuestionsResponse.data.data.map(q => ({
-          id: q.id,
-          question: q.question.substring(0, 50) + '...',
-          subtopic: q.quiz_subtopic?.slug,
-          topic: q.quiz_topic?.slug
-        }))
+      console.log('Available subtopics by topic:', subtopicsByTopic)
+
+      // Test topics with availability
+      const topicsWithAvailability = await this.getTopicsWithAvailability()
+      console.log('Topics availability summary:')
+      topicsWithAvailability.forEach(topic => {
+        console.log(`- ${topic.topicName} (${topic.slug}): ${topic.hasAvailableSubtopics ? 'AVAILABLE' : 'COMING SOON'} (${topic.availableSubtopicCount} subtopics)`)
       })
-      
+
+      // Test random questions
+      console.log('\n=== Testing Random Questions ===')
+      const easyQuestions = await this.getRandomQuestions(5, 'first-visit')
+      console.log(`Easy questions (${easyQuestions.length}):`, easyQuestions.map(q => `${q.quiz_topic?.slug}/${q.quiz_subtopic?.slug}`))
+
+      const normalQuestions = await this.getRandomQuestions(5, 'normal')
+      console.log(`Normal questions (${normalQuestions.length}):`, normalQuestions.map(q => `${q.quiz_topic?.slug}/${q.quiz_subtopic?.slug}`))
+
+      const expertQuestions = await this.getRandomQuestions(5, 'expert')
+      console.log(`Expert questions (${expertQuestions.length}):`, expertQuestions.map(q => `${q.quiz_topic?.slug}/${q.quiz_subtopic?.slug}`))
+
     } catch (error) {
-      console.error(`Debug failed for ${subtopicSlug}:`, error)
+      console.error('Debug system failed:', error)
     }
   }
 

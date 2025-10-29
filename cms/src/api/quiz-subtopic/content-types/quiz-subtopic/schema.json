@@ -29,6 +29,14 @@
       "relation": "oneToMany",
       "target": "api::quiz-question.quiz-question",
       "mappedBy": "quiz_subtopic"
+    },
+    "available": {
+      "type": "boolean",
+      "default": false
+    },
+    "questionCount": {
+      "type": "integer",
+      "default": 0
     }
   }
 }

@@ -38,6 +38,46 @@ export class QuizAPI {
     }
   }
 
+  // Get only available subtopics (optimized)
+  static async getAvailableSubtopics(): Promise<QuizSubtopic[]> {
+    try {
+      return await strapiClient.getAvailableSubtopics()
+    } catch (error) {
+      console.error('Failed to fetch available subtopics from Strapi:', error)
+      throw error
+    }
+  }
+
+  // Get available subtopics for a specific topic (optimized)
+  static async getAvailableSubtopicsForTopic(topicSlug: string): Promise<QuizSubtopic[]> {
+    try {
+      return await strapiClient.getAvailableSubtopicsForTopic(topicSlug)
+    } catch (error) {
+      console.error('Failed to fetch available subtopics for topic from Strapi:', error)
+      throw error
+    }
+  }
+
+  // Get subtopic availability map (optimized single call)
+  static async getSubtopicAvailability(): Promise<Record<string, { questionCount: number; hasQuestions: boolean }>> {
+    try {
+      return await strapiClient.getSubtopicAvailability()
+    } catch (error) {
+      console.error('Failed to fetch subtopic availability from Strapi:', error)
+      throw error
+    }
+  }
+
+  // Get topics with availability status
+  static async getTopicsWithAvailability(): Promise<Array<QuizTopic & { hasAvailableSubtopics: boolean; availableSubtopicCount: number }>> {
+    try {
+      return await strapiClient.getTopicsWithAvailability()
+    } catch (error) {
+      console.error('Failed to fetch topics with availability from Strapi:', error)
+      throw error
+    }
+  }
+
   // Get random questions for "Play Now" functionality
   static async getRandomQuestions(
     count: number = 5, 
@@ -96,6 +136,10 @@ export class QuizAPI {
 export const getQuestions = QuizAPI.getQuestions.bind(QuizAPI)
 export const getTopics = QuizAPI.getTopics.bind(QuizAPI)
 export const getSubtopics = QuizAPI.getSubtopics.bind(QuizAPI)
+export const getAvailableSubtopics = QuizAPI.getAvailableSubtopics.bind(QuizAPI)
+export const getAvailableSubtopicsForTopic = QuizAPI.getAvailableSubtopicsForTopic.bind(QuizAPI)
+export const getSubtopicAvailability = QuizAPI.getSubtopicAvailability.bind(QuizAPI)
+export const getTopicsWithAvailability = QuizAPI.getTopicsWithAvailability.bind(QuizAPI)
 export const getRandomQuestions = QuizAPI.getRandomQuestions.bind(QuizAPI)
 export const getQuizQuestions = QuizAPI.getQuizQuestions.bind(QuizAPI)
 export const checkConnection = QuizAPI.checkConnection.bind(QuizAPI)

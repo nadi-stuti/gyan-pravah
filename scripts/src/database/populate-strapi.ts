@@ -4,15 +4,15 @@
 import fs from "fs";
 import path from "path";
 import axios, { AxiosInstance } from "axios";
-import { 
-  QuizTopic, 
-  QuizSubtopic, 
+import {
+  QuizTopic,
+  QuizSubtopic,
   QuizQuestion,
   ParsedQuestion,
   ParsedMarkdownFile,
   PopulationConfig,
   PopulationStats,
-  StrapiCollectionResponse
+  StrapiCollectionResponse,
 } from "@gyan-pravah/types";
 import { allQuestionsPath } from "@/lib/get-path";
 import { ALL_SUBTOPICS, TOPICS } from "@/data/topics-list";
@@ -75,7 +75,7 @@ function parseMarkdownFile(filepath: string): ParsedMarkdownFile {
         C: optionC.trim(),
         D: optionD.trim(),
       },
-      correctOption: correctAnswer.trim() as 'A' | 'B' | 'C' | 'D',
+      correctOption: correctAnswer.trim() as "A" | "B" | "C" | "D",
       difficulty: difficulty.trim(),
       explanation: explanation.trim(),
     });
@@ -87,11 +87,14 @@ function parseMarkdownFile(filepath: string): ParsedMarkdownFile {
 /**
  * Fetch existing entry by slug (uses documentId from Strapi v5)
  */
-async function fetchBySlug(endpoint: string, slug: string): Promise<QuizTopic | QuizSubtopic | null> {
+async function fetchBySlug(
+  endpoint: string,
+  slug: string
+): Promise<QuizTopic | QuizSubtopic | null> {
   try {
-    const response = await api.get<StrapiCollectionResponse<QuizTopic | QuizSubtopic>>(
-      `${endpoint}?filters[slug][$eq]=${slug}&status=published`
-    );
+    const response = await api.get<
+      StrapiCollectionResponse<QuizTopic | QuizSubtopic>
+    >(`${endpoint}?filters[slug][$eq]=${slug}&status=published`);
     const items = response.data.data;
     return items && items.length > 0 ? items[0] : null;
   } catch (error: any) {
@@ -106,10 +109,15 @@ async function fetchBySlug(endpoint: string, slug: string): Promise<QuizTopic | 
 /**
  * Create or get topic (uses documentId)
  */
-async function createOrGetTopic(topicData: typeof TOPICS[0]): Promise<QuizTopic | null> {
+async function createOrGetTopic(
+  topicData: (typeof TOPICS)[0]
+): Promise<QuizTopic | null> {
   try {
     // Check if exists
-    const existing = await fetchBySlug("/quiz-topics", topicData.slug) as QuizTopic | null;
+    const existing = (await fetchBySlug(
+      "/quiz-topics",
+      topicData.slug
+    )) as QuizTopic | null;
     if (existing) {
       console.log(
         `  ↻ Topic already exists: ${topicData.topicName} (documentId: ${existing.documentId})`
@@ -144,12 +152,15 @@ async function createOrGetTopic(topicData: typeof TOPICS[0]): Promise<QuizTopic 
  * Create or get subtopic (uses documentId for relations)
  */
 async function createOrGetSubtopic(
-  subtopicData: { name: string; slug: string }, 
+  subtopicData: { name: string; slug: string },
   topicDocumentId: string
 ): Promise<QuizSubtopic | null> {
   try {
     // Check if exists
-    const existing = await fetchBySlug("/quiz-subtopics", subtopicData.slug) as QuizSubtopic | null;
+    const existing = (await fetchBySlug(
+      "/quiz-subtopics",
+      subtopicData.slug
+    )) as QuizSubtopic | null;
     if (existing) {
       console.log(
         `    ↻ Subtopic already exists: ${subtopicData.name} (documentId: ${existing.documentId})`
@@ -199,9 +210,9 @@ async function createQuestion(
     // Check if an identical question already exists (published)
     try {
       const encodedQ = encodeURIComponent(questionText);
-      const existingResp = await api.get<StrapiCollectionResponse<QuizQuestion>>(
-        `/quiz-questions?filters[question][$eq]=${encodedQ}&status=published`
-      );
+      const existingResp = await api.get<
+        StrapiCollectionResponse<QuizQuestion>
+      >(`/quiz-questions?filters[question][$eq]=${encodedQ}&status=published`);
       const existingItems = existingResp.data.data;
       if (existingItems && existingItems.length > 0) {
         console.log(
@@ -257,7 +268,9 @@ async function clearAllData(): Promise<void> {
     const collections = ["quiz-questions", "quiz-subtopics", "quiz-topics"];
 
     for (const collection of collections) {
-      const response = await api.get<StrapiCollectionResponse<any>>(`/${collection}?status=published`);
+      const response = await api.get<StrapiCollectionResponse<any>>(
+        `/${collection}?status=published`
+      );
       const items = response.data.data;
 
       for (const item of items) {
@@ -325,7 +338,10 @@ async function populateStrapi(): Promise<void> {
       }
 
       // Create subtopic with documentId
-      const subtopicSlug = subtopic.name.toLowerCase().replace(/\s+/g, "-").replace(/[()]/g, "");
+      const subtopicSlug = subtopic.name
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[()]/g, "");
       const createdSubtopic = await createOrGetSubtopic(
         { name: subtopic.name, slug: subtopicSlug },
         topic.documentId // Pass documentId not id
@@ -340,7 +356,9 @@ async function populateStrapi(): Promise<void> {
 
       // Check if file exists, if null then skip question generation
       if (!subtopic.file) {
-        console.log(`    🔜 Coming Soon: No questions file specified for ${subtopic.name}`);
+        console.log(
+          `    🔜 Coming Soon: No questions file specified for ${subtopic.name}`
+        );
         console.log(`    ✅ Subtopic created (0 questions - Coming Soon)`);
         continue;
       }
@@ -366,7 +384,24 @@ async function populateStrapi(): Promise<void> {
         if (created) stats.questionsCreated++;
       }
 
-      console.log(`    ✅ Done with subtopic: ${subtopic.name} (${questions.length} questions)`);
+      const subtopicAvailable = questions.length > 0;
+      const subtopicQuestionCount = questions.length;
+
+      console.log(
+        `    ✅ Patching subtopic: available ${subtopicAvailable} (${subtopicQuestionCount} questions)`
+      );
+
+      // PATCH the subtopic with available and questionCount fields
+      await api.put(`quiz-subtopics/${createdSubtopic.documentId}`, {
+        data: {
+          available: subtopicAvailable,
+          questionCount: subtopicQuestionCount,
+        },
+      });
+
+      console.log(
+        `    ✅ Done with subtopic: ${subtopic.name} (${questions.length} questions)`
+      );
     }
 
     // Final Summary
@@ -378,7 +413,11 @@ async function populateStrapi(): Promise<void> {
     console.log(`Questions: ${stats.questionsCreated}`);
     console.log("━".repeat(50) + "\n");
   } catch (error: any) {
-    console.error("❌ Population failed:", error.message);
+    console.error(
+      "❌ Population failed:",
+      JSON.stringify(error),
+      error.message
+    );
     process.exit(1);
   }
 }

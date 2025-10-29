@@ -520,6 +520,7 @@ export interface ApiQuizSubtopicQuizSubtopic
     draftAndPublish: true;
   };
   attributes: {
+    available: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -531,6 +532,7 @@ export interface ApiQuizSubtopicQuizSubtopic
       Schema.Attribute.Private;
     name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    questionCount: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     quiz_questions: Schema.Attribute.Relation<
       'oneToMany',
       'api::quiz-question.quiz-question'
