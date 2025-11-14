@@ -83,7 +83,7 @@
 **A)** Golden sand  
 **B)** Sunrise  
 **C)** Pilgrimage  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Puri beach is renowned for its golden sand, beautiful sunrise, and religious significance.
@@ -92,7 +92,7 @@
 **Q:** Jagannath means?  
 **A)** Lord of universe  
 **B)** Lord of world  
-**C)** Both A & B  
+**C)** Both Lord of universe & Lord of world  
 **D)** Lord of devotees  
 **Correct Answer:** C  
 **Difficulty:** Easy  
@@ -103,7 +103,7 @@
 **A)** Purushottama Puri  
 **B)** Jagannath Puri  
 **C)** Nilachala  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Puri has been known by various names including Purushottama Puri and Nilachala.
@@ -123,7 +123,7 @@
 **A)** Dwarka  
 **B)** Badrinath  
 **C)** Rameswaram  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Puri is one of the four Char Dham along with Dwarka, Badrinath, and Rameswaram.
@@ -247,7 +247,7 @@
 **A)** Rasagola  
 **B)** Khaja  
 **C)** Chhena Poda  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Puri is famous for various Odia sweets including rasagola, khaja, and chhena poda.
@@ -311,7 +311,7 @@
 **A)** Chaitanya Mahaprabhu's residence  
 **B)** Jagannath worship tradition  
 **C)** Ratha Yatra importance  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Puri holds supreme importance in Gaudiya Vaishnavism due to Chaitanya's life there and Jagannath worship.

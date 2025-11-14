@@ -93,7 +93,7 @@
 **A)** Peace  
 **B)** Prosperity  
 **C)** Liberation  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Recitation grants peace, prosperity, and ultimately moksha.
@@ -113,7 +113,7 @@
 **A)** Names  
 **B)** Qualities  
 **C)** Forms  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** It describes Vishnu's various names, divine qualities, and forms.
@@ -177,7 +177,7 @@
 **A)** Creator  
 **B)** Preserver  
 **C)** Destroyer  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The names describe Vishnu as creator, preserver, and destroyer.
@@ -187,7 +187,7 @@
 **A)** Adi Shankaracharya  
 **B)** Ramanuja  
 **C)** Madhva  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Shankaracharya, Ramanuja, and Madhva all wrote commentaries on it.

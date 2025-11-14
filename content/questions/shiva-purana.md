@@ -53,7 +53,7 @@
 **A)** Destroyer  
 **B)** Creator  
 **C)** Supreme deity  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** The Purana portrays Shiva as the supreme deity who creates, preserves, and destroys.
@@ -73,7 +73,7 @@
 **A)** Wisdom  
 **B)** Destruction  
 **C)** Inner vision  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Shiva's third eye symbolizes wisdom, destructive power, and spiritual insight.
@@ -123,7 +123,7 @@
 **A)** Mahadeva  
 **B)** Nataraja  
 **C)** Neelkantha  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Shiva has numerous names including Mahadeva, Nataraja, and Neelkantha.
@@ -147,7 +147,7 @@
 **A)** Shiva's forms  
 **B)** Creation stories  
 **C)** Devotional practices  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Rudra Samhita covers Shiva's various aspects, creation, and worship methods.
@@ -157,7 +157,7 @@
 **A)** Male-female unity  
 **B)** Cosmic balance  
 **C)** Shiva-Shakti principle  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Ardhanarishvara symbolizes the unity of masculine and feminine cosmic principles.
@@ -177,7 +177,7 @@
 **A)** Blue throat  
 **B)** Drinking poison  
 **C)** Saving universe  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Neelkantha refers to Shiva's blue throat from drinking poison to save the universe.
@@ -197,7 +197,7 @@
 **A)** Cosmic dance  
 **B)** Rhythm of universe  
 **C)** Cycle of creation-destruction  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Nataraja represents Shiva's cosmic dance governing universal rhythms and cycles.
@@ -227,7 +227,7 @@
 **A)** Purity  
 **B)** Grace  
 **C)** Controlled power  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Ganga in Shiva's matted hair symbolizes purity, divine grace, and controlled cosmic forces.
@@ -237,7 +237,7 @@
 **A)** Bhakti  
 **B)** Meditation  
 **C)** Ritual worship  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The Purana promotes various paths including devotion, meditation, and proper worship.
@@ -247,7 +247,7 @@
 **A)** Fierce form  
 **B)** Destructive power  
 **C)** Storm god  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Rudra is Shiva's fierce aspect associated with storms, destruction, and terrifying power.
@@ -281,7 +281,7 @@
 **A)** Shiva supremacy  
 **B)** Lingam philosophy  
 **C)** Tantric elements  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The Purana establishes Shiva's supremacy through lingam symbolism and incorporates tantric concepts.
@@ -291,7 +291,7 @@
 **A)** Regional variations  
 **B)** Sectarian influences  
 **C)** Textual evolution  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The manuscript tradition reveals regional adaptations, sectarian modifications, and textual development.
@@ -301,7 +301,7 @@
 **A)** Lingam installation  
 **B)** Temple design  
 **C)** Ritual practices  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The Purana significantly influenced Shiva temple architecture, lingam consecration, and worship rituals.
@@ -311,7 +311,7 @@
 **A)** Cosmic dissolution  
 **B)** Shiva's final dance  
 **C)** Universal transformation  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The Purana describes cosmic dissolution (pralaya) through Shiva's final destructive dance and subsequent renewal.

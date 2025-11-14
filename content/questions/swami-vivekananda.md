@@ -73,7 +73,7 @@
 **A)** Karma Yoga  
 **B)** Bhakti Yoga  
 **C)** Raja Yoga  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Vivekananda taught all four paths of yoga as means to spiritual realization.
@@ -93,7 +93,7 @@
 **A)** Vedanta  
 **B)** Service to humanity  
 **C)** Universal religion  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** His philosophy combined Vedanta, humanitarian service, and universal religious principles.
@@ -103,7 +103,7 @@
 **A)** "Arise, awake and stop not"  
 **B)** "Be and make"  
 **C)** "Strength is life"  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** These are all famous quotes attributed to Swami Vivekananda.
@@ -147,7 +147,7 @@
 **A)** Presidency College  
 **B)** Scottish Church College  
 **C)** General Assembly's Institution  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** C  
 **Difficulty:** Medium  
 **Explanation:** Vivekananda studied at General Assembly's Institution (now Scottish Church College).
@@ -197,7 +197,7 @@
 **A)** New York  
 **B)** San Francisco  
 **C)** London  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** He established Vedanta Societies in New York, San Francisco, London, and other cities.
@@ -217,7 +217,7 @@
 **A)** God in poor  
 **B)** Service to needy  
 **C)** Divine in suffering  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** "Daridra Narayana" represents seeing God in the poor and serving them as divine manifestations.
@@ -227,7 +227,7 @@
 **A)** Spiritual pride  
 **B)** Cultural confidence  
 **C)** Youth inspiration  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** He instilled spiritual pride, cultural confidence, and inspired youth toward national awakening.
@@ -237,7 +237,7 @@
 **A)** Social service  
 **B)** Spiritual realization  
 **C)** Character building  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Practical Vedanta combined spiritual growth with social service and character development.
@@ -261,7 +261,7 @@
 **A)** Advaita Vedanta  
 **B)** Western rationalism  
 **C)** Practical spirituality  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** He synthesized traditional Advaita with Western thought and practical application.
@@ -271,7 +271,7 @@
 **A)** Hinduism's global recognition  
 **B)** Religious tolerance promotion  
 **C)** East-West dialogue  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** His speeches achieved global recognition for Hinduism and promoted interfaith understanding.
@@ -281,7 +281,7 @@
 **A)** Character formation  
 **B)** Practical knowledge  
 **C)** Spiritual development  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** His educational vision integrated character, practical skills, and spiritual growth.
@@ -291,7 +291,7 @@
 **A)** Rational interpretation  
 **B)** Universal appeal  
 **C)** Social reform orientation  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** He modernized Hinduism through rational interpretation, universal principles, and social consciousness.
@@ -301,7 +301,7 @@
 **A)** Spiritual nationalism  
 **B)** Cultural pride  
 **C)** Youth mobilization  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** His ideas inspired spiritual nationalism, cultural renaissance, and motivated freedom fighters.
@@ -311,7 +311,7 @@
 **A)** Ramakrishna Mission's work  
 **B)** Vedanta philosophy spread  
 **C)** Youth inspiration  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** His legacy continues through institutional work, philosophical influence, and ongoing youth inspiration.

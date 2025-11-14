@@ -93,7 +93,7 @@
 **A)** Duty  
 **B)** Devotion  
 **C)** Knowledge  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** The Gita teaches duty (dharma), devotion (bhakti), and knowledge (jnana).
@@ -217,7 +217,7 @@
 **A)** Friend  
 **B)** Teacher  
 **C)** God  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Arjuna called Krishna friend (Sakha), teacher (Guru), and God (Bhagavan).
@@ -247,7 +247,7 @@
 **A)** 2.47  
 **B)** 4.7  
 **C)** 9.22  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Many verses like 2.47, 4.7-8, and 9.22 are extremely famous.
@@ -291,7 +291,7 @@
 **A)** Shankaracharya  
 **B)** Ramanuja  
 **C)** Madhva  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** All three major Acharyas - Shankara, Ramanuja, and Madhva - wrote commentaries.
@@ -310,7 +310,7 @@
 **Q:** Which meter is used in Gita?  
 **A)** Anushtup  
 **B)** Trishtup  
-**C)** Both A & B  
+**C)** Both Anushtup & Trishtup  
 **D)** Gayatri  
 **Correct Answer:** C  
 **Difficulty:** Hard  

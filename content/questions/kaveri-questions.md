@@ -32,7 +32,7 @@
 **Q:** Kaveri is called?  
 **A)** Gange of South  
 **B)** Southern Ganga  
-**C)** Both A and B  
+**C)** Both Gange of South & Southern Ganga  
 **D)** Peninsular River  
 **Correct Answer:** C  
 **Difficulty:** Easy  
@@ -73,7 +73,7 @@
 **A)** Hinduism  
 **B)** Buddhism  
 **C)** Jainism  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** A  
 **Difficulty:** Easy  
 **Explanation:** Kaveri is primarily sacred in Hindu tradition and pilgrimage.
@@ -93,7 +93,7 @@
 **A)** Agriculture  
 **B)** Rice production  
 **C)** Granary of South  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** The Cauvery Delta is the granary of South India and major agricultural region.
@@ -103,7 +103,7 @@
 **A)** Karnataka and Andhra Pradesh  
 **B)** Tamil Nadu and Puducherry  
 **C)** Karnataka and Tamil Nadu  
-**D)** Both A and C  
+**D)** Both Karnataka and Andhra Pradesh & Karnataka and Tamil Nadu  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Kaveri forms boundaries between several South Indian states.
@@ -167,7 +167,7 @@
 **A)** Herangi  
 **B)** Arkavati  
 **C)** Bhavani  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Herangi, Arkavati, Bhavani, and others are tributaries of Kaveri.
@@ -206,7 +206,7 @@
 **Q:** Kallanai Dam is also known as?  
 **A)** Grand Anicut  
 **B)** Great Weir  
-**C)** Both A and B  
+**C)** Both Grand Anicut & Great Weir  
 **D)** Cauvery Barrage  
 **Correct Answer:** C  
 **Difficulty:** Medium  
@@ -280,7 +280,7 @@
 **Q:** Erosional plateaus in Kaveri basin?  
 **A)** Mysore Plateau  
 **B)** Balaghat Plateau  
-**C)** Both A and B  
+**C)** Both Mysore Plateau & Balaghat Plateau  
 **D)** Eastern Ghats  
 **Correct Answer:** C  
 **Difficulty:** Hard  
@@ -291,7 +291,7 @@
 **A)** Clay  
 **B)** Silt  
 **C)** Sand  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Kaveri alluvial plains contain varied deposits of clay, silt, and sand.
@@ -311,7 +311,7 @@
 **A)** Endemic fish species  
 **B)** Crocodiles  
 **C)** Aquatic birds  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Kaveri River supports diverse biodiversity including endemic species and fauna.

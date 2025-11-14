@@ -62,7 +62,7 @@
 **Q:** Shiva's sons are?  
 **A)** Ganesha  
 **B)** Kartikeya  
-**C)** Both A & B  
+**C)** Both Ganesha & Kartikeya  
 **D)** Neither  
 **Correct Answer:** C  
 **Difficulty:** Easy  
@@ -217,7 +217,7 @@
 **A)** Music  
 **B)** Creation  
 **C)** Time  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The damaru symbolizes the rhythm of creation, music, and time.
@@ -247,7 +247,7 @@
 **A)** Rudra  
 **B)** Bhairava  
 **C)** Mahakala  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Rudra, Bhairava, and Mahakala are all destroyer forms of Shiva.
@@ -311,7 +311,7 @@
 **A)** Panchanan  
 **B)** Panchamukha  
 **C)** Sadashiva  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Panchanan, Panchamukha, and Sadashiva all refer to Shiva's five-faced form.

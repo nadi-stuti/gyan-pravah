@@ -103,7 +103,7 @@
 **A)** Wisdom  
 **B)** Wealth  
 **C)** Beginnings  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Ganesh represents wisdom, prosperity, and auspicious beginnings.
@@ -187,7 +187,7 @@
 **A)** Ganapati  
 **B)** Vinayaka  
 **C)** Vighneshwara  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Ganesh has many names including Ganapati, Vinayaka, and Vighneshwara.
@@ -237,7 +237,7 @@
 **A)** Prosperity  
 **B)** Wisdom  
 **C)** Obstacle removal  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The bija mantra "Gam" encompasses all of Ganesh's powers and blessings.
@@ -261,7 +261,7 @@
 **A)** Kroncha  
 **B)** Mushika  
 **C)** Akhu  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Ganesh's mouse vehicle has various names in different texts and traditions.
@@ -291,7 +291,7 @@
 **A)** Sacrifice  
 **B)** Non-duality  
 **C)** Wisdom  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The single tusk (ekadanta) represents sacrifice, non-duality, and focused wisdom.

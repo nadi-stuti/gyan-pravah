@@ -43,7 +43,7 @@
 **A)** You are God  
 **B)** Thou art That  
 **C)** You are Brahman  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** "Tat tvam asi" means "Thou art That," indicating the identity of individual soul with Brahman.
@@ -53,7 +53,7 @@
 **A)** Meditation  
 **B)** Knowledge  
 **C)** Om chanting  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** The Upanishad teaches meditation, self-knowledge, and the significance of Om.
@@ -73,7 +73,7 @@
 **A)** Atman  
 **B)** Brahman  
 **C)** Reality  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** The Upanishad explores the nature of Atman (soul), Brahman (ultimate reality), and existence.
@@ -83,7 +83,7 @@
 **A)** All this is Brahman  
 **B)** Brahman is everywhere  
 **C)** Everything is divine  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** This famous statement declares that all existence is Brahman (ultimate reality).
@@ -103,7 +103,7 @@
 **A)** Self-realization  
 **B)** Ultimate truth  
 **C)** Spiritual knowledge  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Chandogya Upanishad is a comprehensive guide to spiritual knowledge and self-realization.
@@ -113,7 +113,7 @@
 **A)** Sacred sound  
 **B)** Cosmic vibration  
 **C)** Brahman symbol  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** The Upanishad extensively discusses Om as the sacred cosmic sound representing Brahman.
@@ -137,7 +137,7 @@
 **A)** Truth and honesty  
 **B)** Spiritual qualification  
 **C)** Divine grace  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Satyakama's story emphasizes that truth, sincerity, and divine grace matter more than birth.
@@ -147,7 +147,7 @@
 **A)** Ritual worship  
 **B)** Cosmic process  
 **C)** Soul's journey  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Panchagni vidya explains the cosmic process and soul's journey through different realms.
@@ -157,7 +157,7 @@
 **A)** Space in heart  
 **B)** Cosmic consciousness  
 **C)** Inner self  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Dahara vidya teaches about the space within the heart where Brahman resides.
@@ -167,7 +167,7 @@
 **A)** Brahman's presence  
 **B)** Invisible reality  
 **C)** Pervasive consciousness  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The salt-water analogy shows how Brahman pervades everything invisibly.
@@ -187,7 +187,7 @@
 **A)** A king  
 **B)** A teacher  
 **C)** Knower of Panchagni vidya  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** King Pravahana Jaivali was a royal sage who taught the Panchagni vidya.
@@ -197,7 +197,7 @@
 **A)** Existence  
 **B)** Being  
 **C)** Reality  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** "Sat" represents pure existence, being, and ultimate reality in Vedantic philosophy.
@@ -207,7 +207,7 @@
 **A)** Dialogue-based  
 **B)** Story-telling  
 **C)** Analogical  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The Upanishad uses dialogues, stories, and analogies to convey profound truths.
@@ -227,7 +227,7 @@
 **A)** Devotion to guru  
 **B)** Divine instruction  
 **C)** Fire worship  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Upakosala received divine knowledge directly from the sacred fires due to his devotion.
@@ -237,7 +237,7 @@
 **A)** Advaita Vedanta  
 **B)** Dvaita  
 **C)** Vishishtadvaita  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Chandogya Upanishad influenced all major schools of Vedanta philosophy.
@@ -261,7 +261,7 @@
 **A)** Cosmological order  
 **B)** Psychological progression  
 **C)** Spiritual evolution  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The Upanishad systematically progresses from cosmic to psychological to spiritual dimensions.
@@ -271,7 +271,7 @@
 **A)** Meditation on Brahman  
 **B)** Cosmic consciousness  
 **C)** Heart-centered practice  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Sandilya Vidya is a comprehensive meditation technique focusing on Brahman in the heart.
@@ -281,7 +281,7 @@
 **A)** Mahavakyas  
 **B)** Philosophical concepts  
 **C)** Meditation techniques  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Chandogya contributed significantly to Vedantic vocabulary and conceptual framework.

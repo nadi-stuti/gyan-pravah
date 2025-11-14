@@ -113,7 +113,7 @@
 **A)** Goswami  
 **B)** Sant  
 **C)** Poet saint  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Tulsidas is reverentially called Goswami, Sant, and poet saint.
@@ -157,7 +157,7 @@
 **A)** Varanasi  
 **B)** Ayodhya  
 **C)** Chitrakoot  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** He started in Ayodhya and completed parts in Varanasi and Chitrakoot.
@@ -167,7 +167,7 @@
 **A)** Dream  
 **B)** Vision  
 **C)** Meditation  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** A  
 **Difficulty:** Medium  
 **Explanation:** Tulsidas said he was commanded to write it in a dream by Shiva.
@@ -187,7 +187,7 @@
 **A)** Vinaya Patrika  
 **B)** Kavitavali  
 **C)** Dohavali  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Tulsidas wrote many works including Vinaya Patrika, Kavitavali, and Dohavali.
@@ -227,7 +227,7 @@
 **A)** Prayers  
 **B)** Petitions to Rama  
 **C)** Devotional verses  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Vinaya Patrika is a collection of humble petitions and prayers to Rama.
@@ -246,7 +246,7 @@
 **Q:** Famous temple dedicated to Tulsidas?  
 **A)** Sankat Mochan Temple  
 **B)** Tulsi Manas Temple  
-**C)** Both A & B  
+**C)** Both Sankat Mochan Temple & Tulsi Manas Temple  
 **D)** Neither  
 **Correct Answer:** C  
 **Difficulty:** Medium  
@@ -300,7 +300,7 @@
 **Q:** Ramcharitmanas was initially criticized by?  
 **A)** Sanskrit scholars  
 **B)** Orthodox Brahmins  
-**C)** Both A & B  
+**C)** Both Sanskrit scholars & Orthodox Brahmins  
 **D)** No one  
 **Correct Answer:** C  
 **Difficulty:** Hard  

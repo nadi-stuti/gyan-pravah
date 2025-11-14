@@ -53,7 +53,7 @@
 **A)** Warriors  
 **B)** Temples  
 **C)** Divine love  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** C  
 **Difficulty:** Easy  
 **Explanation:** Vrindavan is renowned as the land of divine love and Krishna's leelas.
@@ -63,7 +63,7 @@
 **A)** Janmashtami  
 **B)** Holi  
 **C)** Radhashtami  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Vrindavan celebrates Janmashtami, Holi, and Radhashtami with great devotion.
@@ -123,7 +123,7 @@
 **A)** Hare Krishna Temple  
 **B)** Krishna Balaram Temple  
 **C)** Radha Krishna Temple  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** B  
 **Difficulty:** Easy  
 **Explanation:** The ISKCON temple in Vrindavan is called Krishna Balaram Mandir.
@@ -136,7 +136,7 @@
 **Q:** Who established Vrindavan as pilgrimage site?  
 **A)** Six Goswamis  
 **B)** Chaitanya Mahaprabhu  
-**C)** Both A & B  
+**C)** Both Six Goswamis & Chaitanya Mahaprabhu  
 **D)** Vallabhacharya  
 **Correct Answer:** C  
 **Difficulty:** Medium  
@@ -157,7 +157,7 @@
 **A)** Raas Leela  
 **B)** Mysterious night activities  
 **C)** Sacred grove  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Nidhivan is a mystical grove associated with Krishna's eternal Raas Leela.
@@ -186,7 +186,7 @@
 **Q:** Which language is commonly spoken in Vrindavan?  
 **A)** Hindi  
 **B)** Braj Bhasha  
-**C)** Both A & B  
+**C)** Both Hindi & Braj Bhasha  
 **D)** Sanskrit  
 **Correct Answer:** C  
 **Difficulty:** Medium  
@@ -216,7 +216,7 @@
 **Q:** Yamuna Aarti is performed at?  
 **A)** Kesi Ghat  
 **B)** Vishram Ghat  
-**C)** Both A & B  
+**C)** Both Kesi Ghat & Vishram Ghat  
 **D)** Multiple ghats  
 **Correct Answer:** D  
 **Difficulty:** Medium  
@@ -260,7 +260,7 @@
 **Q:** Names of the Six Goswamis?  
 **A)** Rupa, Sanatana, Raghunatha  
 **B)** Jiva, Gopala Bhatta, Raghunatha Bhatta  
-**C)** Both A & B  
+**C)** Both Rupa, Sanatana, Raghunatha & Jiva, Gopala Bhatta, Raghunatha Bhatta  
 **D)** Different names  
 **Correct Answer:** C  
 **Difficulty:** Hard  
@@ -301,7 +301,7 @@
 **A)** Braj Bhoomi  
 **B)** Vraj Mandal  
 **C)** Brindaban  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Vrindavan has been historically known by all these names.

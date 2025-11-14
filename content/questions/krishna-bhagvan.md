@@ -73,7 +73,7 @@
 **A)** Radha  
 **B)** Rukmini  
 **C)** Satyabhama  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** B  
 **Difficulty:** Easy  
 **Explanation:** Rukmini was Krishna's principal queen in Dwarka.

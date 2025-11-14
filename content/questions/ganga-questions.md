@@ -42,7 +42,7 @@
 **Q:** Which city is famous for Ganga Aarti?  
 **A)** Haridwar  
 **B)** Varanasi  
-**C)** Both A & B  
+**C)** Both Haridwar & Varanasi  
 **D)** Rishikesh  
 **Correct Answer:** C  
 **Difficulty:** Easy  
@@ -83,7 +83,7 @@
 **A)** UP, Bihar  
 **B)** UK, WB  
 **C)** Jharkhand  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Ganga flows through Uttarakhand, UP, Bihar, Jharkhand, and West Bengal.
@@ -93,7 +93,7 @@
 **A)** Holy  
 **B)** Purifying  
 **C)** Sacred  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Ganga water is considered holy, purifying, and sacred in Hindu tradition.
@@ -113,7 +113,7 @@
 **A)** Vedas  
 **B)** Puranas  
 **C)** Epics  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Ganga is mentioned extensively in Vedas, Puranas, and epics like Ramayana and Mahabharata.
@@ -217,7 +217,7 @@
 **A)** Pataliputra  
 **B)** Hastinapur  
 **C)** Kashi  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** All these ancient cities—Pataliputra, Hastinapur, and Kashi—were built on Ganga's banks.
@@ -301,7 +301,7 @@
 **A)** Vishnu Purana  
 **B)** Shiva Purana  
 **C)** Bhagavata Purana  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The story of Ganga's descent is described in multiple Puranas including Vishnu, Shiva, and Bhagavata.

@@ -63,7 +63,7 @@
 **A)** Bharata  
 **B)** Lakshmana  
 **C)** Shatrughna  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Rama had three younger brothers: Lakshmana, Bharata, and Shatrughna.
@@ -103,7 +103,7 @@
 **A)** Holi  
 **B)** Diwali  
 **C)** Dussehra  
-**D)** Both B & C  
+**D)** Both Diwali & Dussehra  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Dussehra celebrates Ravana's defeat, Diwali celebrates Rama's return to Ayodhya.
@@ -147,7 +147,7 @@
 **A)** Drona  
 **B)** Vishwamitra  
 **C)** Vasishtha  
-**D)** Both B & C  
+**D)** Both Vishwamitra & Vasishtha  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Vasishtha was family guru, Vishwamitra taught him warfare and mantras.
@@ -237,7 +237,7 @@
 **A)** Ram Rajya  
 **B)** Maryada Purushottam  
 **C)** Dharma Raja  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Rama embodies all these ideals - perfect governance, righteousness, and dharma.
@@ -300,7 +300,7 @@
 **Q:** Rama's coronation day is called?  
 **A)** Ram Rajyabhishek  
 **B)** Deepavali  
-**C)** Both A & B  
+**C)** Both Ram Rajyabhishek & Deepavali  
 **D)** Ram Navami  
 **Correct Answer:** C  
 **Difficulty:** Hard  
@@ -311,7 +311,7 @@
 **A)** Om Ram Ramaya Namah  
 **B)** Sri Ram Jai Ram  
 **C)** Ram Nam Satya Hai  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** All these are popular mantras dedicated to Lord Rama in different traditions.

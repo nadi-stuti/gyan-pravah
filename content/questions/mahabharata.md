@@ -176,7 +176,7 @@
 **Q:** Who killed Bhishma?  
 **A)** Arjuna  
 **B)** Shikhandi  
-**C)** Both A & B  
+**C)** Both Arjuna & Shikhandi  
 **D)** Krishna  
 **Correct Answer:** C  
 **Difficulty:** Medium  

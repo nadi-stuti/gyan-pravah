@@ -53,7 +53,7 @@
 **A)** Sanskrit  
 **B)** Hindi  
 **C)** Rajasthani  
-**D)** Both B & C  
+**D)** Both Hindi & Rajasthani  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Mirabai composed her devotional poetry in Hindi and Rajasthani dialects.
@@ -63,7 +63,7 @@
 **A)** Bhajans  
 **B)** Padas  
 **C)** Dohas  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Mirabai's devotional compositions are known as bhajans, padas, and include dohas.
@@ -93,7 +93,7 @@
 **A)** Royal family  
 **B)** Society  
 **C)** Orthodox priests  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Mirabai faced opposition from her royal in-laws, society, and orthodox religious authorities.
@@ -103,7 +103,7 @@
 **A)** Intense love  
 **B)** Complete surrender  
 **C)** Mystical union  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Mirabai's devotion was marked by passionate love, total surrender, and mystical experiences.
@@ -112,7 +112,7 @@
 **Q:** Mirabai spent her later years in?  
 **A)** Vrindavan  
 **B)** Dwarka  
-**C)** Both A & B  
+**C)** Both Vrindavan & Dwarka  
 **D)** Chittor  
 **Correct Answer:** C  
 **Difficulty:** Easy  
@@ -167,7 +167,7 @@
 **A)** Singing  
 **B)** Dancing  
 **C)** Temple worship  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Mirabai's devotion expressed through singing, dancing, and regular temple worship.
@@ -177,7 +177,7 @@
 **A)** Separation from Krishna  
 **B)** Divine love  
 **C)** Social criticism  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Her poetry covers divine love, separation (viraha), and subtle social commentary.
@@ -197,7 +197,7 @@
 **A)** Prema bhakti  
 **B)** Surrender  
 **C)** Direct relationship with God  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Her philosophy centered on love-devotion, complete surrender, and personal divine relationship.
@@ -207,7 +207,7 @@
 **A)** Devotional poetry  
 **B)** Women's spirituality  
 **C)** Bhakti tradition  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Mirabai significantly influenced devotional literature, women's spiritual expression, and bhakti movement.
@@ -227,7 +227,7 @@
 **A)** Poisoning  
 **B)** Snake bite  
 **C)** Social ostracism  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Legend says she faced various persecution attempts including poison and snakes, plus social rejection.
@@ -237,7 +237,7 @@
 **A)** Mirabai ki Padavali  
 **B)** Narsi Ji ro Mayro  
 **C)** Geet Govind  
-**D)** Both A & B  
+**D)** Both Mirabai ki Padavali & Narsi Ji ro Mayro  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Her works are compiled as "Mirabai ki Padavali" and "Narsi Ji ro Mayro."
@@ -271,7 +271,7 @@
 **A)** Feminine perspective  
 **B)** Emotional intensity  
 **C)** Vernacular expression  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** She brought unique feminine perspective, emotional depth, and vernacular accessibility to devotional poetry.
@@ -281,7 +281,7 @@
 **A)** Saguna bhakti  
 **B)** Nirguna bhakti  
 **C)** Madhurya bhava  
-**D)** Both A & C  
+**D)** Both Saguna bhakti & Madhurya bhava  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Mirabai practiced saguna bhakti with madhurya bhava (sweet love) toward Krishna's personal form.
@@ -291,7 +291,7 @@
 **A)** Women's religious autonomy  
 **B)** Caste barrier challenges  
 **C)** Devotional democratization  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** She challenged social norms regarding women's religious freedom, caste restrictions, and spiritual authority.
@@ -301,7 +301,7 @@
 **A)** Oral transmission  
 **B)** Regional variations  
 **C)** Later additions  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Her works were transmitted orally, developed regional variants, and accumulated later attributions.
@@ -311,7 +311,7 @@
 **A)** Mughal expansion  
 **B)** Rajput resistance  
 **C)** Bhakti movement peak  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** She lived during Mughal expansion, Rajput political struggles, and the height of the Bhakti movement.

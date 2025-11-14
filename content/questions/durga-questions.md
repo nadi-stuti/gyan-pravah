@@ -73,7 +73,7 @@
 **A)** Good over evil  
 **B)** Light over dark  
 **C)** Truth over lie  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Durga represents the triumph of good, light, and truth.
@@ -93,7 +93,7 @@
 **A)** Devi Mahatmyam  
 **B)** Durga Saptashati  
 **C)** Chandi Path  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** All these names refer to the same scripture glorifying Durga.
@@ -103,7 +103,7 @@
 **A)** Trishul  
 **B)** Chakra  
 **C)** Sword  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Durga carries various weapons including trishul, chakra, sword, and more.
@@ -123,7 +123,7 @@
 **A)** Bengal  
 **B)** Assam  
 **C)** Odisha  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Durga Puja is a major festival in Bengal, Assam, and Odisha.
@@ -147,7 +147,7 @@
 **A)** Brahma, Vishnu, Shiva  
 **B)** All devas  
 **C)** Trinity  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** B  
 **Difficulty:** Medium  
 **Explanation:** All gods combined their powers to create Durga to defeat Mahishasura.
@@ -187,7 +187,7 @@
 **A)** Wisdom  
 **B)** Knowledge  
 **C)** Divine vision  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The third eye symbolizes wisdom, knowledge, and spiritual insight.
@@ -197,7 +197,7 @@
 **A)** Markandeya Purana  
 **B)** Vishnu Purana  
 **C)** Shiva Purana  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** A  
 **Difficulty:** Medium  
 **Explanation:** The Markandeya Purana contains the Devi Mahatmyam, the primary text on Durga.
@@ -247,7 +247,7 @@
 **A)** Strength  
 **B)** Courage  
 **C)** Determination  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The lion symbolizes strength, courage, and unwavering determination.
@@ -310,7 +310,7 @@
 **Q:** Durga's abhaya mudra signifies?  
 **A)** Fearlessness  
 **B)** Protection  
-**C)** Both A & B  
+**C)** Both Fearlessness & Protection  
 **D)** Victory  
 **Correct Answer:** C  
 **Difficulty:** Hard  

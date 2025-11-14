@@ -177,7 +177,7 @@
 **A)** Purusha Sukta  
 **B)** Nasadiya Sukta  
 **C)** Hiranyagarbha Sukta  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Rigveda contains multiple creation hymns including these famous ones.
@@ -247,7 +247,7 @@
 **A)** Varnas  
 **B)** Tribes  
 **C)** Occupations  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Rigveda provides insights into ancient social structure, tribes, and occupations.
@@ -291,7 +291,7 @@
 **A)** Archaic grammar  
 **B)** Vedic accent  
 **C)** Ancient vocabulary  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Rigveda preserves archaic linguistic features including grammar, accent, and vocabulary.
@@ -301,7 +301,7 @@
 **A)** Brahmanas  
 **B)** Upanishads  
 **C)** Classical Sanskrit  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Rigveda profoundly influenced all subsequent Sanskrit literature and philosophy.

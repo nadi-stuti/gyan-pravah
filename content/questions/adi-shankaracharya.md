@@ -63,7 +63,7 @@
 **A)** Brahma Sutras  
 **B)** Bhagavad Gita  
 **C)** Upanishads  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Shankaracharya wrote commentaries on all three foundational texts of Vedanta.
@@ -103,7 +103,7 @@
 **A)** Brahman as ultimate reality  
 **B)** Maya as illusion  
 **C)** Self-realization  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Advaita Vedanta teaches Brahman as reality, Maya as illusion, and Atman-Brahman unity.
@@ -113,7 +113,7 @@
 **A)** Bhaja Govindam  
 **B)** Soundarya Lahari  
 **C)** Vivekachudamani  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** These are among the famous devotional and philosophical works attributed to Shankaracharya.
@@ -123,7 +123,7 @@
 **A)** World teacher  
 **B)** Universal guru  
 **C)** Global guide  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Jagadguru means "teacher of the world," recognizing his universal spiritual authority.
@@ -147,7 +147,7 @@
 **A)** Karma vs. Jnana  
 **B)** Ritual vs. Knowledge  
 **C)** Householder vs. Renunciant life  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The famous debate covered the relative importance of ritual action versus spiritual knowledge.
@@ -156,7 +156,7 @@
 **Q:** Shankaracharya's Brahma Sutra commentary is called?  
 **A)** Shariraka Bhashya  
 **B)** Brahma Sutra Bhashya  
-**C)** Both A & B  
+**C)** Both Shariraka Bhashya & Brahma Sutra Bhashya  
 **D)** Vedanta Bhashya  
 **Correct Answer:** C  
 **Difficulty:** Medium  
@@ -167,7 +167,7 @@
 **A)** Illusion  
 **B)** Creative power  
 **C)** Veiling power  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Maya in Advaita has multiple aspects: illusion, creative power, and veiling of reality.
@@ -177,7 +177,7 @@
 **A)** Vedanta systematization  
 **B)** Buddhist critique  
 **C)** Hindu renaissance  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** He systematized Vedanta, critiqued Buddhist philosophy, and revitalized Hindu thought.
@@ -187,7 +187,7 @@
 **A)** Thou art That  
 **B)** Individual = Universal  
 **C)** Atman = Brahman  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** This mahavakya establishes the fundamental identity of individual self with universal consciousness.
@@ -197,7 +197,7 @@
 **A)** Monastic orders  
 **B)** Institutional structure  
 **C)** Succession system  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** He created lasting institutional frameworks for preserving and propagating Vedantic knowledge.
@@ -207,7 +207,7 @@
 **A)** Bhakti integration  
 **B)** Practical spirituality  
 **C)** Popular appeal  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** His devotional compositions integrated bhakti with jnana for broader spiritual accessibility.
@@ -217,7 +217,7 @@
 **A)** Paramarthika, Vyavaharika, Pratibhasika  
 **B)** Absolute, Empirical, Apparent  
 **C)** Real, Practical, Illusory  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** These represent the three levels: absolute reality, empirical reality, and apparent reality.
@@ -227,7 +227,7 @@
 **A)** Logical reasoning  
 **B)** Scriptural authority  
 **C)** Direct experience  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** He employed logic (yukti), scripture (shruti), and experience (anubhava) in his methodology.
@@ -237,7 +237,7 @@
 **A)** Established terminology  
 **B)** Systematic methodology  
 **C)** Institutional framework  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** He provided the foundational framework for all subsequent Vedantic developments.
@@ -247,7 +247,7 @@
 **A)** Attributeless Absolute  
 **B)** Beyond qualities  
 **C)** Pure consciousness  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Nirguna Brahman represents the absolute reality beyond all attributes and qualifications.
@@ -261,7 +261,7 @@
 **A)** Traditional vs. scholarly dates  
 **B)** 788-820 CE vs. earlier dates  
 **C)** Multiple historical references  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Scholars debate between traditional dates (788-820 CE) and potentially earlier periods based on various evidence.
@@ -271,7 +271,7 @@
 **A)** Adhyaropa-apavada  
 **B)** Superimposition-negation  
 **C)** Progressive teaching  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** His pedagogical method used superimposition and subsequent negation to lead students to truth.
@@ -281,7 +281,7 @@
 **A)** Buddhist Vijnanavada  
 **B)** Samkhya dualism  
 **C)** Mimamsa ritualism  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** He systematically refuted various philosophical schools while establishing Advaita supremacy.
@@ -291,7 +291,7 @@
 **A)** Superimposition  
 **B)** Mistaken identity  
 **C)** Fundamental error  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Adhyasa is the fundamental error of superimposing the unreal on the real, causing bondage.
@@ -301,7 +301,7 @@
 **A)** Continuous succession  
 **B)** Preserved teachings  
 **C)** Living tradition  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** His institutional framework has maintained an unbroken tradition for over 1200 years.
@@ -311,7 +311,7 @@
 **A)** Tat tvam asi realization  
 **B)** Atman-Brahman identity  
 **C)** Liberation through knowledge  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** His core teaching is the direct realization of one's true nature as Brahman, leading to liberation.

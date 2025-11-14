@@ -22,7 +22,7 @@
 **Q:** Chaitanya's original name was?  
 **A)** Vishvambhar  
 **B)** Nimai  
-**C)** Both A & B  
+**C)** Both Vishvambhar & Nimai  
 **D)** Gauranga  
 **Correct Answer:** C  
 **Difficulty:** Easy  
@@ -53,7 +53,7 @@
 **A)** Hare Krishna mantra  
 **B)** Sankirtana  
 **C)** Bhakti movement  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** He popularized the Hare Krishna mantra, sankirtana (congregational chanting), and bhakti.
@@ -103,7 +103,7 @@
 **A)** Krishna  
 **B)** Radha-Krishna  
 **C)** Vishnu  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** B  
 **Difficulty:** Easy  
 **Explanation:** Followers believe Chaitanya is the combined avatar of Radha and Krishna.
@@ -113,7 +113,7 @@
 **A)** Love devotion  
 **B)** Congregational chanting  
 **C)** Emotional bhakti  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** His movement emphasized passionate love-devotion expressed through congregational chanting.
@@ -123,7 +123,7 @@
 **A)** Bhava  
 **B)** Mahabhava  
 **C)** Divine madness  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** He experienced intense spiritual emotions and ecstatic states of divine love.
@@ -167,7 +167,7 @@
 **A)** Rupa, Sanatana, Jiva, Gopala Bhatta, Raghunatha Dasa, Raghunatha Bhatta  
 **B)** His direct disciples  
 **C)** Theological systematizers  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The six Goswamis were his chief disciples who systematized Gaudiya Vaishnava theology.
@@ -177,7 +177,7 @@
 **A)** 8 verses  
 **B)** Instructions on chanting  
 **C)** His only written work  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Sikshashtaka is Chaitanya's only written work, containing eight instructional verses.
@@ -187,7 +187,7 @@
 **A)** Spiritual emotions  
 **B)** Divine relationships  
 **C)** Devotional moods  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Rasa represents the various spiritual emotions and relationships with Krishna.
@@ -197,7 +197,7 @@
 **A)** Bengal  
 **B)** Odisha  
 **C)** Vrindavan  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** His movement spread across Bengal, Odisha, and was established in Vrindavan.
@@ -207,7 +207,7 @@
 **A)** Nityananda Prabhu  
 **B)** Advaita Acharya  
 **C)** Gadadhara Pandita  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** These were among his principal associates in spreading Krishna bhakti.
@@ -217,7 +217,7 @@
 **A)** Radha-Krishna worship  
 **B)** Nama sankirtana  
 **C)** Prema bhakti  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** He established the worship of Radha-Krishna through nama sankirtana and prema bhakti.
@@ -227,7 +227,7 @@
 **A)** Devotional literature  
 **B)** Musical traditions  
 **C)** Religious festivals  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** His movement profoundly influenced Bengali devotional culture, music, and festivals.
@@ -247,7 +247,7 @@
 **A)** ISKCON  
 **B)** Gaudiya Math  
 **C)** Traditional lineages  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Various organizations and traditional lineages continue his teachings worldwide.
@@ -261,7 +261,7 @@
 **A)** Unity-diversity paradox  
 **B)** Individual-universal relationship  
 **C)** Devotee-deity connection  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** This philosophy explains the simultaneous oneness and difference between soul and God.
@@ -271,7 +271,7 @@
 **A)** Rupa Goswami  
 **B)** Jiva Goswami  
 **C)** Sanatana Goswami  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The Goswamis collectively systematized Chaitanya's teachings into comprehensive theology.
@@ -281,7 +281,7 @@
 **A)** Bhakti democratization  
 **B)** Social reform  
 **C)** Cultural renaissance  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** His movement democratized devotion, promoted social equality, and sparked cultural renewal.
@@ -291,7 +291,7 @@
 **A)** Radha bhava  
 **B)** Krishna prema  
 **C)** Transcendental emotions  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** He experienced the emotions of Radha in separation from and union with Krishna.
@@ -301,7 +301,7 @@
 **A)** Guru-disciple lineages  
 **B)** Theological literature  
 **C)** Devotional practices  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** He established lasting institutions, literature, and practices that continue today.
@@ -311,7 +311,7 @@
 **A)** International Krishna consciousness  
 **B)** Interfaith dialogue  
 **C)** Spiritual practices  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** His teachings have spread globally, influencing spirituality and interfaith understanding worldwide.

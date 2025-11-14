@@ -63,7 +63,7 @@
 **A)** Bajrangbali  
 **B)** Maruti  
 **C)** Anjaneya  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Hanuman is known by many names: Bajrangbali, Maruti, and Anjaneya.
@@ -73,7 +73,7 @@
 **A)** Rama  
 **B)** Guru  
 **C)** Hanuman  
-**D)** Both A & B  
+**D)** Both Rama & Guru  
 **Correct Answer:** B  
 **Difficulty:** Easy  
 **Explanation:** Hanuman Chalisa begins with "Shri Guru Charan Saroj Raj," praising the guru.
@@ -103,7 +103,7 @@
 **A)** Strength  
 **B)** Protection  
 **C)** Wisdom  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Reciting Hanuman Chalisa gives strength, protection, and wisdom.
@@ -112,7 +112,7 @@
 **Q:** Hanuman is depicted carrying?  
 **A)** Gada (mace)  
 **B)** Mountain  
-**C)** Both A & B  
+**C)** Both Gada (mace) & Mountain  
 **D)** Bow  
 **Correct Answer:** C  
 **Difficulty:** Easy  
@@ -156,7 +156,7 @@
 **Q:** According to Chalisa, what size did Hanuman assume?  
 **A)** Large as mountain  
 **B)** Small as fly  
-**C)** Both A & B  
+**C)** Both Large as mountain & Small as fly  
 **D)** Normal  
 **Correct Answer:** C  
 **Difficulty:** Medium  
@@ -196,7 +196,7 @@
 **Q:** Hanuman appears in which epic?  
 **A)** Ramayana  
 **B)** Mahabharata  
-**C)** Both A & B  
+**C)** Both Ramayana & Mahabharata  
 **D)** Neither  
 **Correct Answer:** C  
 **Difficulty:** Medium  
@@ -207,7 +207,7 @@
 **A)** Flight  
 **B)** Size change  
 **C)** Immortality  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Hanuman has powers of flight, size change, and immortality.
@@ -217,7 +217,7 @@
 **A)** Rama  
 **B)** Brahma  
 **C)** Indra  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Hanuman received boons from multiple gods including Rama, Brahma, and Indra.
@@ -247,7 +247,7 @@
 **A)** Messenger  
 **B)** Warrior  
 **C)** Devotee  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Hanuman served as messenger, warrior, and devoted servant of Rama.
@@ -291,7 +291,7 @@
 **A)** Rama's blessing  
 **B)** Brahma's boon  
 **C)** His devotion  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Hanuman's immortality is due to blessings from Rama, Brahma, and his supreme devotion.
@@ -301,7 +301,7 @@
 **A)** Hanuman  
 **B)** Rama-Lakshman  
 **C)** Sita  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The final doha invokes blessings of Hanuman, Rama, Lakshman, and Sita.

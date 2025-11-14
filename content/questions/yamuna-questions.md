@@ -197,7 +197,7 @@
 **A)** Farakka  
 **B)** Hathni Kund  
 **C)** Okhla  
-**D)** Both B & C  
+**D)** Both Hathni Kund & Okhla  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Both Hathni Kund Barrage and Okhla Barrage are built on Yamuna.
@@ -207,7 +207,7 @@
 **A)** UP, Haryana  
 **B)** MP, Rajasthan  
 **C)** Delhi, Uttarakhand  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The Yamuna basin covers UP, Haryana, MP, Rajasthan, Delhi, and Uttarakhand.
@@ -216,7 +216,7 @@
 **Q:** Which ancient city was on Yamuna?  
 **A)** Indraprastha  
 **B)** Hastinapur  
-**C)** Both A & B  
+**C)** Both Indraprastha & Hastinapur  
 **D)** Neither  
 **Correct Answer:** C  
 **Difficulty:** Medium  
@@ -237,7 +237,7 @@
 **A)** Yamuna Chhath  
 **B)** Kumbh Mela  
 **C)** Yamuna Jayanti  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** All these festivals—Yamuna Chhath, Kumbh Mela, and Yamuna Jayanti—are celebrated on Yamuna.
@@ -301,7 +301,7 @@
 **A)** Padma Purana  
 **B)** Vishnu Purana  
 **C)** Bhagavata Purana  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Yamuna is described in detail in Padma, Vishnu, and Bhagavata Puranas.

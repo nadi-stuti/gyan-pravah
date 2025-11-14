@@ -23,7 +23,7 @@
 **A)** Lakshmi  
 **B)** Saraswati  
 **C)** Durga  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** C  
 **Difficulty:** Easy  
 **Explanation:** Navratri is primarily dedicated to Goddess Durga and her nine forms.
@@ -73,7 +73,7 @@
 **A)** Fasting  
 **B)** Prayer  
 **C)** Dancing  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Navratri involves fasting, prayers, dancing, and various devotional activities.
@@ -93,7 +93,7 @@
 **A)** Religious significance  
 **B)** Astrological meaning  
 **C)** Cultural importance  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Each day of Navratri has specific colors with religious and cultural significance.
@@ -113,7 +113,7 @@
 **A)** Good over evil  
 **B)** Durga over Mahishasura  
 **C)** Light over darkness  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Navratri celebrates Durga's victory over evil, symbolizing triumph of good.
@@ -137,7 +137,7 @@
 **A)** Navadurga  
 **B)** Navashakti  
 **C)** Navadevi  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** A  
 **Difficulty:** Medium  
 **Explanation:** The nine forms of Goddess Durga worshipped during Navratri are called Navadurga.
@@ -147,7 +147,7 @@
 **A)** New Year  
 **B)** Spring season  
 **C)** Ram Navami  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Chaitra Navratri marks Hindu New Year, spring season, and culminates in Ram Navami.
@@ -157,7 +157,7 @@
 **A)** Swords  
 **B)** Radha-Krishna  
 **C)** Musical instruments  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** B  
 **Difficulty:** Medium  
 **Explanation:** Dandiya sticks symbolically represent Radha and Krishna in the dance.
@@ -167,7 +167,7 @@
 **A)** Grains  
 **B)** Onion-garlic  
 **C)** Non-vegetarian food  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Navratri fasting typically excludes grains, onion, garlic, and non-vegetarian food.
@@ -177,7 +177,7 @@
 **A)** Sun  
 **B)** Moon  
 **C)** Universe creation  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** C  
 **Difficulty:** Medium  
 **Explanation:** Kushmanda is believed to have created the universe with her divine smile.
@@ -187,7 +187,7 @@
 **A)** Tamil Nadu  
 **B)** Karnataka  
 **C)** Andhra Pradesh  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Golu (doll display) during Navratri is popular in South Indian states.
@@ -227,7 +227,7 @@
 **A)** Warrior aspect  
 **B)** Destroyer of evil  
 **C)** Unmarried girls' prayers  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Katyayani is the warrior goddess who destroys evil and blesses unmarried girls.
@@ -237,7 +237,7 @@
 **A)** Water  
 **B)** Coconut  
 **C)** Mango leaves  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The sacred Kalash is filled with water, topped with coconut and mango leaves.
@@ -247,7 +247,7 @@
 **A)** Royal procession  
 **B)** Elephant parade  
 **C)** Cultural programs  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Mysore Dasara features grand royal processions, elephant parades, and cultural events.
@@ -261,7 +261,7 @@
 **A)** Equinoxes  
 **B)** Seasonal transition  
 **C)** Lunar calendar  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Navratri timing aligns with equinoxes, seasonal changes, and lunar calculations.
@@ -281,7 +281,7 @@
 **A)** Chakra activation  
 **B)** Kundalini awakening  
 **C)** Spiritual transformation  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Navratri has deep tantric significance for spiritual practices and energy work.
@@ -291,7 +291,7 @@
 **A)** Supernatural powers  
 **B)** Spiritual attainment  
 **C)** Divine knowledge  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Siddhidatri, the ninth form, grants all types of siddhis (spiritual powers).
@@ -301,7 +301,7 @@
 **A)** Devi Sukta  
 **B)** Durga Sukta  
 **C)** Ratri Sukta  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Navratri has ancient Vedic origins in various suktas praising the Divine Mother.

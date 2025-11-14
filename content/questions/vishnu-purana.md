@@ -53,7 +53,7 @@
 **A)** Krishna  
 **B)** Rama  
 **C)** Narasimha  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** The Purana contains stories of various Vishnu avatars including Krishna, Rama, and Narasimha.
@@ -73,7 +73,7 @@
 **A)** Yugas  
 **B)** Kalpas  
 **C)** Manvantaras  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** The Purana extensively describes cosmic time cycles including yugas, kalpas, and manvantaras.
@@ -103,7 +103,7 @@
 **A)** Preserver  
 **B)** Protector  
 **C)** Supreme deity  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Vishnu Purana portrays Vishnu as the supreme deity who preserves and protects the universe.
@@ -197,7 +197,7 @@
 **A)** Bharatavarsha  
 **B)** Sacred rivers  
 **C)** Holy mountains  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The second book contains detailed geographical descriptions of India and sacred places.
@@ -207,7 +207,7 @@
 **A)** Vedas  
 **B)** Manu  
 **C)** Seeds of life  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Matsya avatar saved Manu, the Vedas, and seeds of all life during the great deluge.
@@ -227,7 +227,7 @@
 **A)** Ocean churning  
 **B)** Supporting Mandara mountain  
 **C)** Obtaining amrita  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Kurma (tortoise) avatar supported Mount Mandara during the churning of the ocean for amrita.
@@ -237,7 +237,7 @@
 **A)** Solar dynasty  
 **B)** Lunar dynasty  
 **C)** Future kings  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The fourth book contains genealogies of solar and lunar dynasties and future rulers.
@@ -247,7 +247,7 @@
 **A)** Bhagavata Purana  
 **B)** Harivamsha  
 **C)** Devotional literature  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Vishnu Purana significantly influenced later Vaishnava literature and Puranas.
@@ -281,7 +281,7 @@
 **A)** Systematic cosmology  
 **B)** Historical chronology  
 **C)** Avatar doctrine  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The Purana made significant contributions to cosmology, chronology, and avatar theology.
@@ -291,7 +291,7 @@
 **A)** Virat Purusha  
 **B)** Vishvarupa  
 **C)** Cosmic being  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Vishnu Purana describes Vishnu's cosmic manifestation using various terms for the universal form.
@@ -301,7 +301,7 @@
 **A)** Regional variations  
 **B)** Textual interpolations  
 **C)** Different recensions  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The manuscript tradition reveals regional variations, interpolations, and different recensions.
@@ -311,7 +311,7 @@
 **A)** Kalki avatar  
 **B)** End of Kali Yuga  
 **C)** Cosmic renewal  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Vishnu Purana describes the end times with Kalki avatar and cosmic renewal cycle.

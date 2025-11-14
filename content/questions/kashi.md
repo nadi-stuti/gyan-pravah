@@ -52,7 +52,7 @@
 **Q:** Kashi is also known as?  
 **A)** Varanasi  
 **B)** Banaras  
-**C)** Both A & B  
+**C)** Both Varanasi & Banaras  
 **D)** Avantika  
 **Correct Answer:** C  
 **Difficulty:** Easy  
@@ -63,7 +63,7 @@
 **A)** Oldest living city  
 **B)** Spiritual capital  
 **C)** City of light  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Kashi is revered as the oldest continuously inhabited city, spiritual capital, and city of light.
@@ -73,7 +73,7 @@
 **A)** Dashashwamedh  
 **B)** Manikarnika  
 **C)** Assi Ghat  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Kashi has numerous famous ghats including Dashashwamedh, Manikarnika, and Assi.
@@ -83,7 +83,7 @@
 **A)** Silk sarees  
 **B)** Classical music  
 **C)** Spiritual learning  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Kashi is renowned for Banarasi silk, classical music tradition, and spiritual education.
@@ -93,7 +93,7 @@
 **A)** Dashashwamedh Ghat  
 **B)** Manikarnika Ghat  
 **C)** Assi Ghat  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** A  
 **Difficulty:** Easy  
 **Explanation:** The famous evening Ganga Aarti is performed at Dashashwamedh Ghat.
@@ -103,7 +103,7 @@
 **A)** Vedas  
 **B)** Puranas  
 **C)** Epics  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Kashi finds mention in ancient Vedic texts, Puranas, and epic literature.
@@ -113,7 +113,7 @@
 **A)** Moksha  
 **B)** Heaven  
 **C)** Good rebirth  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** A  
 **Difficulty:** Easy  
 **Explanation:** It is believed that dying in Kashi grants moksha (liberation) from the cycle of rebirth.
@@ -123,7 +123,7 @@
 **A)** Avimuktaka  
 **B)** Anandavana  
 **C)** Rudravasa  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Kashi had various ancient names including Avimuktaka, Anandavana, and Rudravasa.
@@ -187,7 +187,7 @@
 **A)** Hindustani classical  
 **B)** Thumri  
 **C)** Dhrupad  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Kashi has a rich tradition of Hindustani classical music, thumri, and dhrupad.
@@ -197,7 +197,7 @@
 **A)** Cremation  
 **B)** Sacred fire  
 **C)** Liberation  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Manikarnika Ghat is the main cremation ghat where the sacred fire burns continuously.
@@ -206,7 +206,7 @@
 **Q:** Kashi's Durga Temple is also called?  
 **A)** Monkey Temple  
 **B)** Red Temple  
-**C)** Both A & B  
+**C)** Both Monkey Temple & Red Temple  
 **D)** Golden Temple  
 **Correct Answer:** C  
 **Difficulty:** Medium  
@@ -227,7 +227,7 @@
 **A)** Goddess of food  
 **B)** Parvati  
 **C)** Provider of nourishment  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Annapurna Temple is dedicated to Goddess Annapurna, the divine provider of food and nourishment.
@@ -247,7 +247,7 @@
 **A)** Shiva's presence  
 **B)** Ganga's sanctity  
 **C)** Ancient tradition  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Kashi's spiritual importance derives from Shiva's eternal presence, Ganga's sanctity, and millennia-old traditions.
@@ -281,7 +281,7 @@
 **A)** Center of universe  
 **B)** Shiva's trident tip  
 **C)** Never destroyed in pralaya  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Kashi is considered the cosmic center, tip of Shiva's trident, and eternally protected from cosmic dissolution.
@@ -291,7 +291,7 @@
 **A)** Luminous  
 **B)** Shining  
 **C)** City of light  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The name "Kashi" derives from the root "kash" meaning to shine or be luminous.
@@ -301,7 +301,7 @@
 **A)** Advaita Vedanta  
 **B)** Shaiva philosophy  
 **C)** Sanskrit learning  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Kashi has been a major center for Advaita Vedanta, Shaiva philosophy, and Sanskrit scholarship.
@@ -311,7 +311,7 @@
 **A)** Automatic liberation  
 **B)** Shiva's whispered mantra  
 **C)** Death in sacred geography  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** "Kashi Labh" refers to the belief that Shiva whispers the taraka mantra to those who die in Kashi, granting liberation.

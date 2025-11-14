@@ -123,7 +123,7 @@
 **A)** Dharma  
 **B)** Bhakti  
 **C)** Moksha  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Bhagavata teaches dharma, bhakti, and the path to moksha.
@@ -147,7 +147,7 @@
 **A)** 1st  
 **B)** 2nd  
 **C)** 3rd  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Creation cosmology is described across the first few cantos.
@@ -156,7 +156,7 @@
 **Q:** Bhagavata's other name is?  
 **A)** Srimad Bhagavatam  
 **B)** Bhagavat Mahapurana  
-**C)** Both A & B  
+**C)** Both Srimad Bhagavatam & Bhagavat Mahapurana  
 **D)** Neither  
 **Correct Answer:** C  
 **Difficulty:** Medium  
@@ -197,7 +197,7 @@
 **A)** Glory of text  
 **B)** Benefits of reading  
 **C)** Origin story  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Bhagavata Mahatmya extols the glory and benefits of studying this Purana.
@@ -237,7 +237,7 @@
 **A)** Sridhara Swami  
 **B)** Madhvacharya  
 **C)** Vallabhacharya  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Many great scholars including Sridhara, Madhva, and Vallabha wrote commentaries.
@@ -247,7 +247,7 @@
 **A)** ISKCON  
 **B)** Gaudiya Vaishnavas  
 **C)** Pushti Marg  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Various Vaishnava traditions hold Bhagavata Purana as supreme scripture.
@@ -271,7 +271,7 @@
 **A)** Poetic Sanskrit  
 **B)** Metaphorical  
 **C)** Devotional style  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Bhagavata uses highly poetic, metaphorical Sanskrit with devotional focus.
@@ -280,7 +280,7 @@
 **Q:** First complete English translation by?  
 **A)** A.C. Bhaktivedanta Swami  
 **B)** J.M. Sanyal  
-**C)** Both A & B  
+**C)** Both A.C. Bhaktivedanta Swami & J.M. Sanyal  
 **D)** Unknown  
 **Correct Answer:** C  
 **Difficulty:** Hard  

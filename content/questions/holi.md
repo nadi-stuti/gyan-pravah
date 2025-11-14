@@ -23,7 +23,7 @@
 **A)** Good over evil  
 **B)** Light over darkness  
 **C)** Love over hate  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Holi symbolizes the triumph of good over evil and arrival of spring.
@@ -63,7 +63,7 @@
 **A)** Rang  
 **B)** Gulal  
 **C)** Abir  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Holi colors are known by various names - rang, gulal, and abir.
@@ -113,7 +113,7 @@
 **A)** Phagwah  
 **B)** Dol Jatra  
 **C)** Basant Utsav  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Holi has different regional names like Phagwah, Dol Jatra, and Basant Utsav.
@@ -137,7 +137,7 @@
 **A)** Vishnu  
 **B)** His devotion  
 **C)** Divine intervention  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Prahlada's devotion to Vishnu saved him when Holika tried to burn him.
@@ -167,7 +167,7 @@
 **A)** Krishna's pranks  
 **B)** Holika-Prahlada  
 **C)** Radha-Krishna love  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Holi has multiple origin stories involving Krishna's playfulness and Prahlada's devotion.
@@ -177,7 +177,7 @@
 **A)** Turmeric  
 **B)** Beetroot  
 **C)** Marigold  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Traditional natural colors are made from turmeric, beetroot, marigold, and other plants.
@@ -217,7 +217,7 @@
 **A)** Old clothes  
 **B)** Dried leaves  
 **C)** Wood  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Holika Dahan bonfire burns various combustible materials symbolizing evil.
@@ -227,7 +227,7 @@
 **A)** Happy Holi  
 **B)** Holi Hai  
 **C)** Bura na mano Holi hai  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Various greetings are used during Holi, including the playful "Bura na mano Holi hai."
@@ -237,7 +237,7 @@
 **A)** Mughal courts  
 **B)** Rajput palaces  
 **C)** British residencies  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Holi was celebrated in various royal courts throughout Indian history.
@@ -247,7 +247,7 @@
 **A)** Water wastage  
 **B)** Chemical colors  
 **C)** Noise pollution  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Modern Holi celebrations raise concerns about water waste and harmful chemicals.
@@ -271,7 +271,7 @@
 **A)** Spring equinox  
 **B)** Full moon  
 **C)** Harvest time  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Holi coincides with spring equinox, full moon, and harvest season.
@@ -281,7 +281,7 @@
 **A)** Vasantotsava  
 **B)** Kama Mahotsava  
 **C)** Phalguni  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Holi had various ancient names reflecting its spring and love themes.
@@ -291,7 +291,7 @@
 **A)** Narada Purana  
 **B)** Bhavishya Purana  
 **C)** Jaimini's Purva Mimamsa  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Holi is mentioned in various ancient Sanskrit texts and Puranas.
@@ -301,7 +301,7 @@
 **A)** Love celebration  
 **B)** Spring festival  
 **C)** Fertility ritual  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Holi is associated with Kamadeva (god of love) and fertility celebrations.

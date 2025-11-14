@@ -156,7 +156,7 @@
 **Q:** Neelkanth peak is visible from?  
 **A)** Temple  
 **B)** Tapt Kund  
-**C)** Both A & B  
+**C)** Both Temple & Tapt Kund  
 **D)** Neither  
 **Correct Answer:** C  
 **Difficulty:** Medium  
@@ -166,7 +166,7 @@
 **Q:** Badrinath temple architecture is?  
 **A)** Dravidian  
 **B)** Buddhist  
-**C)** Both A & B  
+**C)** Both Dravidian & Buddhist  
 **D)** North Indian  
 **Correct Answer:** C  
 **Difficulty:** Medium  

@@ -63,7 +63,7 @@
 **A)** Shiva  
 **B)** Vishnu  
 **C)** Brahma  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** B  
 **Difficulty:** Easy  
 **Explanation:** Krishna River is considered sacred and associated with Lord Vishnu.
@@ -83,7 +83,7 @@
 **A)** Mahabharata  
 **B)** Ramayana  
 **C)** Puranas  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Krishna River is mentioned in Mahabharata, Ramayana, and various Puranas.
@@ -103,7 +103,7 @@
 **A)** Agriculture  
 **B)** Industry  
 **C)** Tourism  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** A  
 **Difficulty:** Easy  
 **Explanation:** Krishna River basin is primarily known for extensive agriculture.
@@ -112,7 +112,7 @@
 **Q:** Which irrigation project uses Krishna water?  
 **A)** Krishna Delta  
 **B)** Nagarjuna Canal  
-**C)** Both A & B  
+**C)** Both Krishna Delta & Nagarjuna Canal  
 **D)** Neither  
 **Correct Answer:** C  
 **Difficulty:** Easy  
@@ -156,7 +156,7 @@
 **Q:** Which barrage is on Krishna River?  
 **A)** Prakasam Barrage  
 **B)** Vijayawada Barrage  
-**C)** Both A & B  
+**C)** Both Prakasam Barrage & Vijayawada Barrage  
 **D)** Neither  
 **Correct Answer:** C  
 **Difficulty:** Medium  
@@ -177,7 +177,7 @@
 **A)** Srisailam  
 **B)** Nagarjuna Sagar  
 **C)** Almatti  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Srisailam, Nagarjuna Sagar, and Almatti are all hydroelectric projects on Krishna.
@@ -217,7 +217,7 @@
 **A)** Rice  
 **B)** Sugarcane  
 **C)** Cotton  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Rice, sugarcane, and cotton are all extensively cultivated in Krishna basin.
@@ -236,7 +236,7 @@
 **Q:** Which wildlife sanctuary is on Krishna banks?  
 **A)** Srisailam  
 **B)** Nagarjunsagar  
-**C)** Both A & B  
+**C)** Both Srisailam & Nagarjunsagar  
 **D)** Neither  
 **Correct Answer:** C  
 **Difficulty:** Medium  
@@ -247,7 +247,7 @@
 **A)** Skanda Purana  
 **B)** Brahma Purana  
 **C)** Padma Purana  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Krishna River is mentioned in Skanda, Brahma, and Padma Puranas.

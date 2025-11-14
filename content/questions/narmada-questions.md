@@ -43,7 +43,7 @@
 **A)** River of Sorrow  
 **B)** River of Life  
 **C)** Rewa  
-**D)** Both A and C  
+**D)** Both River of Sorrow & Rewa  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Narmada is called Rewa in Sanskrit and symbolizes fertility and life.
@@ -113,7 +113,7 @@
 **A)** Buddhism  
 **B)** Jainism  
 **C)** Hinduism  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** The Narmada is sacred in Hinduism, Jainism, and has cultural significance in Buddhism.
@@ -122,7 +122,7 @@
 **Q:** The river is also known as?  
 **A)** Nimad  
 **B)** Nerbudda  
-**C)** Both A and B  
+**C)** Both Nimad & Nerbudda  
 **D)** Yamuna  
 **Correct Answer:** C  
 **Difficulty:** Easy  
@@ -137,7 +137,7 @@
 **A)** Rigveda  
 **B)** Mahabharata  
 **C)** Puranas  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Narmada is mentioned in Vedas, Mahabharata, and Puranic texts.
@@ -197,7 +197,7 @@
 **A)** Sardar Sarovar  
 **B)** Omkareshwar  
 **C)** Narmada Sagar  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Multiple dams like Sardar Sarovar, Omkareshwar, and Narmada Sagar are built.
@@ -227,7 +227,7 @@
 **A)** Jabalpur  
 **B)** Khandwa  
 **C)** Broach  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Jabalpur, Khandwa, and Broach are all significant pilgrimage sites on Narmada.
@@ -237,7 +237,7 @@
 **A)** Irrigation  
 **B)** Power generation  
 **C)** Drinking water  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Narmada's water is utilized for irrigation, hydropower, and drinking purposes.
@@ -246,7 +246,7 @@
 **Q:** Ritual stones in Narmada are?  
 **A)** Bansilinga  
 **B)** Shaligrams  
-**C)** Both A and B  
+**C)** Both Bansilinga & Shaligrams  
 **D)** Rudraksha  
 **Correct Answer:** C  
 **Difficulty:** Medium  
@@ -271,7 +271,7 @@
 **A)** Gharial  
 **B)** Fish species  
 **C)** Aquatic plants  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The Narmada supports diverse aquatic life including gharials and endemic fish species.
@@ -291,7 +291,7 @@
 **A)** Early human habitation  
 **B)** Paleolithic tools  
 **C)** Evidence of evolution  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The Narmada Valley shows extensive evidence of early human presence and evolution.
@@ -311,7 +311,7 @@
 **A)** Maharashtra  
 **B)** Chhattisgarh  
 **C)** Rajasthan  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Narmada's catchment area spans Maharashtra, Chhattisgarh, Madhya Pradesh, and Rajasthan.

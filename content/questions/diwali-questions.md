@@ -63,7 +63,7 @@
 **A)** Candles  
 **B)** Diyas  
 **C)** Fireworks  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Diyas (lamps), candles, and fireworks are all lit during Diwali.
@@ -73,7 +73,7 @@
 **A)** Colors  
 **B)** Flowers  
 **C)** Rice flour  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Rangoli can be made with colored powders, flowers, or rice flour.
@@ -93,7 +93,7 @@
 **A)** Light over darkness  
 **B)** Good over evil  
 **C)** Knowledge over ignorance  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Diwali symbolizes the victory of light, good, and knowledge.
@@ -113,7 +113,7 @@
 **A)** Ladoo  
 **B)** Barfi  
 **C)** Gulab Jamun  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Various sweets like ladoo, barfi, and gulab jamun are prepared for Diwali.
@@ -122,7 +122,7 @@
 **Q:** Diwali is also called?  
 **A)** Deepavali  
 **B)** Festival of Lights  
-**C)** Both A & B  
+**C)** Both Deepavali & Festival of Lights  
 **D)** Neither  
 **Correct Answer:** C  
 **Difficulty:** Easy  
@@ -147,7 +147,7 @@
 **A)** Wealth  
 **B)** Health  
 **C)** Dhanvantari  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Dhanteras honors Dhanvantari (god of health) and celebrates wealth.
@@ -167,7 +167,7 @@
 **A)** Ramayana  
 **B)** Mahabharata  
 **C)** Bhagavata  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Different aspects of Diwali are mentioned in various epics and Puranas.
@@ -197,7 +197,7 @@
 **A)** Choti Diwali  
 **B)** Kali Chaudas  
 **C)** Roop Chaudas  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The second day has various names in different regions.
@@ -227,7 +227,7 @@
 **A)** Gold  
 **B)** Silver  
 **C)** Copper  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Buying gold, silver, or other metals is considered auspicious on Dhanteras.
@@ -247,7 +247,7 @@
 **A)** Hygiene  
 **B)** Welcoming Lakshmi  
 **C)** Removing negativity  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Pre-Diwali cleaning has practical, spiritual, and symbolic significance.
@@ -291,7 +291,7 @@
 **A)** Shiva-Parvati  
 **B)** Lakshmi worship  
 **C)** Ancient tradition  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** Gambling tradition has connections to Shiva-Parvati lore and wealth symbolism.

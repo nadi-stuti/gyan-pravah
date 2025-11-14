@@ -43,7 +43,7 @@
 **A)** Beauty  
 **B)** Power  
 **C)** Dance  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** The stotra vividly describes Shiva's divine beauty, cosmic power, and dance.
@@ -53,7 +53,7 @@
 **A)** Please Shiva  
 **B)** Gain power  
 **C)** Show devotion  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Ravana composed it to please Shiva, demonstrate devotion, and gain divine favor.
@@ -63,7 +63,7 @@
 **A)** Matted hair  
 **B)** Third eye  
 **C)** Crescent moon  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** The stotra beautifully describes Shiva's jata, third eye, and moon ornament.
@@ -83,7 +83,7 @@
 **A)** Spiritual power  
 **B)** Protection  
 **C)** Devotion  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Devotees recite it for spiritual strength, divine protection, and expressing devotion.
@@ -93,7 +93,7 @@
 **A)** Creation  
 **B)** Preservation  
 **C)** Destruction  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** Shiva's Tandava encompasses the cosmic cycle of creation, preservation, and destruction.
@@ -123,7 +123,7 @@
 **A)** Nataraja  
 **B)** Cosmic dancer  
 **C)** Lord of dance  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Easy  
 **Explanation:** The stotra portrays Shiva as the supreme cosmic dancer and Nataraja.
@@ -177,7 +177,7 @@
 **A)** Evil  
 **B)** Ignorance  
 **C)** Universe (at cosmic end)  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Shiva's Tandava destroys evil, ignorance, and the universe during cosmic dissolution.
@@ -197,7 +197,7 @@
 **A)** Musical skill  
 **B)** Poetic beauty  
 **C)** Sincere devotion  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Shiva was pleased by Ravana's musical talent, poetic composition, and genuine devotion.
@@ -207,7 +207,7 @@
 **A)** Serpents  
 **B)** Rudraksha  
 **C)** Ashes  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The stotra describes Shiva adorned with serpents, rudraksha, and sacred ashes.
@@ -217,7 +217,7 @@
 **A)** Mahashivratri  
 **B)** Monday fasts  
 **C)** Shiva worship  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** The stotra is especially recited during Shiva festivals and regular worship.
@@ -227,7 +227,7 @@
 **A)** Pleasure  
 **B)** Blessing Ravana  
 **C)** Granting boons  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Shiva was so pleased that he blessed Ravana and granted him various boons.
@@ -237,7 +237,7 @@
 **A)** Kailash  
 **B)** Chidambaram  
 **C)** Cosmic space  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** C  
 **Difficulty:** Medium  
 **Explanation:** The stotra depicts Shiva's dance as a cosmic phenomenon transcending locations.
@@ -247,7 +247,7 @@
 **A)** Narada  
 **B)** Saraswati  
 **C)** Natural talent  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Medium  
 **Explanation:** Ravana's exceptional musical abilities had divine and natural origins.
@@ -261,7 +261,7 @@
 **A)** Compound words  
 **B)** Alliteration  
 **C)** Multiple meanings  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The stotra showcases Sanskrit's complexity through compounds, alliteration, and layered meanings.
@@ -281,7 +281,7 @@
 **A)** Advaita  
 **B)** Bhakti  
 **C)** Cosmic consciousness  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The stotra encompasses non-dualistic philosophy, devotion, and cosmic awareness.
@@ -301,7 +301,7 @@
 **A)** Inspired devotional poetry  
 **B)** Set musical standards  
 **C)** Influenced Sanskrit composition  
-**D)** All above  
+**D)** All options  
 **Correct Answer:** D  
 **Difficulty:** Hard  
 **Explanation:** The stotra significantly influenced devotional literature, music, and Sanskrit poetry.
