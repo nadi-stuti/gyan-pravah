@@ -94,8 +94,12 @@ app/
 ### Returning User Journey
 1. **Home Screen** - User sees play options and expert mode toggle
 2. **Topic Selection** - User can choose specific topics or play random
-3. **Quiz Game** - Interactive quiz with animations and scoring
-4. **Results** - Detailed results with performance metrics
+3. **Quiz Game** - Interactive quiz with animations, scoring, and temperature meter
+4. **Results** - Comprehensive results with:
+   - Average reaction time display
+   - Single-line quiz summary pill (color-coded performance)
+   - Paginated review cards with detailed scoring breakdown
+   - Four action buttons (Play Again, Mode Toggle, Choose Topic, Go Home)
 
 ### Expert Mode
 - **Harder questions** - More challenging content
@@ -104,16 +108,22 @@ app/
 
 ## 🎯 Key Features
 
-### Quiz System
+### Quiz System (v2.2)
 - **Dynamic question loading** from Strapi CMS
 - **Multiple difficulty levels** (easy, medium, hard)
 - **Topic-based categorization** with cultural themes
-- **Real-time scoring** with immediate feedback
+- **Real-time scoring** with time-based bonuses
+- **Reaction time tracking** with temperature meter display
 - **Swipeable question cards** for mobile interaction
+- **Wrong answer handling** - Shows correct/wrong answers on card (no popup)
+- **Reading period** - 3 seconds to read before timer starts
+- **Answer shuffling** - Prevents pattern memorization
 
 ### State Management
 - **Persistent user preferences** across sessions
-- **Quiz state management** with pause/resume capability
+- **Quiz state management** with complete game state tracking
+- **Quiz metadata tracking** - Stores source, topic, difficulty for replay
+- **Reaction time tracking** - Average speed calculated in real-time
 - **Topic availability caching** for offline-like experience
 - **Error state handling** with retry mechanisms
 

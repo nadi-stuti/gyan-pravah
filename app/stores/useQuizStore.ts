@@ -13,6 +13,10 @@ interface QuizState {
   
   // Quiz configuration
   quizMode: 'quizup' | 'quick' | 'marathon' | 'first-visit' | null
+  quizSource: 'random' | 'topic' | 'first-visit' | null // Track how quiz was started
+  quizTopicSlug: string | null // Store topic slug for replay
+  quizSubtopicSlug: string | null // Store subtopic slug for replay
+  quizDifficulty: 'Easy' | 'Medium' | 'Hard' | null // Store difficulty for replay
   
   // Results data (stored during gameplay)
   pointsPerQuestion: Record<number, number> // Points earned for each question
@@ -21,6 +25,8 @@ interface QuizState {
   questionsAnswered: number // Count of answered questions
   maxPossibleScore: number // Maximum possible score for this quiz
   percentage: number // Calculated percentage
+  reactionTimes: number[] // Time taken per question in seconds
+  averageReactionTime: number // Running average reaction time
   
   // Actions
   setCurrentQuestion: (questionIndex: number) => void
@@ -31,9 +37,11 @@ interface QuizState {
   setQuestions: (questions: QuizQuestion[]) => void
   setQuizMode: (mode: 'quizup' | 'quick' | 'marathon' | 'first-visit') => void
   setQuizConfig: (maxScore: number) => void
+  setQuizMetadata: (source: 'random' | 'topic' | 'first-visit', topicSlug?: string, subtopicSlug?: string, difficulty?: 'Easy' | 'Medium' | 'Hard') => void
   
   // Result actions (called during gameplay)
   recordQuestionResult: (questionIndex: number, answer: string, points: number, isCorrect: boolean) => void
+  recordReactionTime: (time: number) => void
   
   resetQuiz: () => void
 }
@@ -49,6 +57,10 @@ export const useQuizStore = create<QuizState>((set, get) => ({
   
   // Quiz configuration
   quizMode: null,
+  quizSource: null,
+  quizTopicSlug: null,
+  quizSubtopicSlug: null,
+  quizDifficulty: null,
   
   // Results data
   pointsPerQuestion: {},
@@ -57,6 +69,8 @@ export const useQuizStore = create<QuizState>((set, get) => ({
   questionsAnswered: 0,
   maxPossibleScore: 0,
   percentage: 0,
+  reactionTimes: [],
+  averageReactionTime: 0,
   
   // Actions
   setCurrentQuestion: (questionIndex) => set({ currentQuestion: questionIndex }),
@@ -73,6 +87,13 @@ export const useQuizStore = create<QuizState>((set, get) => ({
   setQuizMode: (mode) => set({ quizMode: mode }),
   
   setQuizConfig: (maxScore) => set({ maxPossibleScore: maxScore }),
+  
+  setQuizMetadata: (source, topicSlug, subtopicSlug, difficulty) => set({
+    quizSource: source,
+    quizTopicSlug: topicSlug || null,
+    quizSubtopicSlug: subtopicSlug || null,
+    quizDifficulty: difficulty || null
+  }),
   
   // Record question result - this is the key method that stores everything
   recordQuestionResult: (questionIndex, answer, points, isCorrect) => {
@@ -94,6 +115,18 @@ export const useQuizStore = create<QuizState>((set, get) => ({
     })
   },
   
+  // Record reaction time for each question
+  recordReactionTime: (time) => {
+    const state = get()
+    const newReactionTimes = [...state.reactionTimes, time]
+    const average = newReactionTimes.reduce((sum, t) => sum + t, 0) / newReactionTimes.length
+    
+    set({
+      reactionTimes: newReactionTimes,
+      averageReactionTime: average
+    })
+  },
+  
   resetQuiz: () => set({
     currentQuestion: 0,
     selectedAnswers: {},
@@ -101,11 +134,17 @@ export const useQuizStore = create<QuizState>((set, get) => ({
     gameStatus: 'idle',
     questions: [],
     quizMode: null,
+    quizSource: null,
+    quizTopicSlug: null,
+    quizSubtopicSlug: null,
+    quizDifficulty: null,
     pointsPerQuestion: {},
     totalScore: 0,
     questionsCorrect: 0,
     questionsAnswered: 0,
     maxPossibleScore: 0,
     percentage: 0,
+    reactionTimes: [],
+    averageReactionTime: 0,
   }),
 }))

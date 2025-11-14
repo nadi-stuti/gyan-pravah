@@ -129,25 +129,73 @@ interface QuizGameLogicProps {
 ```
 
 **Responsibilities:**
-- **State Management** - Current question, answers, score, timer
+- **State Management** - Current question, answers, score, timer, reaction times
 - **Game Flow** - Question progression, completion logic
-- **Scoring System** - Point calculation with bonus rounds
+- **Scoring System** - Time-based point calculation with speed bonuses
+- **Reaction Time Tracking** - Records time taken for each question
 - **Animation Coordination** - Question transitions and feedback
+
+### Results Page Components (v2.2)
+
+**QuizSummaryPill Component** ✅
+- Displays all questions in single horizontal line
+- Color-coded pills for each question:
+  - 🔥 Super Fast (Yellow #FBBF24)
+  - ✨ Fast (Green #4ADE80)
+  - ⏱️ Late (Gray #9CA3AF)
+  - ❌ Wrong (Red #EF4444)
+  - ⊘ Skipped (Dark Gray #6B7280)
+- Horizontal scrollable for quizzes with many questions
+- Each pill shows icon + question number
+- Never wraps to multiple lines
+- Touch-friendly on mobile
+
+**Average Reaction Time Display** ✅
+- Shows average time above accuracy percentage
+- Temperature indicator (🔥/🌡️/❄️/🧊)
+- Real-time calculation from reaction times array
+
+**Paginated Review Cards** ✅
+- One question at a time with Previous/Next buttons
+- Question counter (e.g., "Question 3 of 7")
+- Shows user's answer and correct answer
+- Detailed scoring breakdown with math
+- Explanation for each question
+
+**Action Buttons** ✅
+- 🔄 Play Again - Reloads questions based on quiz source
+- ⚡ Expert/Normal Toggle - Switches mode and reloads
+- 📖 Choose Topic - Navigates to topic selection
+- 🏠 Go to Home - Returns to home page
+- Responsive: 2x2 grid on mobile, 1x4 on desktop
 
 **Key Implementation:**
 ```typescript
 const handleAnswerSelect = (option: 'A' | 'B' | 'C' | 'D') => {
-  // Calculate points based on time and difficulty
-  const timeBonus = Math.max(0, Math.floor((timeLeft / config.timePerQuestion) * config.maxPointsPerNormalQuestion))
-  const points = isCorrect ? basePoints + timeBonus : 0
+  const isCorrect = option === currentQuestion.correctOption
+  const timeTaken = config.questionTimeLimit - timeRemaining
   
-  // Update stores
-  setSelectedAnswers(prev => ({ ...prev, [currentQuestionIndex]: option }))
-  setPointsPerQuestion(prev => ({ ...prev, [currentQuestionIndex]: points }))
+  // Calculate points based on time remaining
+  // Super Fast (8-10s): 20 points
+  // Fast (3-7s): 10-15 points
+  // Late (0-2s): 5 points
+  const points = isCorrect ? calculateQuestionPoints(true, timeRemaining, isBonusRound) : 0
   
-  // Show feedback and progress
-  setShowFeedback(true)
-  setTimeout(() => moveToNextQuestion(), 1500)
+  // Record complete question result
+  recordQuestionResult(currentQuestionIndex, option, points, isCorrect)
+  
+  // Record reaction time for temperature meter
+  recordReactionTime(timeTaken)
+  
+  // Show feedback only for correct answers
+  if (isCorrect) {
+    setShowFeedback(true)
+  } else {
+    // For wrong answers, show correct answer on card
+    setShowCorrectAnswer(true)
+  }
+  
+  setTimeout(() => moveToNextQuestion(), 2500)
 }
 ```
 

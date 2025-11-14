@@ -24,15 +24,16 @@ This documentation is organized into the following sections:
 
 ### Features & Functionality
 - [**Quiz System**](./11-quiz-system.md) - Complete quiz implementation
-- [**Navigation System**](./12-navigation-system.md) - App navigation and routing
-- [**Animation System**](./13-animation-system.md) - Lottie and motion animations
-- [**Mobile Experience**](./14-mobile-experience.md) - Mobile-first design and gestures
+- [**Scoring System**](./12-scoring-system.md) - Time-based scoring with speed bonuses
+- [**Navigation System**](./13-navigation-system.md) - App navigation and routing
+- [**Animation System**](./14-animation-system.md) - Lottie and motion animations
+- [**Mobile Experience**](./15-mobile-experience.md) - Mobile-first design and gestures
 
 ### Development & Deployment
-- [**Development Guide**](./15-development-guide.md) - How to work with the codebase
-- [**Code Patterns**](./16-code-patterns.md) - Common patterns and best practices
-- [**Performance Optimization**](./17-performance-optimization.md) - Performance strategies
-- [**Troubleshooting**](./18-troubleshooting.md) - Common issues and solutions
+- [**Development Guide**](./16-development-guide.md) - How to work with the codebase
+- [**Code Patterns**](./17-code-patterns.md) - Common patterns and best practices
+- [**Performance Optimization**](./18-performance-optimization.md) - Performance strategies
+- [**Troubleshooting**](./19-troubleshooting.md) - Common issues and solutions
 
 ## 🎯 Learning Path
 

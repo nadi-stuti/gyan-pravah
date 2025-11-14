@@ -38,7 +38,7 @@ function SubtopicsContent() {
   const [isLoading, setIsLoading] = useState(true)
   const [isStartingQuiz, setIsStartingQuiz] = useState(false)
 
-  const { setQuestions, setExpertMode, setGameStatus, resetQuiz } = useQuizStore()
+  const { setQuestions, setExpertMode, setGameStatus, resetQuiz, setQuizMetadata, setQuizMode } = useQuizStore()
   const { 
     expertModeEnabled, 
     setLastPlayedTopic, 
@@ -136,6 +136,8 @@ function SubtopicsContent() {
 
       // Set up the quiz
       setQuestions(questions)
+      setQuizMode('quizup')
+      setQuizMetadata('topic', topicSlug, subtopicSlug, undefined)
       setGameStatus('playing')
 
       // Track game start in user preferences

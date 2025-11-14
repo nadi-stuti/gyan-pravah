@@ -50,7 +50,7 @@ export default function TopicSelector() {
   const [isLoading, setIsLoading] = useState(false)
   const [isLoadingData, setIsLoadingData] = useState(true)
 
-  const { setQuestions, setExpertMode, setGameStatus, resetQuiz } = useQuizStore()
+  const { setQuestions, setExpertMode, setGameStatus, resetQuiz, setQuizMetadata, setQuizMode } = useQuizStore()
   const { 
     expertModeEnabled, 
     setLastPlayedTopic, 
@@ -196,6 +196,8 @@ export default function TopicSelector() {
       
       // Set up the quiz
       setQuestions(questions)
+      setQuizMode('quizup')
+      setQuizMetadata('topic', selectedTopic?.slug, subtopic.slug, difficulty)
       setGameStatus('playing')
       
       // Track game start in user preferences

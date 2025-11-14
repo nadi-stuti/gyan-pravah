@@ -16,7 +16,7 @@ export default function GameHeader({
   score,
   className = ''
 }: GameHeaderProps) {
-  const { questions, selectedAnswers } = useQuizStore()
+  const { questions, selectedAnswers, averageReactionTime } = useQuizStore()
 
   // Generate round indicators based on current progress and user answers
   const getRoundIndicators = () => {
@@ -99,13 +99,91 @@ export default function GameHeader({
           <div className="text-sm text-gray-600">Progress</div>
         </div>
         
-        <div className="text-center">
-          <div className="text-2xl font-bold text-purple-600">
-            {Math.round(((currentQuestion) / totalQuestions) * 100)}%
-          </div>
-          <div className="text-sm text-gray-600">Complete</div>
-        </div>
+        <ReactionTimeMeter avgTime={averageReactionTime} />
       </div>
     </motion.div>
+  )
+}
+
+// Temperature Meter Component
+interface ReactionTimeMeterProps {
+  avgTime: number
+}
+
+function ReactionTimeMeter({ avgTime }: ReactionTimeMeterProps) {
+  // If no reactions yet, show neutral state
+  if (avgTime === 0) {
+    return (
+      <div className="text-center">
+        <div className="flex items-center justify-center gap-2 mb-1">
+          <span className="text-2xl">🌡️</span>
+          <div className="text-2xl font-bold text-gray-400">--</div>
+        </div>
+        <div className="text-sm text-gray-600">Avg Speed</div>
+      </div>
+    )
+  }
+  
+  // Determine temperature based on average reaction time
+  const getTemperature = () => {
+    if (avgTime < 3) {
+      return { 
+        emoji: '🔥', 
+        color: 'text-red-500', 
+        bgColor: 'bg-red-100',
+        label: 'Hot',
+        description: 'Lightning Fast!'
+      }
+    }
+    if (avgTime < 5) {
+      return { 
+        emoji: '🌡️', 
+        color: 'text-orange-500', 
+        bgColor: 'bg-orange-100',
+        label: 'Warm',
+        description: 'Great Speed'
+      }
+    }
+    if (avgTime < 7) {
+      return { 
+        emoji: '❄️', 
+        color: 'text-blue-400', 
+        bgColor: 'bg-blue-100',
+        label: 'Cool',
+        description: 'Good Pace'
+      }
+    }
+    return { 
+      emoji: '🧊', 
+      color: 'text-blue-600', 
+      bgColor: 'bg-blue-200',
+      label: 'Cold',
+      description: 'Take Your Time'
+    }
+  }
+  
+  const temp = getTemperature()
+  
+  return (
+    <div className="text-center">
+      <div className="flex items-center justify-center gap-2 mb-1">
+        <motion.span 
+          key={temp.emoji}
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          className="text-2xl"
+        >
+          {temp.emoji}
+        </motion.span>
+        <div className={`text-2xl font-bold ${temp.color}`}>
+          {avgTime.toFixed(1)}s
+        </div>
+      </div>
+      <div className={`inline-block ${temp.bgColor} ${temp.color} px-3 py-1 rounded-full text-xs font-semibold mb-1`}>
+        {temp.label}
+      </div>
+      <div className="text-xs text-gray-600">{temp.description}</div>
+    </div>
   )
 }

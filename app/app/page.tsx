@@ -28,7 +28,9 @@ export default function Home() {
     setQuestions,
     setExpertMode,
     setGameStatus,
-    resetQuiz
+    resetQuiz,
+    setQuizMetadata,
+    setQuizMode
   } = useQuizStore()
 
   const {
@@ -82,6 +84,8 @@ export default function Home() {
           if (questions.length > 0) {
             // Set up the quiz
             setQuestions(questions)
+            setQuizMode('first-visit')
+            setQuizMetadata('first-visit')
             setGameStatus('playing')
 
             // Mark as no longer first visit

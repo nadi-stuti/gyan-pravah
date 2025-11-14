@@ -133,6 +133,18 @@ export interface QuizAnalyticsEvents {
     context: 'results_page'
   }
   
+  'choose_topic_clicked': {
+    final_score: number
+    percentage: number
+    context: 'results_page'
+  }
+  
+  'go_home_clicked': {
+    final_score: number
+    percentage: number
+    context: 'results_page'
+  }
+  
   // Navigation events
   'page_viewed': {
     page: 'home' | 'quiz' | 'results' | 'topics' | 'subtopics'

@@ -12,7 +12,7 @@ import { trackEvent } from '@/lib/analytics'
 export default function PlayNowButton() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
-  const { setQuestions, setExpertMode, setGameStatus, resetQuiz } = useQuizStore()
+  const { setQuestions, setExpertMode, setGameStatus, resetQuiz, setQuizMetadata, setQuizMode } = useQuizStore()
   const { expertModeEnabled, incrementGamesPlayed } = useUserPreferences()
 
   const handlePlayNow = async () => {
@@ -51,6 +51,8 @@ export default function PlayNowButton() {
       
       // Set up the quiz
       setQuestions(questions)
+      setQuizMode('quizup')
+      setQuizMetadata('random') // Mark as random quiz for replay
       setGameStatus('playing')
       
       // Track game start in user preferences

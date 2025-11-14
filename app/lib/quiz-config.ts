@@ -1,6 +1,12 @@
 /**
  * Centralized Quiz Configuration
- * Based on QuizUp's original game mechanics
+ * Time-based scoring system with speed bonuses
+ * 
+ * Scoring Rules (10 second timer):
+ * - Super Fast (8-10s): 20 points (10 base + 5 fast + 5 super fast)
+ * - Fast (3-7s): 10-15 points (10 base + 1 per second above 3s)
+ * - Late (0-2s): 5 points (fixed)
+ * - Bonus rounds: 2x multiplier on all points
  */
 
 export interface QuizConfig {
@@ -37,15 +43,20 @@ export interface QuizConfig {
 }
 
 /**
- * Default Quiz Configuration - Based on QuizUp
+ * Default Quiz Configuration
  * 
- * QuizUp Structure:
+ * Quiz Structure:
  * - 6 normal questions (20 points max each)
  * - 1 bonus question (40 points max - double points)
  * - 10 seconds per question
- * - Points decrease by 1 per second of delay
- * - Minimum 11 points if answered correctly
- * - Maximum total: 160 points
+ * - Time-based scoring with speed bonuses
+ * - Maximum total: 160 points (6×20 + 1×40)
+ * 
+ * Scoring Breakdown:
+ * - Super Fast (8-10s remaining): 20 points
+ * - Fast (3-7s remaining): 10-15 points
+ * - Late (0-2s remaining): 5 points
+ * - Bonus round: 2x multiplier
  */
 export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
   // Question structure (QuizUp pattern)
@@ -144,7 +155,21 @@ export function getQuizConfig(mode: 'quizup' | 'quick' | 'marathon' | 'first-vis
 }
 
 /**
- * Calculate points for a question based on QuizUp scoring system
+ * Calculate points for a question based on new scoring system
+ * 
+ * Scoring Rules (10 second timer):
+ * 1. Super Fast (8-10 seconds remaining): 20 points
+ *    - 10 points for correct answer
+ *    - 5 points for answering above 3 seconds
+ *    - 5 bonus points for super fast answer
+ * 
+ * 2. Fast (3-7 seconds remaining): 10-15 points
+ *    - 10 points for correct answer
+ *    - 1 point per second remaining above 3 seconds
+ *    - Example: 6 seconds = 10 + (6-3) = 13 points
+ * 
+ * 3. Late (0-2 seconds remaining): 5 points
+ *    - Only 5 points, no matter the time
  */
 export function calculateQuestionPoints(
   isCorrect: boolean,
@@ -154,15 +179,105 @@ export function calculateQuestionPoints(
 ): number {
   if (!isCorrect) return 0
 
-  const maxPoints = isBonusRound
-    ? config.maxPointsPerBonusQuestion
-    : config.maxPointsPerNormalQuestion
+  const BASE_POINTS = 10
+  const SUPER_FAST_THRESHOLD = 8 // 8-10 seconds remaining
+  const FAST_THRESHOLD = 3 // 3-7 seconds remaining
+  const SUPER_FAST_BONUS = 5
+  const FAST_ANSWER_BONUS = 5
+  const LATE_ANSWER_POINTS = 5
 
-  const timeTaken = config.questionTimeLimit - timeRemaining
-  const pointsLost = Math.max(0, timeTaken * config.bonusPointsPerSecond)
-  const finalPoints = Math.max(config.minimumPointsIfCorrect, maxPoints - pointsLost)
+  let points = 0
+  let breakdown = {
+    basePoints: 0,
+    fastBonus: 0,
+    superFastBonus: 0,
+    totalPoints: 0
+  }
 
-  return Math.round(finalPoints)
+  // Super Fast Answer (8-10 seconds remaining)
+  if (timeRemaining >= SUPER_FAST_THRESHOLD) {
+    breakdown.basePoints = BASE_POINTS
+    breakdown.fastBonus = FAST_ANSWER_BONUS
+    breakdown.superFastBonus = SUPER_FAST_BONUS
+    points = BASE_POINTS + FAST_ANSWER_BONUS + SUPER_FAST_BONUS // 20 points
+  }
+  // Fast Answer (3-7 seconds remaining)
+  else if (timeRemaining >= FAST_THRESHOLD) {
+    breakdown.basePoints = BASE_POINTS
+    const secondsAboveThreshold = timeRemaining - FAST_THRESHOLD
+    breakdown.fastBonus = secondsAboveThreshold
+    points = BASE_POINTS + secondsAboveThreshold // 10-15 points
+  }
+  // Late Answer (0-2 seconds remaining)
+  else {
+    breakdown.basePoints = LATE_ANSWER_POINTS
+    points = LATE_ANSWER_POINTS // 5 points
+  }
+
+  breakdown.totalPoints = points
+
+  // Double points for bonus rounds
+  if (isBonusRound) {
+    points *= 2
+    breakdown.totalPoints = points
+  }
+
+  return Math.round(points)
+}
+
+/**
+ * Get detailed point breakdown for display
+ */
+export function getPointBreakdown(
+  timeRemaining: number,
+  isBonusRound: boolean = false
+): {
+  category: 'super-fast' | 'fast' | 'late'
+  basePoints: number
+  fastBonus: number
+  superFastBonus: number
+  totalPoints: number
+  multiplier: number
+} {
+  const BASE_POINTS = 10
+  const SUPER_FAST_THRESHOLD = 8
+  const FAST_THRESHOLD = 3
+  const SUPER_FAST_BONUS = 5
+  const FAST_ANSWER_BONUS = 5
+  const LATE_ANSWER_POINTS = 5
+
+  let category: 'super-fast' | 'fast' | 'late'
+  let basePoints = 0
+  let fastBonus = 0
+  let superFastBonus = 0
+  let totalPoints = 0
+  const multiplier = isBonusRound ? 2 : 1
+
+  if (timeRemaining >= SUPER_FAST_THRESHOLD) {
+    category = 'super-fast'
+    basePoints = BASE_POINTS
+    fastBonus = FAST_ANSWER_BONUS
+    superFastBonus = SUPER_FAST_BONUS
+    totalPoints = (BASE_POINTS + FAST_ANSWER_BONUS + SUPER_FAST_BONUS) * multiplier
+  } else if (timeRemaining >= FAST_THRESHOLD) {
+    category = 'fast'
+    basePoints = BASE_POINTS
+    fastBonus = timeRemaining - FAST_THRESHOLD
+    totalPoints = (BASE_POINTS + fastBonus) * multiplier
+  } else {
+    category = 'late'
+    basePoints = LATE_ANSWER_POINTS
+    totalPoints = LATE_ANSWER_POINTS * multiplier
+  }
+
+  return {
+    category,
+    basePoints,
+    fastBonus,
+    superFastBonus,
+    totalPoints,
+    multiplier
+  }
 }
 
 /**

@@ -105,16 +105,33 @@ const startQuiz = async (mode: QuizMode) => {
 
 // 6. During quiz - answer selection
 const handleAnswer = (answer: string) => {
+  const isCorrect = answer === currentQuestion.correctOption
+  const timeTaken = config.questionTimeLimit - timeRemaining
+  
   // 7. Calculate points
   const points = calculatePoints(timeRemaining, isCorrect)
   
   // 8. Record result in store
   recordQuestionResult(currentQuestion, answer, points, isCorrect)
   
-  // 9. Track analytics
-  trackEvent('question_answered', { /* data */ })
+  // 9. Record reaction time
+  recordReactionTime(timeTaken)
   
-  // 10. Progress to next question or complete
+  // 10. Track analytics
+  trackEvent('question_answered', { 
+    is_correct: isCorrect,
+    time_taken: timeTaken,
+    points_earned: points
+  })
+  
+  // 11. Show appropriate feedback
+  if (isCorrect) {
+    setShowFeedback(true) // Popup for correct
+  } else {
+    setShowCorrectAnswer(true) // Show on card for wrong
+  }
+  
+  // 12. Progress to next question or complete
   if (isLastQuestion) {
     completeQuiz()
   } else {

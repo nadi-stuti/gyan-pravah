@@ -91,7 +91,7 @@ export default function QuestionCard({
         >
           <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold text-white"
                 style={{ backgroundColor: questionNumber > 6 ? '#F59E0B' : '#FBBF24' }}>
-            {questionNumber > 6 ? '🎯 BONUS ROUND' : (question.quiz_subtopic?.quiz_topic?.topicName || 'General Knowledge')}
+            {questionNumber > 6 ? '🎯 BONUS ROUND' : (question.quiz_subtopic?.name || question.quiz_subtopic?.quiz_topic?.topicName || 'General Knowledge')}
           </span>
         </motion.div>
 
@@ -174,6 +174,7 @@ export default function QuestionCard({
               selectedAnswer={selectedAnswer}
               onAnswer={onAnswer}
               isDisabled={isAnswered}
+              showCorrectAnswer={isAnswered}
             />
           </motion.div>
         )}

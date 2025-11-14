@@ -96,16 +96,22 @@ for (let i = shuffled.length - 1; i > 0; i--) {
 )}
 ```
 
-### Category and Difficulty Display
+### Category and Difficulty Display (v2.2)
 
 ```typescript
 <span 
   className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold text-white"
   style={{ backgroundColor: questionNumber > 6 ? '#F59E0B' : '#FBBF24' }}
 >
-  {questionNumber > 6 ? '🎯 BONUS ROUND' : (question.quiz_subtopic?.quiz_topic?.topicName || 'General Knowledge')}
+  {questionNumber > 6 ? '🎯 BONUS ROUND' : (question.quiz_subtopic?.name || question.quiz_subtopic?.quiz_topic?.topicName || 'General Knowledge')}
 </span>
 ```
+
+**v2.2 Topic Display Fix:**
+- **Primary:** Shows `quiz_subtopic.name` (subtopic name) first
+- **Fallback 1:** Shows `quiz_topic.topicName` if subtopic name missing
+- **Fallback 2:** Shows 'General Knowledge' if both missing
+- This ensures users see the most specific topic information available
 
 **Visual Indicators:**
 - **Topic badges** - Clear category identification
@@ -196,9 +202,9 @@ function OptionCircle({ option, state, isSelected }: OptionCircleProps) {
 - **Color transitions** - Smooth state changes
 - **Spring physics** - Natural, bouncy animations
 
-## 📊 GameHeader Component
+## 📊 GameHeader Component (v2.2)
 
-Displays quiz progress, score, and round indicators with real-time updates.
+Displays quiz progress, score, round indicators, and **temperature meter** with real-time updates.
 
 ### Round Indicator System
 
@@ -252,7 +258,7 @@ const getRoundIndicators = () => {
 }
 ```
 
-### Progress Display
+### Progress Display (v2.2)
 
 ```typescript
 <div className="flex justify-between items-center">
@@ -268,20 +274,102 @@ const getRoundIndicators = () => {
     <div className="text-sm text-gray-600">Progress</div>
   </div>
   
-  <div className="text-center">
-    <div className="text-2xl font-bold text-purple-600">
-      {Math.round(((currentQuestion) / totalQuestions) * 100)}%
-    </div>
-    <div className="text-sm text-gray-600">Complete</div>
-  </div>
+  {/* v2.2: Temperature Meter replaces percentage */}
+  <ReactionTimeMeter avgTime={averageReactionTime} />
 </div>
 ```
 
-**Features:**
+### Temperature Meter Component (v2.2)
+
+Replaces the percentage display with a dynamic reaction time indicator:
+
+```typescript
+function ReactionTimeMeter({ avgTime }: { avgTime: number }) {
+  // If no reactions yet, show neutral state
+  if (avgTime === 0) {
+    return (
+      <div className="text-center">
+        <div className="flex items-center justify-center gap-2 mb-1">
+          <span className="text-2xl">🌡️</span>
+          <div className="text-2xl font-bold text-gray-400">--</div>
+        </div>
+        <div className="text-sm text-gray-600">Avg Speed</div>
+      </div>
+    )
+  }
+  
+  // Determine temperature based on average reaction time
+  const getTemperature = () => {
+    if (avgTime < 3) {
+      return { 
+        emoji: '🔥', 
+        color: 'text-red-500', 
+        bgColor: 'bg-red-100',
+        label: 'Hot',
+        description: 'Lightning Fast!'
+      }
+    }
+    if (avgTime < 5) {
+      return { 
+        emoji: '🌡️', 
+        color: 'text-orange-500', 
+        bgColor: 'bg-orange-100',
+        label: 'Warm',
+        description: 'Great Speed'
+      }
+    }
+    if (avgTime < 7) {
+      return { 
+        emoji: '❄️', 
+        color: 'text-blue-400', 
+        bgColor: 'bg-blue-100',
+        label: 'Cool',
+        description: 'Good Pace'
+      }
+    }
+    return { 
+      emoji: '🧊', 
+      color: 'text-blue-600', 
+      bgColor: 'bg-blue-200',
+      label: 'Cold',
+      description: 'Take Your Time'
+    }
+  }
+  
+  const temp = getTemperature()
+  
+  return (
+    <div className="text-center">
+      <div className="flex items-center justify-center gap-2 mb-1">
+        <motion.span 
+          key={temp.emoji}
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          className="text-2xl"
+        >
+          {temp.emoji}
+        </motion.span>
+        <div className={`text-2xl font-bold ${temp.color}`}>
+          {avgTime.toFixed(1)}s
+        </div>
+      </div>
+      <div className={`inline-block ${temp.bgColor} ${temp.color} px-3 py-1 rounded-full text-xs font-semibold mb-1`}>
+        {temp.label}
+      </div>
+      <div className="text-xs text-gray-600">{temp.description}</div>
+    </div>
+  )
+}
+```
+
+**v2.2 Features:**
 - **Real-time score** - Updates immediately after each answer
-- **Progress percentage** - Visual completion indicator
+- **Temperature meter** - Visual feedback on answer speed (replaces percentage)
 - **Question counter** - Clear position in quiz
 - **Bonus round indicators** - Stars for bonus questions
+- **Dynamic emoji** - Changes based on reaction time (🔥 🌡️ ❄️ 🧊)
+- **Speed categories** - Hot (<3s), Warm (<5s), Cool (<7s), Cold (7s+)
 
 ## 📋 ResultsCard Component
 

@@ -31,6 +31,10 @@ interface QuizState {
   
   // Quiz configuration
   quizMode: 'quizup' | 'quick' | 'marathon' | 'first-visit' | null
+  quizSource: 'random' | 'topic' | 'first-visit' | null // Track quiz origin for replay
+  quizTopicSlug: string | null // Store topic for replay
+  quizSubtopicSlug: string | null // Store subtopic for replay
+  quizDifficulty: 'Easy' | 'Medium' | 'Hard' | null // Store difficulty for replay
   
   // Results data (calculated during gameplay)
   pointsPerQuestion: Record<number, number>
@@ -39,6 +43,8 @@ interface QuizState {
   questionsAnswered: number
   maxPossibleScore: number
   percentage: number
+  reactionTimes: number[] // Time taken per question in seconds
+  averageReactionTime: number // Running average reaction time
 }
 ```
 
@@ -50,6 +56,7 @@ recordQuestionResult: (questionIndex, answer, points, isCorrect) => {
   const state = get()
   const newTotalScore = state.totalScore + points
   const newQuestionsCorrect = state.questionsCorrect + (isCorrect ? 1 : 0)
+  const newQuestionsAnswered = state.questionsAnswered + 1
   const newPercentage = Math.round((newQuestionsCorrect / state.questions.length) * 100)
   
   set({
@@ -57,9 +64,34 @@ recordQuestionResult: (questionIndex, answer, points, isCorrect) => {
     pointsPerQuestion: { ...state.pointsPerQuestion, [questionIndex]: points },
     totalScore: newTotalScore,
     questionsCorrect: newQuestionsCorrect,
+    questionsAnswered: newQuestionsAnswered,
     percentage: newPercentage
   })
 }
+```
+
+**Reaction Time Tracking:**
+```typescript
+recordReactionTime: (time) => {
+  const state = get()
+  const newReactionTimes = [...state.reactionTimes, time]
+  const average = newReactionTimes.reduce((sum, t) => sum + t, 0) / newReactionTimes.length
+  
+  set({
+    reactionTimes: newReactionTimes,
+    averageReactionTime: average
+  })
+}
+```
+
+**Quiz Metadata Management:**
+```typescript
+setQuizMetadata: (source, topicSlug, subtopicSlug, difficulty) => set({
+  quizSource: source,
+  quizTopicSlug: topicSlug || null,
+  quizSubtopicSlug: subtopicSlug || null,
+  quizDifficulty: difficulty || null
+})
 ```
 
 **Game State Management:**
