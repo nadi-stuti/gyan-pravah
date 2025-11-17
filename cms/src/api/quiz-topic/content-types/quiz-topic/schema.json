@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "quiz_topics",
+  "info": {
+    "singularName": "quiz-topic",
+    "pluralName": "quiz-topics",
+    "displayName": "Quiz Topic"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "topicName": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "topicName"
+    },
+    "topicIcon": {
+      "type": "string"
+    },
+    "quiz_subtopics": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::quiz-subtopic.quiz-subtopic",
+      "mappedBy": "quiz_topic"
+    },
+    "quiz_questions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::quiz-question.quiz-question",
+      "mappedBy": "quiz_topic"
+    }
+  }
+}
