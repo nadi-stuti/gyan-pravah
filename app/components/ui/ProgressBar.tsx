@@ -1,7 +1,5 @@
 'use client'
 
-import { motion } from 'motion/react'
-
 interface ProgressBarProps {
   current: number
   total: number
@@ -9,7 +7,6 @@ interface ProgressBarProps {
   showLabels?: boolean
   variant?: 'default' | 'success' | 'warning' | 'danger'
   size?: 'sm' | 'md' | 'lg'
-  animated?: boolean
 }
 
 export default function ProgressBar({
@@ -18,16 +15,15 @@ export default function ProgressBar({
   className = '',
   showLabels = true,
   variant = 'default',
-  size = 'md',
-  animated = true
+  size = 'md'
 }: ProgressBarProps) {
   const progress = Math.min((current / total) * 100, 100)
   
   const variantClasses = {
-    default: 'bg-primary-500',
-    success: 'bg-success-500',
-    warning: 'bg-warning-500',
-    danger: 'bg-danger-500'
+    default: 'bg-[#8B7FC8]',
+    success: 'bg-green-400',
+    warning: 'bg-yellow-400',
+    danger: 'bg-red-400'
   }
   
   const sizeClasses = {
@@ -47,35 +43,21 @@ export default function ProgressBar({
       {/* Labels */}
       {showLabels && (
         <div className={`flex justify-between items-center mb-2 font-poppins ${textSizeClasses[size]}`}>
-          <span className="text-text-secondary">
+          <span className="text-gray-600">
             Question {current} of {total}
           </span>
-          <motion.span
-            className="text-text-primary font-medium"
-            key={progress}
-            initial={animated ? { scale: 0.8, opacity: 0 } : {}}
-            animate={animated ? { scale: 1, opacity: 1 } : {}}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
+          <span className="text-gray-900 font-medium">
             {Math.round(progress)}%
-          </motion.span>
+          </span>
         </div>
       )}
       
       {/* Progress bar container */}
-      <div className={`w-full bg-neutral-200 rounded-full overflow-hidden ${sizeClasses[size]}`}>
+      <div className={`w-full bg-gray-200 rounded-full overflow-hidden ${sizeClasses[size]}`}>
         {/* Progress bar fill */}
-        <motion.div
-          className={`h-full rounded-full ${variantClasses[variant]}`}
-          initial={animated ? { width: 0 } : { width: `${progress}%` }}
-          animate={{ width: `${progress}%` }}
-          transition={animated ? {
-            duration: 0.8,
-            ease: "easeOut",
-            type: "spring",
-            stiffness: 100,
-            damping: 20
-          } : {}}
+        <div
+          className={`h-full rounded-full transition-all duration-300 ease-out ${variantClasses[variant]}`}
+          style={{ width: `${progress}%` }}
         />
       </div>
       
@@ -87,26 +69,15 @@ export default function ProgressBar({
           const isCurrent = stepNumber === current
           
           return (
-            <motion.div
+            <div
               key={stepNumber}
-              className={`w-2 h-2 rounded-full ${
+              className={`w-2 h-2 rounded-full transition-all duration-200 ${
                 isCompleted 
                   ? variantClasses[variant]
                   : isCurrent
-                  ? 'bg-neutral-400'
-                  : 'bg-neutral-200'
-              }`}
-              initial={animated ? { scale: 0 } : {}}
-              animate={animated ? { 
-                scale: isCurrent ? 1.2 : 1,
-                opacity: 1
-              } : {}}
-              transition={animated ? {
-                duration: 0.3,
-                delay: index * 0.05,
-                ease: "easeOut"
-              } : {}}
-              whileHover={{ scale: 1.3 }}
+                  ? 'bg-gray-400'
+                  : 'bg-gray-200'
+              } ${isCurrent ? 'scale-120' : ''}`}
             />
           )
         })}

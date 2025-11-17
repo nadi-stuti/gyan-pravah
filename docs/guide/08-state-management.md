@@ -8,10 +8,11 @@ Gyan Pravah uses **Zustand** for state management, providing a lightweight, Type
 
 ```
 stores/
-├── useQuizStore.ts        # Quiz game state and logic
-├── useUserPreferences.ts  # User settings and preferences (persisted)
-└── useSubtopicStore.ts   # Topic availability cache (persisted)
+├── useQuizStore.ts        # Quiz game state and logic (client-side only)
+└── useUserPreferences.ts  # User settings and preferences (persisted)
 ```
+
+**Note:** The subtopic store has been removed. Topic availability is now fetched server-side and cached by Next.js.
 
 ## 🎮 Quiz Store (`useQuizStore`)
 
@@ -162,9 +163,9 @@ const ResultsPage = () => {
 
 ## 👤 User Preferences Store (`useUserPreferences`)
 
-Manages user settings and preferences with localStorage persistence.
+Manages minimal user settings with localStorage persistence.
 
-### State Structure
+### State Structure (Simplified)
 
 ```typescript
 interface UserPreferencesState {
@@ -173,67 +174,60 @@ interface UserPreferencesState {
   
   // Settings
   expertModeEnabled: boolean
-  soundEnabled: boolean
   
-  // History
-  lastPlayedTopic?: string
-  lastPlayedSubtopic?: string
-  
-  // Statistics
-  totalGamesPlayed: number
-  bestScore: number
+  // Hydration state
+  hydrated: boolean
 }
 ```
 
-### Persistence Configuration
+**Removed fields:**
+- `soundEnabled` - Not used in current implementation
+- `lastPlayedTopic` - Not needed for core functionality
+- `lastPlayedSubtopic` - Not needed for core functionality
+- `totalGamesPlayed` - Not tracked in simplified version
+- `bestScore` - Not tracked in simplified version
+
+### Persistence Configuration (Simplified)
 
 ```typescript
 export const useUserPreferences = create<UserPreferencesState>()(
   persist(
     (set, get) => ({
-      // Store implementation
+      isFirstVisit: true,
+      expertModeEnabled: false,
+      hydrated: false,
+      
+      setFirstVisit: (value: boolean) => set({ isFirstVisit: value }),
+      setExpertModeEnabled: (enabled: boolean) => set({ expertModeEnabled: enabled }),
+      setHydrated: (hydrated: boolean) => set({ hydrated }),
     }),
     {
       name: 'quiz-user-preferences',
-      partialize: (state) => ({
-        // Only persist specific fields
-        isFirstVisit: state.isFirstVisit,
-        expertModeEnabled: state.expertModeEnabled,
-        soundEnabled: state.soundEnabled,
-        lastPlayedTopic: state.lastPlayedTopic,
-        lastPlayedSubtopic: state.lastPlayedSubtopic,
-        totalGamesPlayed: state.totalGamesPlayed,
-        bestScore: state.bestScore,
-      }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHydrated(true) // Mark hydration complete
+      },
     }
   )
 )
 ```
 
-### Analytics Integration
-
-```typescript
-setExpertModeEnabled: (enabled) => {
-  set({ expertModeEnabled: enabled })
-  // Sync with analytics
-  setUserProperties({ expert_mode_enabled: enabled })
-},
-
-incrementGamesPlayed: () => {
-  const newCount = get().totalGamesPlayed + 1
-  set({ totalGamesPlayed: newCount })
-  setUserProperties({ total_games_played: newCount })
-}
-```
+**Simplified approach:**
+- Only two persisted fields (plus hydration state)
+- Hydration tracking prevents SSR/client mismatch
+- No analytics integration in store
+- Minimal state management
+- Easy to understand and maintain
 
 ### Usage Patterns
 
-**First Visit Detection:**
+**First Visit Detection with Hydration:**
 ```typescript
 const HomePage = () => {
-  const { isFirstVisit, setFirstVisit } = useUserPreferences()
+  const { isFirstVisit, setFirstVisit, hydrated } = useUserPreferences()
   
   useEffect(() => {
+    if (!hydrated) return // Wait for hydration
+    
     if (isFirstVisit) {
       // Start first-visit quiz automatically
       startFirstVisitQuiz()
@@ -256,88 +250,53 @@ const ExpertModeToggle = () => {
 }
 ```
 
-## 📚 Subtopic Store (`useSubtopicStore`)
+## 📚 Topic Data (Server-Side)
 
-Manages topic availability data with intelligent caching.
+Topic availability is now handled server-side with Next.js caching instead of a client-side store.
 
-### State Structure
+### Server-Side Data Fetching
 
 ```typescript
-interface SubtopicStore {
-  availability: Record<string, SubtopicAvailability>
-  lastUpdated: number | null
-  isLoading: boolean
+// lib/strapi-server.ts
+export async function getTopicsWithAvailability() {
+  const res = await fetch(`${STRAPI_URL}/api/quiz-topics?populate=*`, {
+    next: { revalidate: 3600 } // Cache for 1 hour
+  })
   
-  // Cache management
-  isStale: () => boolean
-  refreshAvailability: () => Promise<void>
-  clearCache: () => void
-}
-
-interface SubtopicAvailability {
-  questionCount: number
-  hasQuestions: boolean
+  if (!res.ok) throw new Error('Failed to fetch topics')
+  return res.json()
 }
 ```
 
-### Caching Strategy
+### Server Component Usage
 
 ```typescript
-// Cache for 5 minutes
-const CACHE_DURATION = 5 * 60 * 1000
-
-isStale: () => {
-  const { lastUpdated } = get()
-  if (!lastUpdated) return true
-  return Date.now() - lastUpdated > CACHE_DURATION
+// app/topics/page.tsx (Server Component)
+export default async function TopicsPage() {
+  // Fetch server-side with automatic caching
+  const topics = await getTopicsWithAvailability()
+  
+  // Pass to client component for interactivity
+  return <TopicGrid topics={topics} />
 }
 ```
 
-### Automatic Refresh Logic
+### Benefits of Server-Side Approach
 
-```typescript
-const TopicsPage = () => {
-  const { availability, isStale, refreshAvailability } = useSubtopicStore()
-  
-  useEffect(() => {
-    // Only refresh if cache is stale
-    if (isStale()) {
-      refreshAvailability()
-    }
-  }, [])
-  
-  // Use cached data immediately
-  const availableTopics = topics.filter(topic => 
-    topic.subtopics.some(subtopic => availability[subtopic.slug]?.hasQuestions)
-  )
-}
-```
+**Performance:**
+- No client-side JavaScript for data fetching
+- Automatic Next.js caching
+- Faster initial page load
 
-### Usage Patterns
+**Simplicity:**
+- No cache management logic needed
+- No stale data checks
+- No client-side state
 
-**Topic Availability Display:**
-```typescript
-const TopicCard = ({ topic }: { topic: QuizTopic }) => {
-  const { availability } = useSubtopicStore()
-  
-  const availableSubtopics = topic.quiz_subtopics?.filter(subtopic => 
-    availability[subtopic.slug]?.hasQuestions
-  ).length || 0
-  
-  return (
-    <div>
-      <h3>{topic.topicName}</h3>
-      <p>
-        {availableSubtopics > 0 ? (
-          `${availableSubtopics} subtopics`
-        ) : (
-          <span className="text-orange-600">Coming Soon</span>
-        )}
-      </p>
-    </div>
-  )
-}
-```
+**Reliability:**
+- Server-side error handling
+- Consistent data across requests
+- Better SEO
 
 ## 🔄 Store Communication Patterns
 

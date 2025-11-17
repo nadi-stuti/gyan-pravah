@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { checkConnection } from '@/lib/quiz-api'
 
 interface NoInternetConnectionProps {
   onRetry?: () => void
@@ -13,7 +12,9 @@ export default function NoInternetConnection({ onRetry }: NoInternetConnectionPr
   const handleRetry = async () => {
     setIsRetrying(true)
     try {
-      const isConnected = await checkConnection()
+      // Simple connectivity check - try to fetch from our own API
+      const response = await fetch('/api/health', { method: 'HEAD' })
+      const isConnected = response.ok
       if (isConnected && onRetry) {
         onRetry()
       }
@@ -123,7 +124,9 @@ export function useInternetConnection() {
   const checkInternetConnection = async () => {
     setIsChecking(true)
     try {
-      const isConnected = await checkConnection()
+      // Simple connectivity check - try to fetch from our own API
+      const response = await fetch('/api/health', { method: 'HEAD' })
+      const isConnected = response.ok
       setIsOnline(isConnected)
       return isConnected
     } catch (error) {

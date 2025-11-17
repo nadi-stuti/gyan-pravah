@@ -2,78 +2,92 @@
 
 ## 🎯 Overview
 
+**Note:** As of v2.3, code patterns have been simplified to focus on straightforward implementations. Complex abstractions, wrapper components, and over-engineered patterns have been removed in favor of direct, maintainable code.
+
 This document outlines the established code patterns, conventions, and best practices used throughout the Gyan Pravah application. Following these patterns ensures consistency, maintainability, and optimal performance.
 
 ## 🏗️ Component Patterns
 
-### 1. Component Structure Template
+### 1. Server Component Template (Preferred)
 
 ```typescript
-'use client' // Only if client-side features needed
-
-import { useState, useEffect, useCallback } from 'react'
-import { motion } from 'motion/react'
+// Server component (default) - no 'use client' directive
 import { ComponentProps } from '@gyan-pravah/types'
-import { useStore } from '@/stores/useStore'
-import { trackEvent } from '@/lib/analytics'
-import { getAccessibleVariants, animationVariants } from '@/lib/mobile-animations'
-import { handleTouchPress } from '@/lib/mobile-gestures'
 
 interface ComponentNameProps {
-  // Required props first
   data: DataType
-  onAction: (value: string) => void
-  
-  // Optional props with defaults
   variant?: 'primary' | 'secondary'
   className?: string
-  disabled?: boolean
+}
+
+export default function ComponentName({
+  data,
+  variant = 'primary',
+  className = ''
+}: ComponentNameProps) {
+  // Server components are simple and direct
+  const variantClasses = variant === 'primary' 
+    ? 'bg-[#8B7FC8] text-white' 
+    : 'bg-white text-gray-900'
+  
+  return (
+    <div className={`font-poppins rounded-xl ${variantClasses} ${className}`}>
+      {/* Component content */}
+      <h2>{data.title}</h2>
+      <p>{data.description}</p>
+    </div>
+  )
+}
+```
+
+### 2. Client Component Template (When Needed)
+
+```typescript
+'use client' // Only when interactivity is required
+
+import { useState, useCallback } from 'react'
+import { motion } from 'motion/react'
+
+interface ComponentNameProps {
+  data: DataType
+  onAction: (value: string) => void
+  variant?: 'primary' | 'secondary'
+  className?: string
 }
 
 export default function ComponentName({
   data,
   onAction,
   variant = 'primary',
-  className = '',
-  disabled = false
+  className = ''
 }: ComponentNameProps) {
-  // 1. State hooks
   const [localState, setLocalState] = useState<StateType>(initialValue)
   
-  // 2. Store hooks
-  const { storeValue, storeAction } = useStore()
-  
-  // 3. Effects
-  useEffect(() => {
-    // Effect logic
-  }, [dependencies])
-  
-  // 4. Callbacks
   const handleAction = useCallback(() => {
-    // Track user action
-    trackEvent('action_performed', { context: 'component_name' })
-    
-    // Perform action
     onAction(value)
   }, [onAction, value])
   
-  // 5. Early returns
-  if (!data) return <LoadingState />
-  if (error) return <ErrorState error={error} />
+  // Early returns for edge cases
+  if (!data) return <div>Loading...</div>
   
-  // 6. Render
   return (
-    <motion.div
-      variants={getAccessibleVariants(animationVariants)}
-      initial="initial"
-      animate="animate"
-      className={`base-classes ${variant-classes} ${className}`}
+    <motion.button
+      onClick={handleAction}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      className={`font-poppins rounded-xl ${className}`}
     >
-      {/* Component content */}
-    </motion.div>
+      {data.label}
+    </motion.button>
   )
 }
 ```
+
+**Key Principles:**
+- **Server by default** - Only use 'use client' when necessary
+- **Simple and direct** - Avoid complex abstractions
+- **Minimal dependencies** - Import only what you need
+- **Clear structure** - Easy to understand and maintain
 
 ### 2. Props Interface Patterns
 
@@ -302,7 +316,59 @@ export const useStore = create<StoreState>()(
 )
 ```
 
-### 2. Store Usage Pattern
+### 2. Persisted Store with Hydration Pattern
+
+For stores that persist to localStorage, handle hydration to prevent SSR/client mismatches:
+
+```typescript
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+
+interface PersistedStoreState {
+  // Data
+  preferences: UserPreferences
+  
+  // Hydration state
+  hydrated: boolean
+  
+  // Actions
+  setPreferences: (prefs: UserPreferences) => void
+  setHydrated: (hydrated: boolean) => void
+}
+
+export const usePersistedStore = create<PersistedStoreState>()(
+  persist(
+    (set) => ({
+      preferences: defaultPreferences,
+      hydrated: false,
+      
+      setPreferences: (preferences) => set({ preferences }),
+      setHydrated: (hydrated) => set({ hydrated }),
+    }),
+    {
+      name: 'persisted-store',
+      onRehydrateStorage: () => (state) => {
+        // Mark hydration complete after rehydration
+        state?.setHydrated(true)
+      },
+    }
+  )
+)
+
+// Usage in component
+function Component() {
+  const { preferences, hydrated } = usePersistedStore()
+  
+  // Wait for hydration before using persisted data
+  if (!hydrated) {
+    return <LoadingScreen />
+  }
+  
+  return <div>{preferences.theme}</div>
+}
+```
+
+### 3. Store Usage Pattern
 
 ```typescript
 // Component using store
@@ -341,143 +407,104 @@ export default function Component() {
 
 ## 🔌 API Integration Patterns
 
-### 1. API Client Pattern
+### 1. Server-Side API Pattern (Preferred)
 
 ```typescript
-// Service class pattern
-export class APIService {
-  private client: AxiosInstance
+// lib/strapi-server.ts - Server-only API functions
+export async function getItems(filters?: ItemFilters): Promise<Item[]> {
+  const params = new URLSearchParams()
   
-  constructor() {
-    this.client = axios.create({
-      baseURL: process.env.NEXT_PUBLIC_API_URL,
-      timeout: 10000
-    })
-    
-    this.setupInterceptors()
+  // Add filters
+  if (filters?.category) {
+    params.append('filters[category][$eq]', filters.category)
   }
   
-  private setupInterceptors() {
-    // Request interceptor
-    this.client.interceptors.request.use(
-      (config) => {
-        // Add auth token, etc.
-        return config
-      },
-      (error) => Promise.reject(error)
-    )
-    
-    // Response interceptor
-    this.client.interceptors.response.use(
-      (response) => response,
-      (error) => Promise.reject(this.handleError(error))
-    )
-  }
+  // Add population
+  params.append('populate', '*')
   
-  private handleError(error: AxiosError): APIError {
-    // Transform error to consistent format
-    return {
-      status: error.response?.status || 0,
-      message: error.response?.data?.message || error.message,
-      code: error.code
-    }
-  }
-  
-  // API methods
-  async getItems(filters?: ItemFilters): Promise<Item[]> {
-    const params = this.buildParams(filters)
-    const response = await this.client.get<ItemsResponse>(`/items?${params}`)
-    return response.data.data
-  }
-  
-  async createItem(item: CreateItemRequest): Promise<Item> {
-    const response = await this.client.post<ItemResponse>('/items', item)
-    return response.data.data
-  }
-  
-  private buildParams(filters?: Record<string, any>): string {
-    if (!filters) return ''
-    
-    const params = new URLSearchParams()
-    Object.entries(filters).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        params.append(key, String(value))
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/items?${params.toString()}`,
+    {
+      next: { revalidate: 3600 }, // Cache for 1 hour
+      headers: {
+        'Content-Type': 'application/json',
       }
-    })
-    
-    return params.toString()
+    }
+  )
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch items: ${response.statusText}`)
   }
+  
+  const json = await response.json()
+  return json.data
 }
 
-// Export singleton
-export const apiService = new APIService()
+// Usage in server component
+export default async function ItemsPage() {
+  const items = await getItems({ category: 'featured' })
+  
+  return <ItemList items={items} />
+}
 ```
 
-### 2. API Hook Pattern
+### 2. Client-Side API Pattern (When Needed)
 
 ```typescript
-// Custom hook for API operations
-export function useItems(filters?: ItemFilters) {
+// lib/strapi.ts - Client-side API (minimal usage)
+export async function getItemsClient(filters?: ItemFilters): Promise<Item[]> {
+  const params = new URLSearchParams()
+  
+  if (filters?.category) {
+    params.append('filters[category][$eq]', filters.category)
+  }
+  
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/items?${params.toString()}`
+  )
+  
+  if (!response.ok) throw new Error('Failed to fetch')
+  
+  const json = await response.json()
+  return json.data
+}
+
+// Usage in client component
+'use client'
+export default function ItemsClient() {
   const [items, setItems] = useState<Item[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  
-  const loadItems = useCallback(async () => {
-    try {
-      setIsLoading(true)
-      setError(null)
-      const data = await apiService.getItems(filters)
-      setItems(data)
-    } catch (err) {
-      setError(getErrorMessage(err))
-    } finally {
-      setIsLoading(false)
-    }
-  }, [filters])
-  
-  const createItem = useCallback(async (item: CreateItemRequest) => {
-    try {
-      const newItem = await apiService.createItem(item)
-      setItems(prev => [...prev, newItem])
-      return newItem
-    } catch (err) {
-      setError(getErrorMessage(err))
-      throw err
-    }
-  }, [])
+  const [isLoading, setIsLoading] = useState(true)
   
   useEffect(() => {
-    loadItems()
-  }, [loadItems])
+    getItemsClient().then(setItems).finally(() => setIsLoading(false))
+  }, [])
   
-  return {
-    items,
-    isLoading,
-    error,
-    loadItems,
-    createItem,
-    clearError: () => setError(null)
-  }
+  if (isLoading) return <div>Loading...</div>
+  
+  return <ItemList items={items} />
 }
 ```
+
+**Key Principles:**
+- **Server-side by default** - Use server components for data fetching
+- **Simple fetch** - No complex axios setup or interceptors
+- **Built-in caching** - Use Next.js fetch caching
+- **Direct error handling** - Simple try/catch, no complex error transformations
 
 ## 🎭 Animation Patterns
 
-### 1. Component Animation Pattern
+### 1. Simple Component Animation
 
 ```typescript
+'use client'
 import { motion } from 'motion/react'
-import { getAccessibleVariants, cardAnimationVariants } from '@/lib/mobile-animations'
 
 export default function AnimatedComponent({ children }: Props) {
   return (
     <motion.div
-      variants={getAccessibleVariants(cardAnimationVariants)}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      whileHover="hover"
-      whileTap="tap"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
     >
       {children}
     </motion.div>
@@ -485,47 +512,42 @@ export default function AnimatedComponent({ children }: Props) {
 }
 ```
 
-### 2. List Animation Pattern
+### 2. Interactive Button Animation
 
 ```typescript
-import { motion, AnimatePresence } from 'motion/react'
+'use client'
+import { motion } from 'motion/react'
 
-export default function AnimatedList({ items }: { items: Item[] }) {
+export default function AnimatedButton({ children, onClick }: Props) {
   return (
-    <div>
-      <AnimatePresence>
-        {items.map((item, index) => (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ delay: index * 0.1 }}
-          >
-            <ItemComponent item={item} />
-          </motion.div>
-        ))}
-      </AnimatePresence>
-    </div>
+    <motion.button
+      onClick={onClick}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      className="bg-[#8B7FC8] text-white px-6 py-3 rounded-xl"
+    >
+      {children}
+    </motion.button>
   )
 }
 ```
 
-### 3. Page Transition Pattern
+### 3. Minimal Page Transition
 
 ```typescript
-// In layout component
-export default function Layout({ children }: { children: ReactNode }) {
+// In ClientLayout component
+'use client'
+export default function ClientLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   
   return (
     <AnimatePresence mode="wait">
       <motion.div
         key={pathname}
-        initial={{ opacity: 0, x: 20 }}
+        initial={{ opacity: 0.8, x: 3 }}
         animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -20 }}
-        transition={{ duration: 0.2 }}
+        exit={{ opacity: 0.8, x: -3 }}
+        transition={{ duration: 0.15, ease: "easeOut" }}
       >
         {children}
       </motion.div>
@@ -533,6 +555,12 @@ export default function Layout({ children }: { children: ReactNode }) {
   )
 }
 ```
+
+**Key Principles:**
+- **Simple and direct** - No complex variant systems
+- **Minimal movement** - Subtle animations (3px, not 20px)
+- **Fast transitions** - 150-300ms duration
+- **Performance first** - Use transform and opacity only
 
 ## 📊 Analytics Patterns
 
@@ -772,4 +800,33 @@ describe('useStore', () => {
 })
 ```
 
-These patterns provide a solid foundation for consistent, maintainable, and scalable code throughout the Gyan Pravah application. Always refer to these patterns when implementing new features or refactoring existing code.
+## 📝 Summary of v2.3 Pattern Changes
+
+### Removed Patterns
+- ❌ Complex animation variant systems
+- ❌ Axios-based API clients with interceptors
+- ❌ Custom error handling wrappers
+- ❌ Over-engineered hook patterns
+- ❌ Unnecessary abstraction layers
+
+### New Patterns
+- ✅ Server components by default
+- ✅ Simple fetch with Next.js caching
+- ✅ Direct Motion animations
+- ✅ Minimal client-side state
+- ✅ Straightforward implementations
+
+### Key Principles
+1. **Server-first** - Use server components whenever possible
+2. **Simple and direct** - Avoid unnecessary abstractions
+3. **Performance-focused** - Smaller bundles, faster loading
+4. **Maintainable** - Easy to understand and modify
+5. **Type-safe** - TypeScript for all code
+
+These simplified patterns provide a solid foundation for consistent, maintainable, and performant code throughout the Gyan Pravah application. Always prefer simplicity over complexity when implementing new features.
+
+---
+
+**Last Updated:** November 15, 2025  
+**Version:** 2.3 - Simplified Patterns  
+**Previous:** 2.2 - Complex Patterns (deprecated)

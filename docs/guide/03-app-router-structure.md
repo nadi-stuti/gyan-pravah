@@ -10,21 +10,21 @@ The application uses Next.js 13+ App Router, which provides a file-based routing
 app/app/
 ├── layout.tsx              # Root layout (applies to all pages)
 ├── page.tsx               # Home page (/)
+├── error.tsx              # Global error handling
+├── loading.tsx            # Global loading state
 ├── globals.css            # Global styles and Tailwind imports
 ├── favicon.ico            # App favicon
 ├── quiz/
-│   └── page.tsx          # Quiz game page (/quiz)
+│   ├── [topic]/
+│   │   └── [subtopic]/
+│   │       └── page.tsx  # Quiz game page (server component)
+│   └── page.tsx          # Random quiz page
 ├── topics/
-│   ├── page.tsx          # Topics selection (/topics)
-│   └── subtopics/
-│       └── page.tsx      # Subtopics selection (/topics/subtopics)
-├── results/
-│   └── page.tsx          # Quiz results (/results)
-├── animation-test/
-│   └── page.tsx          # Animation testing page
-├── quiz-test/
-│   └── page.tsx          # Quiz testing page
-└── ui-test/              # UI component testing (empty)
+│   ├── page.tsx          # Topics selection (server component)
+│   └── [topic]/
+│       └── page.tsx      # Subtopics selection (server component)
+└── results/
+    └── page.tsx          # Quiz results (/results)
 ```
 
 ## 🏠 Root Layout (`layout.tsx`)
@@ -42,7 +42,7 @@ The root layout wraps all pages and provides:
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import ClientLayout from "@/components/layout/ClientLayout";
+import { PHProvider } from "@/components/providers/PHProvider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -52,8 +52,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Quiz App - Test Your Knowledge",
-  description: "An engaging mobile-first quiz application with animated questions and scoring",
+  title: "Gyan Pravah - Test Your Knowledge",
+  description: "An engaging mobile-first quiz application focused on Indian cultural knowledge",
 };
 
 export default function RootLayout({
@@ -64,11 +64,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} font-poppins antialiased bg-background-light text-text-primary`}
+        className={`${poppins.variable} font-poppins antialiased`}
       >
-        <ClientLayout>
+        <PHProvider>
           {children}
-        </ClientLayout>
+        </PHProvider>
       </body>
     </html>
   );
@@ -88,10 +88,10 @@ export default function RootLayout({
 - Applied to all pages by default
 - Can be overridden in individual pages
 
-**Client Layout Wrapper:**
-- Separates server and client components
-- Handles client-side features like analytics
-- Provides consistent layout across pages
+**PostHog Provider:**
+- Wraps app with analytics provider
+- Client component for PostHog initialization
+- Minimal client-side JavaScript
 
 ## 🏡 Home Page (`page.tsx`)
 
@@ -207,75 +207,82 @@ return (
 ## 📚 Topics Page (`/topics`)
 
 ### Purpose
-Topic selection page that allows users to:
-- Browse available quiz topics
-- See subtopic availability
-- Navigate to specific topic quizzes
-- View topic-specific information
+Server component that displays available quiz topics:
+- Fetches topics server-side with caching
+- Shows subtopic availability
+- Passes data to client components for interaction
+- Optimized performance with Next.js caching
 
-### Data Loading Strategy
+### Server-Side Data Loading
 
 ```typescript
-useEffect(() => {
-  loadTopics()
+// Server Component
+export default async function TopicsPage() {
+  // Fetch topics server-side with caching
+  const topics = await getTopicsWithAvailability()
   
-  // Load subtopic availability if cache is stale
-  if (isStale()) {
-    loadSubtopicAvailability()
-  }
-}, [])
+  // Pass to client component for interactivity
+  return <TopicGrid topics={topics} />
+}
 
-const loadTopics = async () => {
-  try {
-    setIsLoading(true)
-    const topicsData = await strapiClient.getTopics()
-    setTopics(topicsData)
-  } catch (error) {
-    console.error('Failed to load topics:', error)
-  } finally {
-    setIsLoading(false)
-  }
+// Server-side fetch with caching
+async function getTopicsWithAvailability() {
+  const res = await fetch(`${STRAPI_URL}/api/quiz-topics?populate=*`, {
+    next: { revalidate: 3600 } // Cache for 1 hour
+  })
+  
+  if (!res.ok) throw new Error('Failed to fetch topics')
+  return res.json()
 }
 ```
 
 **Loading Strategy:**
-- Parallel loading of topics and availability
-- Cache staleness detection
-- Error handling with fallbacks
-- Loading states for better UX
+- Server-side data fetching
+- Next.js automatic caching
+- Revalidation every hour
+- No client-side loading states needed
 
-### Topic Grid Implementation
+### Topic Grid Client Component
 
 ```typescript
-<div className="grid grid-cols-2 gap-4">
-  {topics.map((topic, index) => {
-    const availableSubtopics = topic.quiz_subtopics?.filter(subtopic => 
-      subtopicAvailability[subtopic.slug]?.hasQuestions
-    ).length || 0
-    
-    return (
-      <motion.button
-        key={topic.id}
-        onClick={() => handleTopicSelect(topic)}
-        className="bg-white rounded-2xl p-6 hover:shadow-lg transition-all duration-200"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: index * 0.1 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        {/* Topic content */}
-      </motion.button>
-    )
-  })}
-</div>
+'use client'
+
+// Client component for interactivity
+export function TopicGrid({ topics }: { topics: QuizTopic[] }) {
+  const router = useRouter()
+  
+  return (
+    <div className="grid grid-cols-2 gap-4">
+      {topics.map((topic, index) => {
+        const availableSubtopics = topic.quiz_subtopics?.filter(
+          subtopic => subtopic.questionCount > 0
+        ).length || 0
+        
+        return (
+          <motion.button
+            key={topic.id}
+            onClick={() => router.push(`/topics/${topic.slug}`)}
+            className="bg-white rounded-2xl p-6"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: index * 0.1 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {/* Topic content */}
+          </motion.button>
+        )
+      })}
+    </div>
+  )
+}
 ```
 
 **Grid Features:**
+- Client component for animations and navigation
+- Data passed from server component
 - Responsive 2-column layout
-- Staggered entrance animations
-- Hover and tap feedback
-- Availability status display
+- Smooth animations and interactions
 
 ## 🏆 Results Page (`/results`)
 

@@ -5,11 +5,9 @@ import { useRouter } from 'next/navigation'
 import { motion } from 'motion/react'
 import { useQuizStore } from '@/stores/useQuizStore'
 import { useUserPreferences } from '@/stores/useUserPreferences'
-
 import { ResultsLoadingScreen } from '@/components/ui/LoadingScreen'
 import { trackEvent, trackQuizPerformance } from '@/lib/analytics'
 import { getQuizConfig, isBonusRound } from '@/lib/quiz-config'
-import { strapiClient } from '@/lib/strapi'
 
 function ResultsContent() {
   const router = useRouter()
@@ -18,28 +16,19 @@ function ResultsContent() {
     selectedAnswers,
     isExpertMode,
     resetQuiz,
-    setExpertMode,
     pointsPerQuestion,
     totalScore,
     questionsCorrect,
     maxPossibleScore,
     percentage,
-    quizMode: storedQuizMode,
     reactionTimes,
     averageReactionTime,
     quizSource,
     quizTopicSlug,
-    quizSubtopicSlug,
-    quizDifficulty,
-    setQuestions,
-    setGameStatus,
-    setQuizMode,
-    setQuizMetadata
+    quizSubtopicSlug
   } = useQuizStore()
   const {
-    setExpertModeEnabled,
-    incrementGamesPlayed,
-    setBestScore
+    setExpertModeEnabled
   } = useUserPreferences()
 
   const [showResults, setShowResults] = useState(false)
@@ -50,7 +39,7 @@ function ResultsContent() {
   const finalScore = totalScore
   const totalQuestions = questions.length
 
-  // Use stored quiz mode or detect as fallback
+  // Detect quiz mode based on question count
   const detectQuizMode = (): 'quizup' | 'quick' | 'marathon' | 'first-visit' => {
     if (totalQuestions === 3) return 'first-visit'
     if (totalQuestions === 5) return 'quick'
@@ -58,7 +47,7 @@ function ResultsContent() {
     return 'quizup' // Default 7 questions
   }
 
-  const quizMode = storedQuizMode || detectQuizMode()
+  const quizMode = detectQuizMode()
   const config = getQuizConfig(quizMode)
 
   useEffect(() => {
@@ -74,142 +63,77 @@ function ResultsContent() {
     // Track quiz performance metrics
     trackQuizPerformance(finalScore, maxPossibleScore, questionsCorrect, totalQuestions, 0)
 
-    // Update user preferences when results load
-    incrementGamesPlayed()
-    setBestScore(finalScore)
-
     // Show score animation first, then results
     const timer = setTimeout(() => {
       setShowResults(true)
     }, 2000) // 2 seconds for score animation
 
     return () => clearTimeout(timer)
-  }, [finalScore, incrementGamesPlayed, setBestScore, questions, selectedAnswers, percentage, totalQuestions, maxPossibleScore])
+  }, [finalScore, questions, selectedAnswers, percentage, totalQuestions, maxPossibleScore])
 
-  // Handle replay with same settings - reload questions and restart
-  const handleReplaySame = async () => {
+  // Handle replay with same settings - navigate to appropriate quiz route
+  const handleReplaySame = () => {
     if (isRestarting) return
     
     setIsRestarting(true)
     
-    try {
-      trackEvent('replay_same_clicked', {
-        previous_score: finalScore,
-        previous_percentage: percentage,
-        mode: isExpertMode ? 'expert' : 'normal'
-      })
+    trackEvent('replay_same_clicked', {
+      previous_score: finalScore,
+      previous_percentage: percentage,
+      mode: isExpertMode ? 'expert' : 'normal'
+    })
 
-      // Reload questions based on quiz source
-      let newQuestions
-      
-      if (quizSource === 'random') {
-        // Random quiz - get new random questions
-        const mode = isExpertMode ? 'expert' : 'normal'
-        newQuestions = await strapiClient.getRandomQuestions(7, mode)
-      } else if (quizSource === 'topic' && quizTopicSlug && quizSubtopicSlug) {
-        // Topic-based quiz - get questions from same topic/subtopic
-        newQuestions = await strapiClient.getQuestions({
-          subtopic: quizSubtopicSlug,
-          difficulty: quizDifficulty || 'Medium',
-          limit: 7
-        })
-      } else if (quizSource === 'first-visit') {
-        // First visit quiz
-        newQuestions = await strapiClient.getRandomQuestions(3, 'first-visit')
-      } else {
-        throw new Error('Unknown quiz source')
-      }
-
-      if (newQuestions.length === 0) {
-        throw new Error('No questions available')
-      }
-
-      // Reset quiz state and set new questions
-      resetQuiz()
-      setQuestions(newQuestions)
-      setExpertMode(isExpertMode) // Keep same expert mode
-      setQuizMode(storedQuizMode || 'quizup')
-      setQuizMetadata(quizSource || 'random', quizTopicSlug || undefined, quizSubtopicSlug || undefined, quizDifficulty || undefined)
-      setGameStatus('playing')
-
-      // Navigate to quiz page
-      router.push('/quiz')
-    } catch (error) {
-      console.error('Failed to restart quiz:', error)
-      setIsRestarting(false)
-      
-      trackEvent('quiz_error', {
-        error_type: 'api_failure',
-        error_message: error instanceof Error ? error.message : 'Unknown error',
-        context: 'replay_same'
-      })
+    // Navigate based on quiz source
+    // Questions will be fetched server-side
+    const mode = isExpertMode ? 'expert' : 'normal'
+    
+    if (quizSource === 'random' || quizSource === 'first-visit') {
+      // Random quiz - navigate to random quiz route
+      const quizMode = quizSource === 'first-visit' ? 'first-visit' : mode
+      router.push(`/quiz/random?mode=${quizMode}`)
+    } else if (quizSource === 'topic' && quizTopicSlug && quizSubtopicSlug) {
+      // Topic-based quiz - navigate to topic quiz route
+      router.push(`/quiz/${quizTopicSlug}/${quizSubtopicSlug}?mode=${mode}`)
+    } else {
+      // Fallback to home
+      router.push('/')
     }
   }
 
-  // Handle replay with expert mode toggle - reload questions with toggled mode
-  const handleReplayExpert = async () => {
+  // Handle replay with expert mode toggle - navigate with toggled mode
+  const handleReplayExpert = () => {
     if (isRestarting) return
     
     setIsRestarting(true)
     const newExpertMode = !isExpertMode
 
-    try {
-      trackEvent('expert_mode_toggled', {
-        enabled: newExpertMode,
-        context: 'results_page'
-      })
+    trackEvent('expert_mode_toggled', {
+      enabled: newExpertMode,
+      context: 'results_page'
+    })
 
-      trackEvent('replay_expert_toggled', {
-        previous_mode: isExpertMode ? 'expert' : 'normal',
-        new_mode: newExpertMode ? 'expert' : 'normal',
-        previous_score: finalScore
-      })
+    trackEvent('replay_expert_toggled', {
+      previous_mode: isExpertMode ? 'expert' : 'normal',
+      new_mode: newExpertMode ? 'expert' : 'normal',
+      previous_score: finalScore
+    })
 
-      // Reload questions based on quiz source with toggled mode
-      let newQuestions
-      
-      if (quizSource === 'random') {
-        // Random quiz - get new random questions with toggled mode
-        const mode = newExpertMode ? 'expert' : 'normal'
-        newQuestions = await strapiClient.getRandomQuestions(7, mode)
-      } else if (quizSource === 'topic' && quizTopicSlug && quizSubtopicSlug) {
-        // Topic-based quiz - get questions from same topic/subtopic
-        newQuestions = await strapiClient.getQuestions({
-          subtopic: quizSubtopicSlug,
-          difficulty: quizDifficulty || 'Medium',
-          limit: 7
-        })
-      } else if (quizSource === 'first-visit') {
-        // First visit quiz
-        newQuestions = await strapiClient.getRandomQuestions(3, 'first-visit')
-      } else {
-        throw new Error('Unknown quiz source')
-      }
+    // Update user preference
+    setExpertModeEnabled(newExpertMode)
 
-      if (newQuestions.length === 0) {
-        throw new Error('No questions available')
-      }
-
-      // Reset quiz state and set new questions with toggled mode
-      resetQuiz()
-      setQuestions(newQuestions)
-      setExpertMode(newExpertMode) // Toggle expert mode
-      setExpertModeEnabled(newExpertMode) // Update user preference
-      setQuizMode(storedQuizMode || 'quizup')
-      setQuizMetadata(quizSource || 'random', quizTopicSlug || undefined, quizSubtopicSlug || undefined, quizDifficulty || undefined)
-      setGameStatus('playing')
-
-      // Navigate to quiz page
-      router.push('/quiz')
-    } catch (error) {
-      console.error('Failed to restart quiz with toggled mode:', error)
-      setIsRestarting(false)
-      
-      trackEvent('quiz_error', {
-        error_type: 'api_failure',
-        error_message: error instanceof Error ? error.message : 'Unknown error',
-        context: 'replay_expert_toggle'
-      })
+    // Navigate based on quiz source with toggled mode
+    // Questions will be fetched server-side
+    const mode = newExpertMode ? 'expert' : 'normal'
+    
+    if (quizSource === 'random' || quizSource === 'first-visit') {
+      // Random quiz - navigate to random quiz route
+      router.push(`/quiz/random?mode=${mode}`)
+    } else if (quizSource === 'topic' && quizTopicSlug && quizSubtopicSlug) {
+      // Topic-based quiz - navigate to topic quiz route
+      router.push(`/quiz/${quizTopicSlug}/${quizSubtopicSlug}?mode=${mode}`)
+    } else {
+      // Fallback to home
+      router.push('/')
     }
   }
 

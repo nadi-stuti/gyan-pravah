@@ -269,11 +269,6 @@ export function initializeUserTracking(): void {
       traits = {
         is_first_visit: preferences.state?.isFirstVisit ?? true,
         expert_mode_enabled: preferences.state?.expertModeEnabled ?? false,
-        sound_enabled: preferences.state?.soundEnabled ?? true,
-        total_games_played: preferences.state?.totalGamesPlayed ?? 0,
-        best_score: preferences.state?.bestScore ?? 0,
-        last_played_topic: preferences.state?.lastPlayedTopic,
-        last_played_subtopic: preferences.state?.lastPlayedSubtopic,
       }
     } catch (error) {
       console.warn('Failed to parse user preferences for analytics:', error)

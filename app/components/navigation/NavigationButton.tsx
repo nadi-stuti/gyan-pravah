@@ -1,7 +1,6 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { motion } from 'motion/react'
 import { trackEvent } from '@/lib/analytics'
 import { ReactNode } from 'react'
 
@@ -41,15 +40,12 @@ export default function NavigationButton({
   }
 
   return (
-    <motion.button
+    <button
       onClick={handleClick}
-      className={`${className} ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-      whileHover={disabled ? {} : { scale: 1.02 }}
-      whileTap={disabled ? {} : { scale: 0.98 }}
-      transition={{ duration: 0.2 }}
+      className={`${className} ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:scale-102 active:scale-98'} transition-transform duration-200`}
       disabled={disabled}
     >
       {children}
-    </motion.button>
+    </button>
   )
 }

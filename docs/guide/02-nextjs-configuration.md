@@ -274,12 +274,17 @@ const config: Config = {
    - Incremental compilation
    - Better caching strategies
 
-2. **Image Optimization:**
+2. **Server Components:**
+   - Reduced JavaScript bundle size
+   - Server-side data fetching
+   - Automatic code splitting
+
+3. **Image Optimization:**
    - Automatic WebP conversion
    - Responsive image generation
    - Lazy loading by default
 
-3. **Bundle Optimization:**
+4. **Bundle Optimization:**
    - Automatic code splitting
    - Tree shaking of unused code
    - Compression and minification
@@ -296,6 +301,11 @@ const config: Config = {
    - Better caching of analytics scripts
    - Improved privacy compliance
 
+3. **Next.js Caching:**
+   - Fetch API with revalidation
+   - Automatic cache management
+   - Optimized data loading
+
 ## 🔧 Environment-Specific Configurations
 
 ### Development vs Production
@@ -307,10 +317,11 @@ const config: Config = {
 - Detailed error messages
 
 **Production:**
+- Server components for optimal performance
 - Optimized bundles with minification
 - Static generation where possible
 - Compressed assets
-- Error boundaries for graceful failures
+- Simple error.tsx files for error handling
 
 ### Environment Variables
 

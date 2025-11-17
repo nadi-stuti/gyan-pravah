@@ -197,10 +197,11 @@ Percentage: 100% ⭐ PERFECT!
   - 3 bonus questions × 40 points = 120
 
 ### First Visit Mode
-- **Questions:** 3 (all normal, no bonus)
+- **Questions:** 7 (6 normal + 1 bonus)
 - **Time per question:** 10 seconds
-- **Maximum score:** 60 points
-  - 3 normal questions × 20 points = 60
+- **Maximum score:** 160 points
+  - 6 normal questions × 20 points = 120
+  - 1 bonus question × 40 points = 40
 
 ## 💡 Scoring Strategy Tips
 
@@ -436,6 +437,6 @@ All scoring feedback follows the Gyan Pravah design system:
 
 ---
 
-**Last Updated:** November 14, 2025  
-**Version:** 2.2 - Enhanced UX and Results (Complete)  
-**Previous:** 2.1 - Simplified Feedback, 2.0 - Time-Based Scoring
+**Last Updated:** November 15, 2025  
+**Version:** 2.3 - Codebase Optimization (Current)  
+**Previous:** 2.2 - Enhanced UX and Results, 2.1 - Simplified Feedback, 2.0 - Time-Based Scoring

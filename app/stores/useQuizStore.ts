@@ -1,7 +1,7 @@
 import { create } from 'zustand'
-import type { QuizQuestion, QuizSession } from '@gyan-pravah/types'
+import type { QuizQuestion } from '@gyan-pravah/types'
 
-// Quiz Store - Comprehensive game state
+// Quiz Store - Essential game state only
 interface QuizState {
   // Game flow
   currentQuestion: number
@@ -11,22 +11,20 @@ interface QuizState {
   gameStatus: 'idle' | 'playing' | 'completed'
   questions: QuizQuestion[]
   
-  // Quiz configuration
-  quizMode: 'quizup' | 'quick' | 'marathon' | 'first-visit' | null
-  quizSource: 'random' | 'topic' | 'first-visit' | null // Track how quiz was started
-  quizTopicSlug: string | null // Store topic slug for replay
-  quizSubtopicSlug: string | null // Store subtopic slug for replay
-  quizDifficulty: 'Easy' | 'Medium' | 'Hard' | null // Store difficulty for replay
+  // Quiz metadata for replay
+  quizSource: 'random' | 'topic' | 'first-visit' | null
+  quizTopicSlug: string | null
+  quizSubtopicSlug: string | null
   
-  // Results data (stored during gameplay)
-  pointsPerQuestion: Record<number, number> // Points earned for each question
-  totalScore: number // Running total score
-  questionsCorrect: number // Count of correct answers
-  questionsAnswered: number // Count of answered questions
-  maxPossibleScore: number // Maximum possible score for this quiz
-  percentage: number // Calculated percentage
-  reactionTimes: number[] // Time taken per question in seconds
-  averageReactionTime: number // Running average reaction time
+  // Results data
+  pointsPerQuestion: Record<number, number>
+  totalScore: number
+  questionsCorrect: number
+  questionsAnswered: number
+  maxPossibleScore: number
+  percentage: number
+  reactionTimes: number[]
+  averageReactionTime: number
   
   // Actions
   setCurrentQuestion: (questionIndex: number) => void
@@ -35,14 +33,10 @@ interface QuizState {
   setExpertMode: (enabled: boolean) => void
   setGameStatus: (status: 'idle' | 'playing' | 'completed') => void
   setQuestions: (questions: QuizQuestion[]) => void
-  setQuizMode: (mode: 'quizup' | 'quick' | 'marathon' | 'first-visit') => void
   setQuizConfig: (maxScore: number) => void
-  setQuizMetadata: (source: 'random' | 'topic' | 'first-visit', topicSlug?: string, subtopicSlug?: string, difficulty?: 'Easy' | 'Medium' | 'Hard') => void
-  
-  // Result actions (called during gameplay)
+  setQuizMetadata: (source: 'random' | 'topic' | 'first-visit', topicSlug?: string, subtopicSlug?: string) => void
   recordQuestionResult: (questionIndex: number, answer: string, points: number, isCorrect: boolean) => void
   recordReactionTime: (time: number) => void
-  
   resetQuiz: () => void
 }
 
@@ -55,12 +49,10 @@ export const useQuizStore = create<QuizState>((set, get) => ({
   gameStatus: 'idle',
   questions: [],
   
-  // Quiz configuration
-  quizMode: null,
+  // Quiz metadata
   quizSource: null,
   quizTopicSlug: null,
   quizSubtopicSlug: null,
-  quizDifficulty: null,
   
   // Results data
   pointsPerQuestion: {},
@@ -84,15 +76,12 @@ export const useQuizStore = create<QuizState>((set, get) => ({
   setExpertMode: (enabled) => set({ isExpertMode: enabled }),
   setGameStatus: (status) => set({ gameStatus: status }),
   setQuestions: (questions) => set({ questions }),
-  setQuizMode: (mode) => set({ quizMode: mode }),
-  
   setQuizConfig: (maxScore) => set({ maxPossibleScore: maxScore }),
   
-  setQuizMetadata: (source, topicSlug, subtopicSlug, difficulty) => set({
+  setQuizMetadata: (source, topicSlug, subtopicSlug) => set({
     quizSource: source,
     quizTopicSlug: topicSlug || null,
-    quizSubtopicSlug: subtopicSlug || null,
-    quizDifficulty: difficulty || null
+    quizSubtopicSlug: subtopicSlug || null
   }),
   
   // Record question result - this is the key method that stores everything
@@ -133,11 +122,9 @@ export const useQuizStore = create<QuizState>((set, get) => ({
     timeRemaining: 20,
     gameStatus: 'idle',
     questions: [],
-    quizMode: null,
     quizSource: null,
     quizTopicSlug: null,
     quizSubtopicSlug: null,
-    quizDifficulty: null,
     pointsPerQuestion: {},
     totalScore: 0,
     questionsCorrect: 0,

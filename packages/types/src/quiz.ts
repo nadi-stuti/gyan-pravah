@@ -86,9 +86,4 @@ export interface QuizSession {
 export interface StoredUserPreferences {
   isFirstVisit: boolean;
   expertModeEnabled: boolean;
-  soundEnabled: boolean;
-  lastPlayedTopic?: string;
-  lastPlayedSubtopic?: string;
-  totalGamesPlayed: number;
-  bestScore: number;
 }

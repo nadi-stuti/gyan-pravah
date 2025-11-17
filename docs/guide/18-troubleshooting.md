@@ -2,6 +2,8 @@
 
 ## 🔧 Common Issues and Solutions
 
+**Note:** As of v2.3, many complex error scenarios have been eliminated through codebase simplification. This guide focuses on the most relevant issues for the streamlined architecture.
+
 This guide covers the most common issues you might encounter while developing or maintaining the Gyan Pravah application, along with step-by-step solutions.
 
 ## 🚀 Development Server Issues
@@ -102,7 +104,7 @@ npm install --save-dev @types/node @types/react @types/react-dom
 **Symptoms:**
 - API calls return network errors
 - "Failed to fetch" errors in console
-- Timeout errors
+- Server components not loading data
 
 **Solutions:**
 
@@ -110,80 +112,69 @@ npm install --save-dev @types/node @types/react @types/react-dom
 // 1. Check environment variables
 console.log('Strapi URL:', process.env.NEXT_PUBLIC_STRAPI_URL)
 
-// 2. Test Strapi connection
+// 2. Test Strapi connection (server-side)
+// In a server component or API route
 const testConnection = async () => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/quiz-questions?pagination[limit]=1`)
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/quiz-questions?pagination[limit]=1`,
+      { next: { revalidate: 0 } } // No cache for testing
+    )
     console.log('Connection test:', response.status)
+    const data = await response.json()
+    console.log('Data:', data)
   } catch (error) {
     console.error('Connection failed:', error)
   }
 }
 
-// 3. Check CORS settings in Strapi
-// config/middlewares.js
-module.exports = [
-  'strapi::errors',
-  {
-    name: 'strapi::cors',
-    config: {
-      origin: ['http://localhost:3000', 'https://your-domain.com'],
-      methods: ['GET', 'POST', 'PUT', 'DELETE'],
-      headers: ['Content-Type', 'Authorization'],
-    },
-  },
-  // ... other middlewares
-]
-
-// 4. Verify Strapi is running
+// 3. Verify Strapi is running
 curl http://localhost:1337/api/quiz-questions?pagination[limit]=1
+
+// 4. Check Next.js server logs
+// Server-side errors appear in terminal, not browser console
 ```
+
+**Note:** With server components, most API calls happen server-side. Check terminal logs, not just browser console.
 
 ### Issue: No Questions Loading
 
 **Symptoms:**
 - Empty quiz questions array
 - "No questions available" messages
-- API returns empty data
+- Server component returns no data
 
 **Solutions:**
 
 ```typescript
-// 1. Check Strapi data structure
-const debugQuestions = async () => {
+// 1. Check server-side data fetching
+// In quiz page (server component)
+export default async function QuizPage({ params }) {
+  console.log('Fetching questions for:', params) // Check terminal
+  
   try {
-    const response = await strapiClient.getQuestions()
-    console.log('Questions response:', response)
-    console.log('Questions count:', response.length)
+    const questions = await getQuizQuestions(params.topic, params.subtopic)
+    console.log('Questions loaded:', questions.length) // Check terminal
     
-    if (response.length === 0) {
-      console.log('No questions found - check Strapi content')
+    if (questions.length === 0) {
+      return <div>No questions available</div>
     }
+    
+    return <QuizGame questions={questions} />
   } catch (error) {
-    console.error('Questions API error:', error)
+    console.error('Failed to load questions:', error) // Check terminal
+    throw error // Will trigger error.tsx
   }
 }
 
-// 2. Check subtopic availability
-const debugAvailability = async () => {
-  const availability = await strapiClient.getSubtopicAvailability()
-  console.log('Subtopic availability:', availability)
-  
-  const availableCount = Object.values(availability).filter(a => a.hasQuestions).length
-  console.log('Available subtopics:', availableCount)
-}
+// 2. Test API directly
+curl "http://localhost:1337/api/quiz-questions?filters[quiz_subtopic][slug][$eq]=test&pagination[limit]=10"
 
-// 3. Check question filters
-const debugFilters = async () => {
-  // Test with no filters
-  const allQuestions = await strapiClient.getQuestions()
-  console.log('All questions:', allQuestions.length)
-  
-  // Test with specific filters
-  const easyQuestions = await strapiClient.getQuestions({ difficulty: 'Easy' })
-  console.log('Easy questions:', easyQuestions.length)
-}
+// 3. Check Strapi content
+// Log into Strapi admin and verify questions exist with correct relationships
 ```
+
+**Note:** Server component errors appear in terminal, not browser console. Always check both.
 
 ### Issue: Slow API Responses
 

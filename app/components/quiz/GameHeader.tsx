@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { useQuizStore } from '@/stores/useQuizStore'
 
 interface GameHeaderProps {
@@ -22,11 +21,10 @@ export default function GameHeader({
   const getRoundIndicators = () => {
     const indicators = []
     for (let i = 0; i < totalQuestions; i++) {
-      let status: 'pending' | 'current' | 'completed' | 'correct' | 'incorrect' | 'skipped' = 'pending'
-      const isBonus = i >= 6 // Questions 7+ are bonus rounds (QuizUp style)
+      let status: 'pending' | 'current' | 'correct' | 'incorrect' | 'skipped' = 'pending'
+      const isBonus = i >= 6
       
       if (i < currentQuestion) {
-        // Question has been answered, check if it was correct
         const userAnswer = selectedAnswers[i]
         const question = questions[i]
         
@@ -41,45 +39,38 @@ export default function GameHeader({
         status = 'current'
       }
       
-      // Determine colors based on status
+      // Determine colors based on status - using design system colors
       let colorClasses = ''
       if (status === 'correct') {
         colorClasses = isBonus 
-          ? 'bg-orange-500 text-white border-orange-600' 
-          : 'bg-green-500 text-white border-green-600'
+          ? 'bg-[#F97316] text-white border-[#F97316]' 
+          : 'bg-green-400 text-white border-green-400'
       } else if (status === 'incorrect') {
-        colorClasses = 'bg-red-500 text-white border-red-600'
+        colorClasses = 'bg-red-400 text-white border-red-400'
       } else if (status === 'skipped') {
-        colorClasses = 'bg-gray-400 text-white border-gray-500'
+        colorClasses = 'bg-gray-300 text-white border-gray-300'
       } else if (status === 'current') {
-        colorClasses = 'bg-yellow-400 text-gray-900 border-yellow-500'
+        colorClasses = 'bg-yellow-400 text-gray-900 border-yellow-400'
       } else {
         colorClasses = isBonus 
-          ? 'bg-orange-100 text-orange-600 border-orange-300'
-          : 'bg-gray-300 text-gray-600 border-gray-400'
+          ? 'bg-[#FDBA74] text-[#F97316] border-[#FDBA74]'
+          : 'bg-gray-300 text-gray-600 border-gray-300'
       }
       
       indicators.push(
-        <motion.div
+        <div
           key={i}
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: i * 0.1, type: "spring", stiffness: 300 }}
           className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 ${colorClasses}`}
         >
           {isBonus ? '★' : i + 1}
-        </motion.div>
+        </div>
       )
     }
     return indicators
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className={`bg-white rounded-2xl p-4 mb-6 shadow-lg ${className}`}
-    >
+    <div className={`bg-white rounded-2xl p-4 mb-6 ${className}`}>
       {/* Top Row - Round Indicators */}
       <div className="flex justify-center items-center gap-2 mb-4">
         {getRoundIndicators()}
@@ -101,17 +92,16 @@ export default function GameHeader({
         
         <ReactionTimeMeter avgTime={averageReactionTime} />
       </div>
-    </motion.div>
+    </div>
   )
 }
 
-// Temperature Meter Component
+// Simplified Reaction Time Meter Component
 interface ReactionTimeMeterProps {
   avgTime: number
 }
 
 function ReactionTimeMeter({ avgTime }: ReactionTimeMeterProps) {
-  // If no reactions yet, show neutral state
   if (avgTime === 0) {
     return (
       <div className="text-center">
@@ -129,8 +119,8 @@ function ReactionTimeMeter({ avgTime }: ReactionTimeMeterProps) {
     if (avgTime < 3) {
       return { 
         emoji: '🔥', 
-        color: 'text-red-500', 
-        bgColor: 'bg-red-100',
+        color: 'text-red-400', 
+        bgColor: 'bg-red-400',
         label: 'Hot',
         description: 'Lightning Fast!'
       }
@@ -138,8 +128,8 @@ function ReactionTimeMeter({ avgTime }: ReactionTimeMeterProps) {
     if (avgTime < 5) {
       return { 
         emoji: '🌡️', 
-        color: 'text-orange-500', 
-        bgColor: 'bg-orange-100',
+        color: 'text-[#F97316]', 
+        bgColor: 'bg-[#F97316]',
         label: 'Warm',
         description: 'Great Speed'
       }
@@ -148,15 +138,15 @@ function ReactionTimeMeter({ avgTime }: ReactionTimeMeterProps) {
       return { 
         emoji: '❄️', 
         color: 'text-blue-400', 
-        bgColor: 'bg-blue-100',
+        bgColor: 'bg-blue-400',
         label: 'Cool',
         description: 'Good Pace'
       }
     }
     return { 
       emoji: '🧊', 
-      color: 'text-blue-600', 
-      bgColor: 'bg-blue-200',
+      color: 'text-blue-500', 
+      bgColor: 'bg-blue-500',
       label: 'Cold',
       description: 'Take Your Time'
     }
@@ -167,20 +157,12 @@ function ReactionTimeMeter({ avgTime }: ReactionTimeMeterProps) {
   return (
     <div className="text-center">
       <div className="flex items-center justify-center gap-2 mb-1">
-        <motion.span 
-          key={temp.emoji}
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="text-2xl"
-        >
-          {temp.emoji}
-        </motion.span>
+        <span className="text-2xl">{temp.emoji}</span>
         <div className={`text-2xl font-bold ${temp.color}`}>
           {avgTime.toFixed(1)}s
         </div>
       </div>
-      <div className={`inline-block ${temp.bgColor} ${temp.color} px-3 py-1 rounded-full text-xs font-semibold mb-1`}>
+      <div className={`inline-block ${temp.bgColor} text-white px-3 py-1 rounded-full text-xs font-semibold mb-1`}>
         {temp.label}
       </div>
       <div className="text-xs text-gray-600">{temp.description}</div>

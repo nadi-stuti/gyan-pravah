@@ -17,12 +17,12 @@ export const TOPICS: TopicData[] = [
 export const ALL_SUBTOPICS: SubtopicData[] = [
   // Nadi (Holy Rivers) - 15 subtopics
   { name: "Ganga", topicSlug: "nadi", file: "ganga-questions.md" },
-  { name: "Yamuna", topicSlug: "nadi", file: "yamuna-questions.md" },
+  { name: "Yamuna", topicSlug: "nadi", file: null },
   { name: "Saraswati", topicSlug: "nadi", file: null },
-  { name: "Narmada", topicSlug: "nadi", file: "narmada-questions.md" },
+  { name: "Narmada", topicSlug: "nadi", file: null },
   { name: "Godavari", topicSlug: "nadi", file: null },
-  { name: "Krishna River", topicSlug: "nadi", file: "krishna-river.md" },
-  { name: "Kaveri", topicSlug: "nadi", file: "kaveri-questions.md" },
+  { name: "Krishna River", topicSlug: "nadi", file: null },
+  { name: "Kaveri", topicSlug: "nadi", file: null },
   { name: "Sindhu", topicSlug: "nadi", file: null },
   { name: "Brahmaputra", topicSlug: "nadi", file: null },
   { name: "Tapti", topicSlug: "nadi", file: null },
@@ -33,7 +33,7 @@ export const ALL_SUBTOPICS: SubtopicData[] = [
   { name: "Gandak", topicSlug: "nadi", file: null },
 
   // Shruti (Vedic Scriptures) - 15 subtopics
-  { name: "Rigveda", topicSlug: "shruti", file: "rigveda.md" },
+  { name: "Rigveda", topicSlug: "shruti", file: null },
   { name: "Yajurveda", topicSlug: "shruti", file: null },
   { name: "Samaveda", topicSlug: "shruti", file: null },
   { name: "Atharvaveda", topicSlug: "shruti", file: null },
@@ -41,7 +41,7 @@ export const ALL_SUBTOPICS: SubtopicData[] = [
   { name: "Shatapatha Brahmana", topicSlug: "shruti", file: null },
   { name: "Taittiriya Brahmana", topicSlug: "shruti", file: null },
   { name: "Brihadaranyaka Upanishad", topicSlug: "shruti", file: null },
-  { name: "Chandogya Upanishad", topicSlug: "shruti", file: "chandogya-upanishad.md" },
+  { name: "Chandogya Upanishad", topicSlug: "shruti", file: null },
   { name: "Kena Upanishad", topicSlug: "shruti", file: null },
   { name: "Isa Upanishad", topicSlug: "shruti", file: null },
   { name: "Mundaka Upanishad", topicSlug: "shruti", file: null },
@@ -52,7 +52,7 @@ export const ALL_SUBTOPICS: SubtopicData[] = [
   // Smriti (Epics, Laws, Sutras) - 15 subtopics
   { name: "Mahabharata", topicSlug: "smriti", file: "mahabharata.md" },
   { name: "Ramayana", topicSlug: "smriti", file: "ramayana-questions.md" },
-  { name: "Bhagavad Gita", topicSlug: "smriti", file: "bhagavad-gita.md" },
+  { name: "Bhagavad Gita", topicSlug: "smriti", file: null },
   { name: "Manusmriti", topicSlug: "smriti", file: null },
   { name: "Yajnavalkya Smriti", topicSlug: "smriti", file: null },
   { name: "Narada Smriti", topicSlug: "smriti", file: null },
@@ -67,9 +67,13 @@ export const ALL_SUBTOPICS: SubtopicData[] = [
   { name: "Ramcharitmanas", topicSlug: "smriti", file: null },
 
   // Purana (Mythology & Theology) - 15 subtopics
-  { name: "Bhagavata Purana", topicSlug: "purana", file: "bhagavata-purana.md" },
-  { name: "Vishnu Purana", topicSlug: "purana", file: "vishnu-purana.md" },
-  { name: "Shiva Purana", topicSlug: "purana", file: "shiva-purana.md" },
+  {
+    name: "Bhagavata Purana",
+    topicSlug: "purana",
+    file: null,
+  },
+  { name: "Vishnu Purana", topicSlug: "purana", file: null },
+  { name: "Shiva Purana", topicSlug: "purana", file: null },
   { name: "Skanda Purana", topicSlug: "purana", file: null },
   { name: "Padma Purana", topicSlug: "purana", file: null },
   { name: "Markandeya Purana", topicSlug: "purana", file: null },
@@ -84,9 +88,17 @@ export const ALL_SUBTOPICS: SubtopicData[] = [
   { name: "Narada Purana", topicSlug: "purana", file: null },
 
   // Stuti (Hymns & Prayers) - 15 subtopics
-  { name: "Vishnu Sahasranama Stotra", topicSlug: "stuti", file: "vishnu-sahasranama.md" },
-  { name: "Shiva Tandava Stotra", topicSlug: "stuti", file: "shiva-tandava-stotra.md" },
-  { name: "Hanuman Chalisa", topicSlug: "stuti", file: "hanuman-chalisa.md" },
+  {
+    name: "Vishnu Sahasranama Stotra",
+    topicSlug: "stuti",
+    file: null,
+  },
+  {
+    name: "Shiva Tandava Stotra",
+    topicSlug: "stuti",
+    file: null,
+  },
+  { name: "Hanuman Chalisa", topicSlug: "stuti", file: null },
   { name: "Lalita Sahasranama", topicSlug: "stuti", file: null },
   { name: "Durga Saptashati", topicSlug: "stuti", file: null },
   { name: "Durga Chalisa", topicSlug: "stuti", file: null },
@@ -102,12 +114,12 @@ export const ALL_SUBTOPICS: SubtopicData[] = [
 
   // Bhagvan (Deities) - 15 subtopics
   { name: "Vishnu", topicSlug: "bhagvan", file: null },
-  { name: "Shiva", topicSlug: "bhagvan", file: "shiva-questions.md" },
-  { name: "Krishna", topicSlug: "bhagvan", file: "krishna-bhagvan.md" },
-  { name: "Rama", topicSlug: "bhagvan", file: "rama.md" },
-  { name: "Ganesh", topicSlug: "bhagvan", file: "ganesh.md" },
+  { name: "Shiva", topicSlug: "bhagvan", file: null },
+  { name: "Krishna", topicSlug: "bhagvan", file: null },
+  { name: "Rama", topicSlug: "bhagvan", file: null },
+  { name: "Ganesh", topicSlug: "bhagvan", file: null },
   { name: "Hanuman", topicSlug: "bhagvan", file: null },
-  { name: "Durga", topicSlug: "bhagvan", file: "durga-questions.md" },
+  { name: "Durga", topicSlug: "bhagvan", file: null },
   { name: "Saraswati", topicSlug: "bhagvan", file: null },
   { name: "Lakshmi", topicSlug: "bhagvan", file: null },
   { name: "Brahma", topicSlug: "bhagvan", file: null },
@@ -118,9 +130,9 @@ export const ALL_SUBTOPICS: SubtopicData[] = [
   { name: "Dattatreya", topicSlug: "bhagvan", file: null },
 
   // Utsav (Festivals) - 12 subtopics
-  { name: "Diwali", topicSlug: "utsav", file: "diwali-questions.md" },
-  { name: "Holi", topicSlug: "utsav", file: "holi.md" },
-  { name: "Navratri", topicSlug: "utsav", file: "navratri.md" },
+  { name: "Diwali", topicSlug: "utsav", file: null },
+  { name: "Holi", topicSlug: "utsav", file: null },
+  { name: "Navratri", topicSlug: "utsav", file: null },
   { name: "Janmashtami", topicSlug: "utsav", file: null },
   { name: "Ganesh Chaturthi", topicSlug: "utsav", file: null },
   { name: "Dussehra", topicSlug: "utsav", file: null },
@@ -132,13 +144,13 @@ export const ALL_SUBTOPICS: SubtopicData[] = [
   { name: "Onam", topicSlug: "utsav", file: null },
 
   // Dham (Pilgrimage Sites) - 12 subtopics
-  { name: "Badrinath", topicSlug: "dham", file: "badrinath.md" },
+  { name: "Badrinath", topicSlug: "dham", file: null },
   { name: "Dwarka", topicSlug: "dham", file: null },
-  { name: "Puri", topicSlug: "dham", file: "puri.md" },
+  { name: "Puri", topicSlug: "dham", file: null },
   { name: "Rameswaram", topicSlug: "dham", file: null },
-  { name: "Kashi", topicSlug: "dham", file: "kashi.md" },
+  { name: "Kashi", topicSlug: "dham", file: null },
   { name: "Tirupati", topicSlug: "dham", file: null },
-  { name: "Vrindavan", topicSlug: "dham", file: "vrindavan.md" },
+  { name: "Vrindavan", topicSlug: "dham", file: null },
   { name: "Ayodhya", topicSlug: "dham", file: null },
   { name: "Haridwar", topicSlug: "dham", file: null },
   { name: "Rishikesh", topicSlug: "dham", file: null },
@@ -147,17 +159,29 @@ export const ALL_SUBTOPICS: SubtopicData[] = [
 
   // Sant (Saints) - 15 subtopics
   { name: "Kabir Das", topicSlug: "sant", file: null },
-  { name: "Tulsidas", topicSlug: "sant", file: "tulsi-das.md" },
+  { name: "Tulsidas", topicSlug: "sant", file: null },
   { name: "Surdas", topicSlug: "sant", file: null },
-  { name: "Mirabai", topicSlug: "sant", file: "mirabai.md" },
-  { name: "Chaitanya Mahaprabhu", topicSlug: "sant", file: "chaitanya-mahaprabhu.md" },
-  { name: "Adi Shankaracharya", topicSlug: "sant", file: "adi-shankaracharya.md" },
+  { name: "Mirabai", topicSlug: "sant", file: null },
+  {
+    name: "Chaitanya Mahaprabhu",
+    topicSlug: "sant",
+    file: null,
+  },
+  {
+    name: "Adi Shankaracharya",
+    topicSlug: "sant",
+    file: null,
+  },
   { name: "Ramanuja", topicSlug: "sant", file: null },
   { name: "Madhvacharya", topicSlug: "sant", file: null },
   { name: "Sant Dnyaneshwar", topicSlug: "sant", file: null },
   { name: "Sant Tukaram", topicSlug: "sant", file: null },
   { name: "Guru Nanak", topicSlug: "sant", file: null },
-  { name: "Swami Vivekananda", topicSlug: "sant", file: "swami-vivekananda.md" },
+  {
+    name: "Swami Vivekananda",
+    topicSlug: "sant",
+    file: null,
+  },
   { name: "Ramakrishna Paramahamsa", topicSlug: "sant", file: null },
   { name: "Namdev", topicSlug: "sant", file: null },
   { name: "Samarth Ramdas", topicSlug: "sant", file: null },

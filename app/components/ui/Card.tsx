@@ -1,16 +1,12 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { ReactNode } from 'react'
-import { cardAnimationVariants, getAccessibleVariants } from '@/lib/mobile-animations'
-import { handleTouchPress } from '@/lib/mobile-gestures'
 
 interface CardProps {
   children: ReactNode
   className?: string
   variant?: 'default' | 'elevated' | 'outlined'
   padding?: 'none' | 'sm' | 'md' | 'lg'
-  animate?: boolean
   onClick?: () => void
   hoverable?: boolean
 }
@@ -20,16 +16,15 @@ export default function Card({
   className = '',
   variant = 'default',
   padding = 'md',
-  animate = true,
   onClick,
   hoverable = false
 }: CardProps) {
-  const baseClasses = 'bg-background-card rounded-2xl font-poppins'
+  const baseClasses = 'bg-white rounded-2xl font-poppins transition-transform duration-200'
   
   const variantClasses = {
-    default: 'shadow-card',
-    elevated: 'shadow-card-hover',
-    outlined: 'border-2 border-neutral-200 shadow-none'
+    default: '',
+    elevated: 'shadow-lg',
+    outlined: 'border-2 border-gray-200'
   }
   
   const paddingClasses = {
@@ -39,32 +34,13 @@ export default function Card({
     lg: 'p-6 sm:p-8'
   }
   
-  const interactiveClasses = onClick || hoverable ? 'cursor-pointer' : ''
+  const interactiveClasses = onClick || hoverable ? 'cursor-pointer hover:scale-102 active:scale-98' : ''
   
   const cardClasses = `${baseClasses} ${variantClasses[variant]} ${paddingClasses[padding]} ${interactiveClasses} ${className}`
   
-  const cardContent = (
+  return (
     <div className={cardClasses} onClick={onClick}>
       {children}
     </div>
-  )
-  
-  if (!animate) {
-    return cardContent
-  }
-  
-  return (
-    <motion.div
-      variants={getAccessibleVariants(cardAnimationVariants)}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      whileHover={hoverable || onClick ? "hover" : undefined}
-      whileTap={onClick ? "tap" : undefined}
-      onClick={onClick ? () => handleTouchPress(onClick) : undefined}
-      className="w-full"
-    >
-      {cardContent}
-    </motion.div>
   )
 }

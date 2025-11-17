@@ -195,120 +195,84 @@ const baseClasses = 'bg-background-card rounded-2xl font-poppins'
 // className="bg-gradient-to-r from-white to-gray-100 shadow-2xl"
 ```
 
-## 🔄 Loading Components
+## 🔄 Loading States
 
-### LoadingScreen Component
+### Simple Loading with loading.tsx
 
-The main loading screen component with Lottie animations.
-
-```typescript
-interface LoadingScreenProps {
-  message?: string
-  submessage?: string
-  className?: string
-}
-
-// Usage
-<LoadingScreen
-  message="Loading quiz..."
-  submessage="Fetching questions and setting up the game..."
-/>
-```
-
-### Specialized Loading Screens
+Next.js provides built-in loading states:
 
 ```typescript
-// Quiz-specific loading
-<QuizLoadingScreen />
-
-// Data loading
-<DataLoadingScreen />
-
-// Results calculation
-<ResultsLoadingScreen />
-```
-
-### Loading Animation Features
-
-```typescript
-// Animated dots indicator
-<motion.div className="flex space-x-1">
-  {[0, 1, 2].map((i) => (
-    <motion.div
-      key={i}
-      animate={{
-        scale: [1, 1.2, 1],
-        opacity: [0.5, 1, 0.5]
-      }}
-      transition={{
-        duration: 1.5,
-        repeat: Infinity,
-        delay: i * 0.2
-      }}
-      className="w-2 h-2 bg-primary-500 rounded-full"
-    />
-  ))}
-</motion.div>
-```
-
-## 🚨 Error Boundary Components
-
-### ErrorBoundary Class Component
-
-```typescript
-interface ErrorBoundaryProps {
-  children: ReactNode
-  fallback?: ReactNode
-  onError?: (error: Error, errorInfo: React.ErrorInfo) => void
-}
-
-// Usage
-<ErrorBoundary onError={handleError}>
-  <RiskyComponent />
-</ErrorBoundary>
-```
-
-### Specialized Error Boundaries
-
-```typescript
-// Quiz-specific error handling
-<QuizErrorBoundary>
-  <QuizGame />
-</QuizErrorBoundary>
-
-// Data loading error handling
-<DataErrorBoundary>
-  <DataComponent />
-</DataErrorBoundary>
-```
-
-### Error Handling Hook
-
-```typescript
-// Functional component error handling
-const { handleError, resetError } = useErrorHandler()
-
-const riskyOperation = async () => {
-  try {
-    await dangerousFunction()
-  } catch (error) {
-    handleError(error) // Will be caught by nearest error boundary
-  }
+// app/loading.tsx
+export default function Loading() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8B7FC8] mx-auto mb-4"></div>
+        <p className="text-gray-600">Loading...</p>
+      </div>
+    </div>
+  )
 }
 ```
 
-### Error UI Features
+### Component-Level Loading
 
 ```typescript
-// Development error details
-{process.env.NODE_ENV === 'development' && error && (
-  <details className="text-left bg-gray-100 rounded-lg p-4 mt-4">
-    <summary>Error Details (Development)</summary>
-    <pre className="text-xs text-gray-600 overflow-auto">
-      {error.message}
-      {error.stack}
-    </pre>
-  </details>
+// Simple loading state in components
+{isLoading && (
+  <div className="flex items-center justify-center p-8">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#8B7FC8]"></div>
+  </div>
+)}
+```
+
+## 🚨 Error Handling
+
+### Simple Error Handling with error.tsx
+
+Next.js provides built-in error handling:
+
+```typescript
+// app/error.tsx
+'use client'
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="text-center max-w-md">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          Something went wrong!
+        </h2>
+        <p className="text-gray-600 mb-6">{error.message}</p>
+        <button
+          onClick={reset}
+          className="bg-[#8B7FC8] text-white px-6 py-3 rounded-xl"
+        >
+          Try again
+        </button>
+      </div>
+    </div>
+  )
+}
+```
+
+### Component-Level Error Handling
+
+```typescript
+// Simple error state in components
+{error && (
+  <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+    <p className="text-red-800">{error}</p>
+    <button onClick={retry} className="mt-2 text-red-600 underline">
+      Retry
+    </button>
+  </div>
 )}
 ```
 

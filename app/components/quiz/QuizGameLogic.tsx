@@ -6,7 +6,6 @@ import { QuizQuestion } from '@gyan-pravah/types'
 import { useQuizStore } from '../../stores/useQuizStore'
 import QuestionCard from './QuestionCard'
 import GameHeader from './GameHeader'
-import { SuccessAnimation, FailureAnimation, LoadingAnimation } from '../animations/LottieWrapper'
 import { trackEvent } from '@/lib/analytics'
 import { 
   getQuizConfig, 
@@ -14,7 +13,6 @@ import {
   calculateMaxScore, 
   isBonusRound, 
   getQuestionTypeLabel,
-  calculateQuizStats,
   type QuizMode 
 } from '@/lib/quiz-config'
 
@@ -38,10 +36,8 @@ export default function QuizGameLogic({
     timeRemaining,
     totalScore,
     pointsPerQuestion,
-    averageReactionTime,
     setCurrentQuestion,
     setTimeRemaining,
-    setQuizMode,
     setQuizConfig,
     recordQuestionResult,
     recordReactionTime
@@ -50,23 +46,22 @@ export default function QuizGameLogic({
   const [isAnswered, setIsAnswered] = useState(false)
   const [showFeedback, setShowFeedback] = useState(false)
   const [quizStartTime] = useState(Date.now())
+  const [isReadingPeriod, setIsReadingPeriod] = useState(true)
+  const [answerPeriodStartTime, setAnswerPeriodStartTime] = useState<number | null>(null)
 
-  // Set quiz mode and config in store when component mounts
+  // Set quiz config in store when component mounts
   useEffect(() => {
-    setQuizMode(quizMode)
     const maxScore = calculateMaxScore(config)
     setQuizConfig(maxScore)
-  }, [quizMode, setQuizMode, setQuizConfig, config])
-
-  // State to track if reading period is active
-  const [isReadingPeriod, setIsReadingPeriod] = useState(true)
+  }, [setQuizConfig, config])
 
   // Reset reading period when question changes
   useEffect(() => {
     setIsReadingPeriod(true)
-    // Reading period ends after 3 seconds
+    setAnswerPeriodStartTime(null)
     const readingTimer = setTimeout(() => {
       setIsReadingPeriod(false)
+      setAnswerPeriodStartTime(Date.now())
     }, 3000)
     
     return () => clearTimeout(readingTimer)
@@ -83,14 +78,14 @@ export default function QuizGameLogic({
     return () => clearInterval(timer)
   }, [timeRemaining, isAnswered, showFeedback, isReadingPeriod, setTimeRemaining])
 
-  // Auto-progress when timer reaches 0 (but not during reading period)
+  // Auto-progress when timer reaches 0
   useEffect(() => {
     if (timeRemaining === 0 && !isAnswered && !isReadingPeriod) {
       handleTimeUp()
     }
   }, [timeRemaining, isAnswered, isReadingPeriod])
 
-  // Calculate points using QuizUp system
+  // Calculate points
   const calculatePoints = useCallback((remainingTime: number, questionIndex: number): number => {
     const isBonus = isBonusRound(questionIndex, config)
     return calculateQuestionPoints(true, remainingTime, isBonus, config)
@@ -98,12 +93,13 @@ export default function QuizGameLogic({
 
   // Handle answer selection
   const handleAnswer = useCallback((answer: 'A' | 'B' | 'C' | 'D') => {
-    if (isAnswered || isReadingPeriod) return
+    if (isAnswered || isReadingPeriod || !answerPeriodStartTime) return
 
     const currentQ = questions[currentQuestion]
     const isCorrect = answer === currentQ.correctOption
     const points = isCorrect ? calculatePoints(timeRemaining, currentQuestion) : 0
-    const timeTaken = config.questionTimeLimit - timeRemaining
+    // Calculate actual time taken during answer period only (not including reading time)
+    const timeTaken = (Date.now() - answerPeriodStartTime) / 1000
     const isBonus = isBonusRound(currentQuestion, config)
     
     // Track question answer
@@ -123,31 +119,27 @@ export default function QuizGameLogic({
       question_type: getQuestionTypeLabel(currentQuestion, config)
     })
     
-    // Record the complete question result in store
     recordQuestionResult(currentQuestion, answer, points, isCorrect)
-    
-    // Record reaction time
     recordReactionTime(timeTaken)
-    
     setIsAnswered(true)
     
-    // For wrong answers, don't show popup - show correct answer on card
-    // For correct answers, show popup feedback
     if (isCorrect) {
       setShowFeedback(true)
     }
     
     setTimeout(() => {
       progressToNextQuestion()
-    }, 2500) // 2.5 seconds for both correct and wrong answers
+    }, 2500)
   }, [
     isAnswered, 
     isReadingPeriod,
+    answerPeriodStartTime,
     questions, 
     currentQuestion, 
     timeRemaining, 
     calculatePoints, 
     recordQuestionResult,
+    recordReactionTime,
     config
   ])
 
@@ -157,7 +149,6 @@ export default function QuizGameLogic({
     
     const currentQ = questions[currentQuestion]
     
-    // Track question timeout
     trackEvent('question_timeout', {
       question_id: currentQ.id,
       question_number: currentQuestion + 1,
@@ -167,15 +158,13 @@ export default function QuizGameLogic({
       subtopic: currentQ.quiz_subtopic?.slug
     })
     
-    // No answer selected, mark as unanswered and move on
-    // Record 0 points for skipped question
     recordQuestionResult(currentQuestion, '', 0, false)
     setIsAnswered(true)
     setShowFeedback(true)
     
     setTimeout(() => {
       progressToNextQuestion()
-    }, 1000) // Shorter delay for timeout
+    }, 1000)
   }, [isAnswered, isReadingPeriod, questions, currentQuestion, recordQuestionResult])
 
   // Progress to next question or complete quiz
@@ -183,8 +172,6 @@ export default function QuizGameLogic({
     const nextQuestionIndex = currentQuestion + 1
     
     if (nextQuestionIndex >= questions.length) {
-      // Quiz complete - all data is already stored in Zustand
-      // Track quiz completion using stored data
       trackEvent('quiz_completed', {
         final_score: totalScore,
         total_possible_score: calculateMaxScore(config),
@@ -200,14 +187,12 @@ export default function QuizGameLogic({
         is_expert_mode: questions.some(q => q.difficulty === 'Hard')
       })
       
-      // Quiz complete - use stored total score
       onQuizComplete(totalScore, selectedAnswers)
       return
     }
     
-    // Move to next question
     setCurrentQuestion(nextQuestionIndex)
-    setTimeRemaining(config.questionTimeLimit) // Reset timer based on config
+    setTimeRemaining(config.questionTimeLimit)
     setIsAnswered(false)
     setShowFeedback(false)
   }, [
@@ -233,22 +218,14 @@ export default function QuizGameLogic({
 
   if (!currentQ) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
-        <LoadingAnimation size="lg" />
-        <motion.p
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-          className="text-text-secondary font-poppins"
-        >
-          Loading question...
-        </motion.p>
+      <div className="flex flex-col items-center justify-center min-h-[400px]">
+        <div className="text-white font-poppins">Loading question...</div>
       </div>
     )
   }
 
   return (
     <div className={`w-full ${className}`}>
-      {/* Game Header with progress, score, and reaction time */}
       <GameHeader
         currentQuestion={currentQuestion}
         totalQuestions={questions.length}
@@ -269,7 +246,6 @@ export default function QuizGameLogic({
         />
       </AnimatePresence>
 
-      {/* Score feedback overlay */}
       <AnimatePresence>
         {showFeedback && selectedAnswer && (
           <ScoreFeedback
@@ -284,7 +260,7 @@ export default function QuizGameLogic({
   )
 }
 
-// Score Feedback Component
+// Simplified Score Feedback Component
 interface ScoreFeedbackProps {
   isCorrect: boolean
   points: number
@@ -293,51 +269,7 @@ interface ScoreFeedbackProps {
 }
 
 function ScoreFeedback({ isCorrect, points, timeRemaining, isBonusRound = false }: ScoreFeedbackProps) {
-  if (!isCorrect) {
-    return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        className="fixed inset-0 flex items-center justify-center z-50 px-4"
-        style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
-      >
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.8, opacity: 0 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className="bg-red-500 rounded-3xl p-8 text-center max-w-sm w-full"
-        >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.1, type: "spring", stiffness: 200, damping: 15 }}
-            className="text-7xl mb-3"
-          >
-            😔
-          </motion.div>
-          <motion.h3
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-2xl font-poppins font-bold text-white mb-2"
-          >
-            Oops!
-          </motion.h3>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-white opacity-90"
-          >
-            Better luck next time
-          </motion.p>
-        </motion.div>
-      </motion.div>
-    )
-  }
+  if (!isCorrect) return null
 
   // Determine answer speed category
   const SUPER_FAST_THRESHOLD = 8
@@ -345,9 +277,8 @@ function ScoreFeedback({ isCorrect, points, timeRemaining, isBonusRound = false 
   
   const isSuperFast = timeRemaining >= SUPER_FAST_THRESHOLD
   const isFast = timeRemaining >= FAST_THRESHOLD && timeRemaining < SUPER_FAST_THRESHOLD
-  const isLate = timeRemaining < FAST_THRESHOLD
 
-  // Determine display properties
+  // Determine display properties - using design system colors (no gradients)
   let emoji = ''
   let message = ''
   let bgColor = ''
@@ -359,26 +290,26 @@ function ScoreFeedback({ isCorrect, points, timeRemaining, isBonusRound = false 
     message = 'Amazing!'
     bgColor = 'bg-yellow-400'
     textColor = 'text-gray-900'
-    badges.push({ icon: '⚡', text: 'Super Fast', color: 'bg-orange-500' })
+    badges.push({ icon: '⚡', text: 'Super Fast', color: 'bg-[#F97316]' })
     if (isBonusRound) {
-      badges.push({ icon: '🎯', text: 'Bonus x2', color: 'bg-purple-600' })
+      badges.push({ icon: '🎯', text: 'Bonus x2', color: 'bg-[#8B7FC8]' })
     }
   } else if (isFast) {
     emoji = '✨'
     message = 'Great Job!'
-    bgColor = 'bg-green-500'
+    bgColor = 'bg-green-400'
     textColor = 'text-white'
-    badges.push({ icon: '💨', text: 'Fast Answer', color: 'bg-green-600' })
+    badges.push({ icon: '💨', text: 'Fast Answer', color: 'bg-[#10B981]' })
     if (isBonusRound) {
-      badges.push({ icon: '🎯', text: 'Bonus x2', color: 'bg-purple-600' })
+      badges.push({ icon: '🎯', text: 'Bonus x2', color: 'bg-[#8B7FC8]' })
     }
   } else {
     emoji = '✓'
     message = 'Correct!'
-    bgColor = 'bg-gray-500'
-    textColor = 'text-white'
+    bgColor = 'bg-gray-300'
+    textColor = 'text-gray-900'
     if (isBonusRound) {
-      badges.push({ icon: '🎯', text: 'Bonus x2', color: 'bg-purple-600' })
+      badges.push({ icon: '🎯', text: 'Bonus x2', color: 'bg-[#8B7FC8]' })
     }
   }
 
@@ -387,78 +318,71 @@ function ScoreFeedback({ isCorrect, points, timeRemaining, isBonusRound = false 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
       className="fixed inset-0 flex items-center justify-center z-50 px-4"
       style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
     >
       <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-        className={`${bgColor} rounded-3xl p-8 text-center max-w-sm w-full`}
+        initial={{ scale: 0.5, y: 50 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.5, y: -50 }}
+        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        className={`${bgColor} rounded-3xl p-8 text-center max-w-sm w-full shadow-2xl`}
       >
-        {/* Emoji - Subtle entrance */}
+        {/* Emoji Icon */}
         <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.1, type: "spring", stiffness: 200, damping: 15 }}
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ delay: 0.2, type: "spring", stiffness: 400 }}
           className="text-7xl mb-3"
         >
           {emoji}
         </motion.div>
-
-        {/* Message */}
+        
+        {/* Feedback text */}
         <motion.h3
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
           className={`text-3xl font-poppins font-bold ${textColor} mb-4`}
         >
           {message}
         </motion.h3>
 
-        {/* Badges - Pill style */}
+        {/* Badges */}
         {badges.length > 0 && (
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.35 }}
             className="flex flex-wrap gap-2 justify-center mb-4"
           >
             {badges.map((badge, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.3 + (index * 0.1), type: "spring", stiffness: 300, damping: 20 }}
                 className={`${badge.color} text-white px-4 py-2 rounded-full text-sm font-poppins font-semibold inline-flex items-center gap-1`}
               >
                 <span>{badge.icon}</span>
                 <span>{badge.text}</span>
-              </motion.div>
+              </div>
             ))}
           </motion.div>
         )}
 
-        {/* Points - Large and clear */}
+        {/* Points */}
         <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.4, type: "spring", stiffness: 300, damping: 20 }}
-          className={`text-6xl font-bold ${textColor} mb-2`}
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4, type: "spring", stiffness: 300 }}
+          className="space-y-2"
         >
-          +{points}
-        </motion.div>
+          <div className={`text-6xl font-bold ${textColor} mb-2`}>
+            +{points}
+          </div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className={`text-sm ${textColor} opacity-75`}
-        >
-          points earned
-        </motion.p>
+          <p className={`text-sm ${textColor} opacity-75`}>
+            points earned
+          </p>
+        </motion.div>
       </motion.div>
     </motion.div>
   )

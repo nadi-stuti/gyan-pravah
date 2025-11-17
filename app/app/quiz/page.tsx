@@ -4,7 +4,6 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useQuizStore } from '@/stores/useQuizStore'
 import QuizGameLogic from '@/components/quiz/QuizGameLogic'
-import QuizExitHandler from '@/components/navigation/QuizExitHandler'
 import { QuizLoadingScreen } from '@/components/ui/LoadingScreen'
 
 export default function QuizPage() {
@@ -38,7 +37,6 @@ export default function QuizPage() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#8B7FC8' }}>
-      <QuizExitHandler />
       <div className="max-w-2xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
         <QuizGameLogic
           questions={questions}

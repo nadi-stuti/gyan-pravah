@@ -1,10 +1,9 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { useEffect, useState } from 'react'
 
 interface TimerProps {
-  duration: number // Duration in seconds
+  duration: number
   onTimeUp?: () => void
   isActive?: boolean
   className?: string
@@ -37,14 +36,12 @@ export default function Timer({
       setTimeRemaining((prev) => {
         const newTime = prev - 1
         
-        // Set warning states based on remaining time
         if (newTime <= 5) {
           setIsCritical(true)
         } else if (newTime <= 10) {
           setIsWarning(true)
         }
         
-        // Call onTimeUp when timer reaches 0
         if (newTime <= 0) {
           onTimeUp?.()
           return 0
@@ -66,15 +63,15 @@ export default function Timer({
   }
   
   const getTimerColor = () => {
-    if (isCritical) return 'text-danger-500'
-    if (isWarning) return 'text-warning-500'
-    return 'text-primary-500'
+    if (isCritical) return 'text-red-400'
+    if (isWarning) return 'text-yellow-400'
+    return 'text-[#8B7FC8]'
   }
   
   const getProgressColor = () => {
-    if (isCritical) return '#ef4444' // danger-500
-    if (isWarning) return '#f59e0b' // warning-500
-    return '#a855f7' // primary-500
+    if (isCritical) return '#F87171'
+    if (isWarning) return '#FBBF24'
+    return '#8B7FC8'
   }
   
   return (
@@ -91,12 +88,12 @@ export default function Timer({
           stroke="currentColor"
           strokeWidth="8"
           fill="transparent"
-          className="text-neutral-200"
+          className="text-gray-200"
         />
         
         {/* Progress circle */}
         {showProgress && (
-          <motion.circle
+          <circle
             cx="50"
             cy="50"
             r="45"
@@ -106,47 +103,21 @@ export default function Timer({
             strokeLinecap="round"
             strokeDasharray={`${2 * Math.PI * 45}`}
             strokeDashoffset={`${2 * Math.PI * 45 * (1 - progress / 100)}`}
-            initial={{ strokeDashoffset: 2 * Math.PI * 45 }}
-            animate={{ 
-              strokeDashoffset: 2 * Math.PI * 45 * (1 - progress / 100)
-            }}
-            transition={{ 
-              duration: 0.5, 
-              ease: "easeInOut" 
-            }}
+            className="transition-all duration-500 ease-in-out"
           />
         )}
       </svg>
       
       {/* Timer text */}
-      <motion.div
-        className={`absolute inset-0 flex items-center justify-center font-poppins font-bold ${getTimerColor()}`}
-        animate={isCritical ? {
-          scale: [1, 1.1, 1],
-        } : {}}
-        transition={isCritical ? {
-          duration: 0.6,
-          repeat: Infinity,
-          ease: "easeInOut"
-        } : {}}
+      <div
+        className={`absolute inset-0 flex items-center justify-center font-poppins font-bold ${getTimerColor()} ${isCritical ? 'animate-pulse' : ''}`}
       >
         {timeRemaining}
-      </motion.div>
+      </div>
       
       {/* Pulse effect for critical time */}
       {isCritical && (
-        <motion.div
-          className="absolute inset-0 rounded-full border-4 border-danger-500"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.8, 0, 0.8]
-          }}
-          transition={{
-            duration: 1,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
+        <div className="absolute inset-0 rounded-full border-4 border-red-400 animate-ping" />
       )}
     </div>
   )

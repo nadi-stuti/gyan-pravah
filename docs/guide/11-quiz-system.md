@@ -14,9 +14,10 @@ Quiz System Components:
 ├── QuestionCard.tsx       # Question display and interaction
 ├── AnswerOptions.tsx      # Answer selection interface
 ├── GameHeader.tsx         # Progress and score display
-├── ResultsCard.tsx        # Results presentation
-└── SwipeableQuestionCard.tsx # Mobile gesture support
+└── ResultsCard.tsx        # Results presentation
 ```
+
+**Note:** The system has been simplified to remove unnecessary complexity. SwipeableQuestionCard and other wrapper components have been removed in favor of direct, straightforward implementations.
 
 ## 🎯 Core Game Logic (`QuizGameLogic.tsx`)
 
@@ -56,7 +57,7 @@ const config = getQuizConfig(quizMode)
 // - 'quizup': 7 questions (default)
 // - 'quick': 5 questions
 // - 'marathon': 15 questions  
-// - 'first-visit': 3 easy questions
+// - 'first-visit': 7 easy questions
 
 useEffect(() => {
   setQuizMode(quizMode)

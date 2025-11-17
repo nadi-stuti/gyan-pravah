@@ -2,143 +2,73 @@
 
 ## 🧭 Navigation Overview
 
-The Gyan Pravah navigation system provides intelligent routing, state-aware navigation guards, browser history management, and comprehensive user flow tracking. The system ensures users can navigate seamlessly while protecting quiz state and providing appropriate confirmations.
+**Note:** As of v2.3, the navigation system has been significantly simplified to use Next.js built-in features with minimal custom logic. Complex navigation handlers and state protection mechanisms have been removed in favor of straightforward, maintainable patterns.
+
+The Gyan Pravah navigation system now focuses on simple, direct routing using Next.js App Router with minimal abstractions.
 
 ## 🏗️ Navigation Architecture
 
+The navigation system has been simplified to use Next.js built-in features with minimal custom logic.
+
 ```
-Navigation System Components:
-├── NavigationHandler.tsx      # Global navigation logic
-├── QuizExitHandler.tsx       # Quiz-specific exit handling
-├── BackButton.tsx            # Consistent back navigation
-├── NavigationButton.tsx      # Generic navigation with tracking
-└── ClientLayout.tsx          # Page transitions and routing
+Navigation System:
+├── Next.js App Router        # Built-in routing
+├── BackButton.tsx            # Simple back navigation
+└── ClientLayout.tsx          # Minimal page transitions
 ```
 
-## 🔄 NavigationHandler Component
+**Note:** Complex navigation handlers (NavigationHandler, QuizExitHandler, NavigationButton) have been removed in favor of simpler, more maintainable patterns using Next.js built-in navigation.
 
-The NavigationHandler provides global navigation logic and state protection.
+## 🔄 Simplified Navigation
 
-### Browser History Management
+The navigation system now relies on Next.js built-in features with minimal custom logic.
+
+### Browser Navigation
 
 ```typescript
-export default function NavigationHandler() {
+// Simple navigation using Next.js router
+import { useRouter } from 'next/navigation'
+
+export default function Component() {
   const router = useRouter()
-  const pathname = usePathname()
-  const { gameStatus, questions, resetQuiz } = useQuizStore()
-
-  useEffect(() => {
-    const handlePopState = (event: PopStateEvent) => {
-      // Track all browser navigation events
-      trackEvent('browser_navigation', {
-        from_path: pathname,
-        navigation_type: 'back_forward',
-        has_quiz_data: questions.length > 0,
-        game_status: gameStatus
-      })
-
-      // Protect active quiz state
-      if (pathname === '/quiz' && gameStatus === 'playing') {
-        const shouldLeave = window.confirm(
-          'You have a quiz in progress. Are you sure you want to leave? Your progress will be lost.'
-        )
-        
-        if (!shouldLeave) {
-          // Prevent navigation
-          event.preventDefault()
-          window.history.pushState(null, '', '/quiz')
-          return
-        } else {
-          // Allow navigation but clean up state
-          resetQuiz()
-          trackEvent('quiz_abandoned', {
-            reason: 'browser_navigation',
-            questions_answered: Object.keys(useQuizStore.getState().selectedAnswers).length,
-            total_questions: questions.length
-          })
-        }
-      }
-    }
-
-    window.addEventListener('popstate', handlePopState)
-    return () => window.removeEventListener('popstate', handlePopState)
-  }, [pathname, gameStatus, questions, resetQuiz, router])
+  
+  const handleNavigation = () => {
+    // Track navigation
+    trackEvent('navigation', { to: '/quiz' })
+    
+    // Navigate
+    router.push('/quiz')
+  }
+  
+  return <button onClick={handleNavigation}>Start Quiz</button>
 }
 ```
 
-### Route Validation
+### Route Protection
+
+Route protection is handled through simple checks in page components:
 
 ```typescript
-// Validate route access based on application state
-useEffect(() => {
-  // Quiz page requires active quiz data
-  if (pathname === '/quiz' && questions.length === 0 && gameStatus !== 'playing') {
-    router.replace('/')
-  }
-
-  // Results page requires completed quiz data
-  if (pathname === '/results' && questions.length === 0) {
-    router.replace('/')
-  }
-}, [pathname, questions.length, gameStatus, router])
-```
-
-**Route Protection Features:**
-- **State validation** - Ensures required data exists for each route
-- **Automatic redirects** - Redirects to appropriate pages when state is invalid
-- **User confirmation** - Asks for confirmation before losing quiz progress
-- **Analytics tracking** - Tracks all navigation events for analysis
-
-## 🚪 QuizExitHandler Component
-
-Specialized handler for quiz-specific exit scenarios.
-
-### Exit Confirmation System
-
-```typescript
-export default function QuizExitHandler() {
-  const { gameStatus, questions, selectedAnswers } = useQuizStore()
-
+// In quiz page component
+export default function QuizPage() {
+  const { questions } = useQuizStore()
+  const router = useRouter()
+  
   useEffect(() => {
-    // Only active on quiz page during active quiz
-    if (pathname !== '/quiz' || gameStatus !== 'playing') {
-      return
+    if (questions.length === 0) {
+      router.replace('/')
     }
-
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      // Browser refresh/close confirmation
-      event.preventDefault()
-      event.returnValue = 'You have a quiz in progress. Are you sure you want to leave?'
-      return event.returnValue
-    }
-
-    const handleVisibilityChange = () => {
-      // Track tab switching during quiz
-      if (document.hidden) {
-        trackEvent('quiz_tab_switched', {
-          questions_answered: Object.keys(selectedAnswers).length,
-          total_questions: questions.length,
-          game_status: gameStatus
-        })
-      }
-    }
-
-    window.addEventListener('beforeunload', handleBeforeUnload)
-    document.addEventListener('visibilitychange', handleVisibilityChange)
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload)
-      document.removeEventListener('visibilitychange', handleVisibilityChange)
-    }
-  }, [pathname, gameStatus, questions.length, selectedAnswers])
+  }, [questions, router])
+  
+  return <QuizGame />
 }
 ```
 
-**Exit Protection Features:**
-- **Browser close/refresh** - Warns before losing quiz progress
-- **Tab switching** - Tracks when users switch tabs during quiz
-- **State cleanup** - Properly cleans up event listeners
-- **Analytics integration** - Tracks user behavior patterns
+**Simplified Features:**
+- **Direct routing** - Uses Next.js router directly
+- **Component-level validation** - Each page validates its own requirements
+- **Minimal abstractions** - No complex navigation handlers
+- **Analytics tracking** - Simple event tracking where needed
 
 ## 🔙 BackButton Component
 
@@ -214,58 +144,40 @@ export default function BackButton({ to, className, children, onBack }: BackButt
 </BackButton>
 ```
 
-## ➡️ NavigationButton Component
+## ➡️ Simple Navigation Buttons
 
-Generic navigation component with tracking and state management.
+Navigation buttons use standard Next.js Link components or router.push() with minimal abstraction.
 
-### Enhanced Navigation
+### Basic Navigation Pattern
 
 ```typescript
-interface NavigationButtonProps {
-  to: string                        // Destination route
-  className?: string                // Custom styling
-  children: ReactNode               // Button content
-  onClick?: () => void              // Pre-navigation logic
-  trackingData?: Record<string, any> // Custom analytics data
-  disabled?: boolean                // Disable navigation
-}
+import { useRouter } from 'next/navigation'
+import { motion } from 'motion/react'
 
 export default function NavigationButton({ 
   to, 
-  className, 
   children,
   onClick,
-  trackingData = {},
-  disabled = false
-}: NavigationButtonProps) {
+  className = ''
+}: {
+  to: string
+  children: ReactNode
+  onClick?: () => void
+  className?: string
+}) {
   const router = useRouter()
 
   const handleClick = () => {
-    if (disabled) return
-
-    // Track with custom analytics data
-    trackEvent('navigation_button_clicked', {
-      from_page: window.location.pathname,
-      to_page: to,
-      ...trackingData
-    })
-
-    // Execute pre-navigation logic
-    if (onClick) {
-      onClick()
-    }
-    
-    // Navigate to destination
+    if (onClick) onClick()
     router.push(to)
   }
 
   return (
     <motion.button
       onClick={handleClick}
-      className={`${className} ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-      whileHover={disabled ? {} : { scale: 1.02 }}
-      whileTap={disabled ? {} : { scale: 0.98 }}
-      disabled={disabled}
+      className={className}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
     >
       {children}
     </motion.button>
@@ -273,55 +185,26 @@ export default function NavigationButton({
 }
 ```
 
-### Advanced Usage Examples
+### Usage Examples
 
 ```typescript
 // Basic navigation
-<NavigationButton to="/quiz">
+<button onClick={() => router.push('/quiz')}>
   Start Quiz
-</NavigationButton>
+</button>
 
-// With analytics tracking
-<NavigationButton 
-  to="/topics" 
-  trackingData={{ 
-    source: 'home_page', 
-    action: 'browse_topics',
-    user_type: isExpertMode ? 'expert' : 'normal'
-  }}
->
+// With Link component
+<Link href="/topics" className="button-class">
   Browse Topics
-</NavigationButton>
+</Link>
 
 // With pre-navigation logic
-<NavigationButton 
-  to="/quiz" 
-  onClick={() => {
-    // Prepare quiz data
-    resetQuiz()
-    setExpertMode(expertModeEnabled)
-    loadQuestions()
-  }}
-  disabled={!isReady}
-  trackingData={{ quiz_mode: 'expert' }}
->
-  Continue Quiz
-</NavigationButton>
-
-// Conditional navigation
-<NavigationButton 
-  to={hasCompletedQuiz ? '/results' : '/quiz'}
-  onClick={() => {
-    if (!hasCompletedQuiz) {
-      prepareQuiz()
-    }
-  }}
-  trackingData={{ 
-    action: hasCompletedQuiz ? 'view_results' : 'start_quiz' 
-  }}
->
-  {hasCompletedQuiz ? 'View Results' : 'Start Quiz'}
-</NavigationButton>
+<button onClick={() => {
+  resetQuiz()
+  router.push('/quiz')
+}}>
+  New Quiz
+</button>
 ```
 
 ## 🎭 Page Transitions

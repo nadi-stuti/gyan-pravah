@@ -14,38 +14,43 @@ Data Flow Layers:
          │
          ▼
 ┌─────────────────┐
-│   API Client    │ ← HTTP Requests & Caching
+│ Server Components│ ← Server-side fetch with Next.js caching
 └─────────────────┘
          │
          ▼
 ┌─────────────────┐
-│ Zustand Stores  │ ← State Management
+│Client Components│ ← Interactive UI (minimal state)
 └─────────────────┘
          │
          ▼
 ┌─────────────────┐
-│ React Components│ ← UI Rendering
+│ Zustand Stores  │ ← Minimal client state (quiz game only)
 └─────────────────┘
 ```
+
+**Simplified Architecture:**
+- Server components fetch data with Next.js caching
+- Client components receive data as props
+- Minimal Zustand stores for interactive state only
+- No complex API client layers
 
 ## 📊 Data Sources and Types
 
 ### Primary Data Sources
 
-**Strapi CMS:**
+**Strapi CMS (Server-Side):**
 - Quiz questions with options and explanations
 - Topics and subtopics with availability status
-- User-generated content and media assets
+- Fetched server-side with Next.js caching
 
-**Local Storage:**
-- User preferences and settings
-- Quiz progress and scores
-- Cached API responses
+**Local Storage (Client-Side):**
+- User preferences (expert mode, first visit)
+- Minimal persisted state
 
-**Session Storage:**
-- Temporary quiz state
-- Navigation history
-- Performance metrics
+**Client State (Zustand):**
+- Active quiz game state
+- Current question and answers
+- Score and progress
 
 ### Data Types
 
@@ -140,46 +145,48 @@ const handleAnswer = (answer: string) => {
 }
 ```
 
-### 2. Topic Selection Flow
+### 2. Topic Selection Flow (Server-Side)
 
-**Topic Loading and Selection:**
+**Server Component Data Loading:**
 ```typescript
-// 1. Load topics on page mount
-useEffect(() => {
-  const loadTopics = async () => {
-    try {
-      setLoading(true)
-      
-      // 2. Fetch from API with caching
-      const topics = await strapiClient.getTopics()
-      
-      // 3. Load availability if stale
-      if (isStale()) {
-        const availability = await strapiClient.getSubtopicAvailability()
-        setAvailability(availability)
-      }
-      
-      // 4. Update component state
-      setTopics(topics)
-    } catch (error) {
-      setError(getErrorMessage(error))
-    } finally {
-      setLoading(false)
-    }
+// 1. Server component fetches data
+// app/topics/page.tsx
+export default async function TopicsPage() {
+  // 2. Fetch server-side with caching
+  const topics = await getTopicsWithAvailability()
+  
+  // 3. Pass to client component
+  return <TopicGrid topics={topics} />
+}
+
+// 4. Client component handles interaction
+'use client'
+export function TopicGrid({ topics }: { topics: QuizTopic[] }) {
+  const router = useRouter()
+  
+  // 5. User selects topic
+  const handleTopicSelect = (topic: QuizTopic) => {
+    // 6. Navigate to subtopics
+    router.push(`/topics/${topic.slug}`)
   }
   
-  loadTopics()
-}, [])
-
-// 5. User selects topic
-const handleTopicSelect = (topic: QuizTopic) => {
-  // 6. Track selection
-  trackEvent('topic_selected', { topic: topic.slug })
-  
-  // 7. Navigate to subtopics
-  router.push(`/topics/subtopics?topic=${topic.slug}`)
+  return (
+    <div className="grid grid-cols-2 gap-4">
+      {topics.map(topic => (
+        <button key={topic.id} onClick={() => handleTopicSelect(topic)}>
+          {topic.topicName}
+        </button>
+      ))}
+    </div>
+  )
 }
 ```
+
+**Benefits:**
+- No loading states needed
+- Automatic caching by Next.js
+- Faster initial page load
+- Simpler code
 
 ### 3. User Preferences Flow
 
@@ -216,235 +223,149 @@ const handleQuizComplete = (score: number) => {
 }
 ```
 
-## 🗄️ State Management Flow
+## 🗄️ State Management Flow (Simplified)
 
-### Zustand Store Integration
+### Minimal Zustand Store Usage
 
 **Quiz Store Data Flow:**
 ```typescript
-// Store state updates flow through selectors
+// Only for interactive quiz state
 const QuizComponent = () => {
-  // 1. Subscribe to specific store slices
+  // 1. Subscribe to quiz state
   const currentQuestion = useQuizStore(state => state.currentQuestion)
   const totalScore = useQuizStore(state => state.totalScore)
-  const questions = useQuizStore(state => state.questions)
   
   // 2. Get actions
-  const { recordQuestionResult, setCurrentQuestion } = useQuizStore()
+  const { recordQuestionResult } = useQuizStore()
   
-  // 3. Component logic triggers store updates
+  // 3. Handle user interaction
   const handleAnswer = (answer: string) => {
     const points = calculatePoints(answer)
-    
-    // 4. Store update triggers re-render
     recordQuestionResult(currentQuestion, answer, points, isCorrect)
   }
   
-  // 5. UI reflects new state
-  return <QuizInterface score={totalScore} question={questions[currentQuestion]} />
+  // 4. UI reflects state
+  return <QuizInterface score={totalScore} />
 }
 ```
 
-### Cross-Store Communication
+### User Preferences (Minimal)
 
-**Store Dependencies:**
+**Simple Preference Management:**
 ```typescript
-// Quiz completion affects multiple stores
-const completeQuiz = () => {
-  // 1. Get final quiz data
-  const { totalScore, questionsCorrect } = useQuizStore.getState()
-  
-  // 2. Update user preferences
-  const { incrementGamesPlayed, setBestScore } = useUserPreferences.getState()
-  incrementGamesPlayed()
-  setBestScore(totalScore)
-  
-  // 3. Clear temporary data if needed
-  // (Quiz store maintains data for results page)
+// Only two persisted preferences
+const { expertModeEnabled, setExpertModeEnabled } = useUserPreferences()
+
+// Toggle expert mode
+const handleToggle = () => {
+  setExpertModeEnabled(!expertModeEnabled)
 }
 ```
 
-## 🔄 Caching Strategy
+**No cross-store communication needed** - Simplified architecture eliminates complexity.
 
-### Multi-Level Caching
+## 🔄 Caching Strategy (Next.js)
 
-**1. Memory Cache (Runtime):**
+### Server-Side Caching with Next.js
+
+**Automatic Caching:**
 ```typescript
-class MemoryCache {
-  private cache = new Map<string, { data: any; timestamp: number }>()
-  private ttl = 5 * 60 * 1000 // 5 minutes
+// Topics - cache for 1 hour
+const res = await fetch(`${STRAPI_URL}/api/quiz-topics`, {
+  next: { revalidate: 3600 }
+})
 
-  set(key: string, data: any) {
-    this.cache.set(key, { data, timestamp: Date.now() })
-  }
+// Questions - cache for 5 minutes
+const res = await fetch(`${STRAPI_URL}/api/quiz-questions`, {
+  next: { revalidate: 300 }
+})
 
-  get(key: string) {
-    const entry = this.cache.get(key)
-    if (!entry) return null
-
-    if (Date.now() - entry.timestamp > this.ttl) {
-      this.cache.delete(key)
-      return null
-    }
-
-    return entry.data
-  }
-}
+// User-specific - no cache
+const res = await fetch(`${STRAPI_URL}/api/user-data`, {
+  cache: 'no-store'
+})
 ```
 
-**2. Persistent Cache (Zustand):**
+**Benefits:**
+- Automatic cache management by Next.js
+- No manual cache invalidation needed
+- Consistent caching across requests
+- Better performance with less code
+
+### Client-Side Persistence
+
+**Only for User Preferences:**
 ```typescript
-export const useSubtopicStore = create<SubtopicStore>()(
+// Zustand persist middleware
+export const useUserPreferences = create<UserPreferencesState>()(
   persist(
-    (set, get) => ({
-      availability: {},
-      lastUpdated: null,
-      
-      isStale: () => {
-        const { lastUpdated } = get()
-        if (!lastUpdated) return true
-        return Date.now() - lastUpdated > CACHE_DURATION
-      },
-      
-      setAvailability: (availability) => set({ 
-        availability, 
-        lastUpdated: Date.now() 
-      })
+    (set) => ({
+      isFirstVisit: true,
+      expertModeEnabled: false,
+      setFirstVisit: (value) => set({ isFirstVisit: value }),
+      setExpertModeEnabled: (enabled) => set({ expertModeEnabled: enabled }),
     }),
-    { name: 'subtopic-availability-cache' }
+    { name: 'quiz-user-preferences' }
   )
 )
 ```
 
-**3. HTTP Cache (Browser):**
-```typescript
-// API client with caching headers
-this.client.interceptors.response.use(
-  (response) => {
-    // Cache successful responses
-    if (response.status === 200) {
-      response.headers['cache-control'] = 'max-age=300' // 5 minutes
-    }
-    return response
-  }
-)
-```
+**No complex cache management** - Next.js handles everything automatically.
 
-### Cache Invalidation
+## 📡 API Integration Flow (Simplified)
 
-**Smart Cache Updates:**
+### Server Component Request Flow
+
+**Simple Server-Side Fetching:**
 ```typescript
-// Invalidate cache when data changes
-const updateTopicAvailability = async () => {
-  // 1. Clear stale cache
-  clearCache()
+// Server component - no loading states needed
+export default async function QuizPage({ params }) {
+  // 1. Fetch server-side with caching
+  const questions = await getQuizQuestions(params.topic, params.subtopic)
   
-  // 2. Fetch fresh data
-  const availability = await strapiClient.getSubtopicAvailability()
+  // 2. Pass to client component
+  return <QuizGame questions={questions} />
+}
+
+// Server-side fetch with automatic caching
+async function getQuizQuestions(topic: string, subtopic: string) {
+  const res = await fetch(
+    `${STRAPI_URL}/api/quiz-questions?filters[topic]=${topic}`,
+    { next: { revalidate: 300 } }
+  )
   
-  // 3. Update cache with new data
-  setAvailability(availability)
-  
-  // 4. Notify components of update
-  notifySubscribers('availability_updated', availability)
+  if (!res.ok) throw new Error('Failed to fetch questions')
+  return res.json()
 }
 ```
 
-## 📡 API Integration Flow
+### Error Handling with error.tsx
 
-### Request Lifecycle
-
-**Complete API Request Flow:**
+**Simple Error Handling:**
 ```typescript
-// 1. Component initiates request
-const loadQuestions = async () => {
-  try {
-    setLoading(true)
-    setError(null)
-    
-    // 2. Check cache first
-    const cached = getCachedData('questions')
-    if (cached && !isStale(cached)) {
-      setQuestions(cached.data)
-      setLoading(false)
-      return
-    }
-    
-    // 3. Make API request with retry logic
-    const questions = await apiClient.getRandomQuestions(7, 'normal')
-    
-    // 4. Cache successful response
-    setCachedData('questions', questions)
-    
-    // 5. Update component state
-    setQuestions(questions)
-    
-    // 6. Track successful load
-    trackEvent('questions_loaded', { count: questions.length })
-    
-  } catch (error) {
-    // 7. Handle errors
-    const errorMessage = getErrorMessage(error)
-    setError(errorMessage)
-    
-    // 8. Track error
-    trackEvent('questions_load_error', { error: errorMessage })
-    
-    // 9. Attempt fallback if available
-    const fallbackData = getFallbackData()
-    if (fallbackData) {
-      setQuestions(fallbackData)
-    }
-  } finally {
-    setLoading(false)
-  }
+// app/quiz/[topic]/[subtopic]/error.tsx
+'use client'
+
+export default function Error({ error, reset }) {
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="text-center">
+        <h2 className="text-2xl font-bold mb-4">Something went wrong</h2>
+        <p className="text-gray-600 mb-6">{error.message}</p>
+        <button onClick={reset} className="bg-[#8B7FC8] text-white px-6 py-3 rounded-xl">
+          Try again
+        </button>
+      </div>
+    </div>
+  )
 }
 ```
 
-### Error Handling Flow
-
-**Comprehensive Error Management:**
-```typescript
-// Error handling pipeline
-const handleAPIError = (error: any) => {
-  // 1. Classify error type
-  const errorType = classifyError(error)
-  
-  // 2. Apply appropriate handling strategy
-  switch (errorType) {
-    case 'network':
-      // Show offline message, enable retry
-      showOfflineMessage()
-      enableRetryButton()
-      break
-      
-    case 'timeout':
-      // Show timeout message, auto-retry
-      showTimeoutMessage()
-      scheduleRetry(5000)
-      break
-      
-    case 'server':
-      // Show server error, contact support
-      showServerErrorMessage()
-      enableSupportContact()
-      break
-      
-    case 'client':
-      // Log error, show generic message
-      logClientError(error)
-      showGenericErrorMessage()
-      break
-  }
-  
-  // 3. Track error for analytics
-  trackEvent('api_error', {
-    error_type: errorType,
-    error_message: error.message,
-    endpoint: error.config?.url
-  })
-}
-```
+**Benefits:**
+- No complex error classification
+- Simple, user-friendly messages
+- Built-in Next.js error handling
+- Less code to maintain
 
 ## 🔄 Real-time Updates
 
@@ -509,64 +430,47 @@ const handleUserAction = async (action: UserAction) => {
 }
 ```
 
-## 📊 Performance Optimization
+## 📊 Performance Optimization (Simplified)
 
-### Data Loading Optimization
+### Server Component Benefits
 
-**Efficient Data Fetching:**
+**Automatic Optimizations:**
 ```typescript
-// Parallel data loading
-const loadQuizData = async () => {
-  const [questions, topics, availability] = await Promise.all([
-    strapiClient.getRandomQuestions(7, 'normal'),
-    strapiClient.getTopics(),
-    strapiClient.getSubtopicAvailability()
-  ])
+// Server components are automatically optimized
+export default async function TopicsPage() {
+  // Fetched once on server, cached by Next.js
+  const topics = await getTopicsWithAvailability()
   
-  // Update stores in parallel
-  setQuestions(questions)
-  setTopics(topics)
-  setAvailability(availability)
-}
-
-// Incremental loading
-const loadQuestionsIncrementally = async () => {
-  // Load first batch immediately
-  const firstBatch = await strapiClient.getQuestions({ limit: 3 })
-  setQuestions(firstBatch)
-  
-  // Load remaining questions in background
-  const remainingQuestions = await strapiClient.getQuestions({ 
-    limit: 4, 
-    offset: 3 
-  })
-  setQuestions(prev => [...prev, ...remainingQuestions])
+  // No client-side JavaScript for data fetching
+  return <TopicGrid topics={topics} />
 }
 ```
 
-### Memory Management
+**Benefits:**
+- No loading states needed
+- Reduced JavaScript bundle
+- Automatic caching
+- Better performance
 
-**Efficient State Updates:**
+### Client State Optimization
+
+**Minimal State Updates:**
 ```typescript
-// Avoid unnecessary re-renders
+// Only subscribe to what you need
 const QuizComponent = () => {
-  // ❌ Bad - subscribes to entire store
-  const state = useQuizStore()
-  
-  // ✅ Good - subscribes to specific fields
+  // ✅ Good - specific fields only
   const currentQuestion = useQuizStore(state => state.currentQuestion)
   const totalScore = useQuizStore(state => state.totalScore)
   
-  // ✅ Better - memoized selector
-  const quizProgress = useQuizStore(
-    useCallback(state => ({
-      current: state.currentQuestion,
-      total: state.questions.length,
-      percentage: (state.currentQuestion / state.questions.length) * 100
-    }), [])
-  )
+  return <QuizInterface score={totalScore} />
 }
 ```
+
+**Simplified approach:**
+- Less state to manage
+- Fewer re-renders
+- Better performance
+- Easier to understand
 
 ## 🔍 Data Flow Debugging
 
@@ -613,4 +517,4 @@ const monitorAPIRequests = () => {
 }
 ```
 
-This data flow architecture ensures predictable, efficient, and maintainable data management throughout the Gyan Pravah application, providing excellent user experience while maintaining code quality and performance.
+This simplified data flow architecture leverages Next.js server components and built-in caching to provide excellent performance with minimal complexity. The server-first approach reduces client-side JavaScript, improves initial load times, and makes the codebase easier to understand and maintain.

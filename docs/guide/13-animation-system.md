@@ -2,18 +2,23 @@
 
 ## 🎭 Animation Overview
 
-The Gyan Pravah animation system provides smooth, performant, and accessible animations using Motion (Framer Motion) and Lottie React. The system is optimized for mobile devices with careful attention to performance, battery life, and user preferences.
+**Note:** As of v2.3, the animation system has been simplified to focus on essential, performant animations. Lottie animations and complex wrapper components have been removed in favor of direct Motion (Framer Motion) implementations.
+
+The Gyan Pravah animation system provides smooth, performant, and accessible animations using Motion. The system is optimized for mobile devices with careful attention to performance and simplicity.
 
 ## 🏗️ Animation Architecture
 
+The animation system has been simplified to focus on essential, performant animations.
+
 ```
-Animation System Components:
-├── LottieWrapper.tsx          # Lottie animation wrapper
-├── PageTransition.tsx         # Page transition effects
+Animation System:
+├── Motion (Framer Motion)     # Core animation library
 ├── mobile-animations.ts       # Mobile-optimized variants
 ├── mobile-gestures.ts         # Touch gesture handling
-└── Component animations       # Individual component animations
+└── Component animations       # Direct component animations
 ```
+
+**Note:** Complex animation wrappers (LottieWrapper, PageTransition) have been removed in favor of simpler, direct Motion implementations. The focus is on essential animations that enhance user experience without adding unnecessary complexity.
 
 ## 🎨 Motion Animation System
 
@@ -144,305 +149,79 @@ export const getAccessibleVariants = (variants: Variants): Variants => {
 }
 ```
 
-## 🎬 Lottie Animation System
+## 🎬 Simplified Animation Approach
 
-### LottieWrapper Component
+The application now uses simple, direct animations without complex wrappers.
 
-The LottieWrapper provides a robust interface for loading and displaying Lottie animations.
+### Direct Motion Animations
 
 ```typescript
-interface LottieWrapperProps {
-  animationPath: string
-  size?: 'sm' | 'md' | 'lg' | 'xl'
-  loop?: boolean
-  autoplay?: boolean
-  speed?: number
-  onComplete?: () => void
-  className?: string
-  style?: React.CSSProperties
-}
-
-export default function LottieWrapper({
-  animationPath,
-  size = 'md',
-  loop = false,
-  autoplay = true,
-  speed = 1,
-  onComplete,
-  className = '',
-  style = {}
-}: LottieWrapperProps) {
-  const lottieRef = useRef<LottieRefCurrentProps>(null)
-  const [animationData, setAnimationData] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  // Load animation data asynchronously
-  useEffect(() => {
-    const loadAnimation = async () => {
-      try {
-        setIsLoading(true)
-        setError(null)
-        
-        const response = await fetch(animationPath)
-        if (!response.ok) {
-          throw new Error(`Failed to load animation: ${response.statusText}`)
-        }
-        
-        const data = await response.json()
-        setAnimationData(data)
-      } catch (err) {
-        console.error('Error loading Lottie animation:', err)
-        setError(err instanceof Error ? err.message : 'Failed to load animation')
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    loadAnimation()
-  }, [animationPath])
-
-  // Handle loading state
-  if (isLoading) {
-    return (
-      <motion.div
-        animate={{ opacity: [0.5, 1, 0.5] }}
-        transition={{ repeat: Infinity, duration: 1.5 }}
-        className={`flex items-center justify-center ${className}`}
-        style={{ ...dimensions, ...style }}
-      >
-        <div className="w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
-      </motion.div>
-    )
-  }
-
-  // Handle error state
-  if (error || !animationData) {
-    return (
-      <div
-        className={`flex items-center justify-center bg-gray-100 rounded-lg ${className}`}
-        style={{ ...dimensions, ...style }}
-      >
-        <span className="text-xs text-gray-500">Animation unavailable</span>
-      </div>
-    )
-  }
-
+// Simple feedback animations
+export function FeedbackAnimation({ isCorrect }: { isCorrect: boolean }) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3 }}
-      className={className}
-      style={{ ...dimensions, ...style }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      className={isCorrect ? 'bg-green-400' : 'bg-red-400'}
     >
-      <Lottie
-        lottieRef={lottieRef}
-        animationData={animationData}
-        loop={loop}
-        autoplay={autoplay}
-        onComplete={onComplete}
-        style={{ width: '100%', height: '100%' }}
-      />
+      <div className="text-6xl">{isCorrect ? '✓' : '✗'}</div>
     </motion.div>
   )
 }
-```
 
-### Predefined Animation Components
-
-```typescript
-// Success animation for correct answers
-export function SuccessAnimation({ 
-  size = 'md', 
-  onComplete, 
-  className = '' 
-}: Omit<LottieWrapperProps, 'animationPath'>) {
-  return (
-    <LottieWrapper
-      animationPath="/animations/success.json"
-      size={size}
-      loop={false}
-      autoplay={true}
-      onComplete={onComplete}
-      className={className}
-    />
-  )
-}
-
-// Failure animation for incorrect answers
-export function FailureAnimation({ 
-  size = 'md', 
-  onComplete, 
-  className = '' 
-}: Omit<LottieWrapperProps, 'animationPath'>) {
-  return (
-    <LottieWrapper
-      animationPath="/animations/failure.json"
-      size={size}
-      loop={false}
-      autoplay={true}
-      onComplete={onComplete}
-      className={className}
-    />
-  )
-}
-
-// Loading animation for data fetching
-export function LoadingAnimation({ 
-  size = 'md', 
-  className = '' 
-}: Omit<LottieWrapperProps, 'animationPath' | 'loop' | 'autoplay'>) {
-  return (
-    <LottieWrapper
-      animationPath="/animations/loading.json"
-      size={size}
-      loop={true}
-      autoplay={true}
-      className={className}
-    />
-  )
-}
-
-// Celebration animation for quiz completion
-export function CelebrationAnimation({ 
-  size = 'xl', 
-  onComplete, 
-  className = '' 
-}: Omit<LottieWrapperProps, 'animationPath'>) {
-  return (
-    <LottieWrapper
-      animationPath="/animations/celebration.json"
-      size={size}
-      loop={false}
-      autoplay={true}
-      onComplete={onComplete}
-      className={className}
-    />
-  )
-}
-```
-
-## 🔄 Page Transition System
-
-### PageTransition Component
-
-```typescript
-interface PageTransitionProps {
-  children: ReactNode
-  pageKey: string
-  direction?: 'horizontal' | 'vertical' | 'scale' | 'fade'
-  duration?: number
-  className?: string
-}
-
-const transitionVariants = {
-  horizontal: {
-    initial: { opacity: 0, x: 100 },
-    animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -100 }
-  },
-  vertical: {
-    initial: { opacity: 0, y: 50 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -50 }
-  },
-  scale: {
-    initial: { opacity: 0, scale: 0.8 },
-    animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 1.1 }
-  },
-  fade: {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0 }
-  }
-}
-
-export default function PageTransition({
-  children,
-  pageKey,
-  direction = 'horizontal',
-  duration = 0.3,
-  className = ''
-}: PageTransitionProps) {
-  const variants = transitionVariants[direction]
-
+// Simple loading state
+export function LoadingState() {
   return (
     <motion.div
-      key={pageKey}
-      initial={variants.initial}
-      animate={variants.animate}
-      exit={variants.exit}
-      transition={{
-        duration,
-        ease: "easeInOut"
-      }}
-      className={className}
+      animate={{ opacity: [0.5, 1, 0.5] }}
+      transition={{ repeat: Infinity, duration: 1.5 }}
+      className="flex items-center justify-center"
     >
-      {children}
+      <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
     </motion.div>
   )
 }
 ```
 
-### Specialized Transition Components
+**Simplified Approach Benefits:**
+- **Smaller bundle size** - No Lottie library needed
+- **Better performance** - CSS and Motion animations are faster
+- **Easier maintenance** - Less code to maintain
+- **Consistent styling** - Uses design system colors directly
+
+## 🔄 Simplified Page Transitions
+
+Page transitions are now minimal and subtle, implemented directly in the layout.
+
+### Simple Page Transition
 
 ```typescript
-// Quiz-specific transitions with scale effect
-export function QuizTransition({ 
-  children, 
-  pageKey, 
-  className = '' 
-}: Omit<PageTransitionProps, 'direction' | 'duration'>) {
-  return (
-    <PageTransition
-      pageKey={pageKey}
-      direction="scale"
-      duration={0.4}
-      className={className}
-    >
-      {children}
-    </PageTransition>
-  )
-}
+// In ClientLayout component
+export default function ClientLayout({ children }: { children: ReactNode }) {
+  const pathname = usePathname()
 
-// Horizontal slide transitions
-export function SlideTransition({ 
-  children, 
-  pageKey, 
-  className = '' 
-}: Omit<PageTransitionProps, 'direction' | 'duration'>) {
   return (
-    <PageTransition
-      pageKey={pageKey}
-      direction="horizontal"
-      duration={0.3}
-      className={className}
-    >
-      {children}
-    </PageTransition>
-  )
-}
-
-// Simple fade transitions
-export function FadeTransition({ 
-  children, 
-  pageKey, 
-  className = '' 
-}: Omit<PageTransitionProps, 'direction' | 'duration'>) {
-  return (
-    <PageTransition
-      pageKey={pageKey}
-      direction="fade"
-      duration={0.2}
-      className={className}
-    >
-      {children}
-    </PageTransition>
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={pathname}
+        initial={{ opacity: 0.8, x: 3 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0.8, x: -3 }}
+        transition={{ duration: 0.15, ease: "easeOut" }}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
   )
 }
 ```
+
+**Simplified Transition Benefits:**
+- **Subtle and fast** - 150ms duration for quick feel
+- **Minimal movement** - Only 3px slide for smoothness
+- **Better performance** - Less complex animations
+- **Consistent experience** - Same transition everywhere
 
 ## 📱 Mobile Animation Optimizations
 

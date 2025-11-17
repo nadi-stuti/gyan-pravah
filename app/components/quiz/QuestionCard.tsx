@@ -1,11 +1,9 @@
 'use client'
 
-import { motion } from 'motion/react'
+import { motion, AnimatePresence } from 'motion/react'
 import { useState, useEffect } from 'react'
 import { QuizQuestion } from '@gyan-pravah/types'
 import { getQuizConfig } from '@/lib/quiz-config'
-import { questionCardVariants, answerOptionVariants, getAccessibleVariants } from '@/lib/mobile-animations'
-import { handleTouchPress } from '@/lib/mobile-gestures'
 
 interface QuestionCardProps {
   question: QuizQuestion
@@ -33,11 +31,8 @@ export default function QuestionCard({
   const config = getQuizConfig('quizup')
   const maxTime = config.questionTimeLimit
   
-  // State for reading timer (3 seconds before showing options)
   const [readingTime, setReadingTime] = useState(3)
   const [showOptions, setShowOptions] = useState(false)
-  
-  // Shuffle answers order to prevent pattern recognition
   const [shuffledOptions, setShuffledOptions] = useState<Array<{key: 'A' | 'B' | 'C' | 'D', text: string}>>([])
   
   // Initialize shuffled options when question changes
@@ -47,7 +42,7 @@ export default function QuestionCard({
       text
     }))
     
-    // Fisher-Yates shuffle algorithm
+    // Fisher-Yates shuffle
     const shuffled = [...options]
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
@@ -74,14 +69,18 @@ export default function QuestionCard({
   return (
     <motion.div
       key={question.id}
-      variants={getAccessibleVariants(questionCardVariants)}
-      initial="initial"
-      animate="animate"
-      exit="exit"
+      initial={{ opacity: 0, scale: 0.9, y: 30 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.9, y: -30 }}
+      transition={{
+        type: "spring",
+        stiffness: 400,
+        damping: 25,
+        duration: 0.4
+      }}
       className={`w-full max-w-lg mx-auto px-2 sm:px-0 ${className}`}
     >
-      {/* Question Card - White background like reference */}
-      <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 mb-4 sm:mb-6 shadow-mobile-card sm:shadow-lg">
+      <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 mb-4 sm:mb-6 shadow-lg">
         {/* Category Badge */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -97,9 +96,9 @@ export default function QuestionCard({
 
         {/* Question text */}
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.3 }}
+          transition={{ delay: 0.2, duration: 0.4 }}
           className="text-center mb-4 sm:mb-6"
         >
           <h2 className="text-base sm:text-lg md:text-xl font-poppins font-semibold text-gray-900 leading-relaxed px-2">
@@ -107,32 +106,31 @@ export default function QuestionCard({
           </h2>
         </motion.div>
 
-        {/* Divider with padding */}
+        {/* Divider */}
         <motion.div
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ delay: 0.2, duration: 0.3 }}
+          transition={{ delay: 0.3, duration: 0.4 }}
           className="mb-4 sm:mb-6 px-4 sm:px-8"
         >
           <div className="h-px bg-gray-200"></div>
         </motion.div>
 
-        {/* Reading Timer or Main Timer */}
+        {/* Timer */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.4 }}
           className="mb-4 sm:mb-6"
         >
           {!showOptions ? (
-            // Reading timer (3 seconds)
             <div className="text-center">
               <motion.div
                 key={readingTime}
-                initial={{ scale: 1.1, opacity: 0 }}
+                initial={{ scale: 1.2, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                transition={{ duration: 0.2 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                transition={{ duration: 0.3 }}
                 className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-[#8B7FC8] text-white text-xl sm:text-2xl font-bold mb-2"
               >
                 {readingTime}
@@ -142,11 +140,10 @@ export default function QuestionCard({
               </p>
             </div>
           ) : (
-            // Main quiz timer
             <div className="relative">
               <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
                 <motion.div
-                  className={`h-full rounded-full ${questionNumber > 6 ? 'bg-orange-500' : 'bg-green-500'}`}
+                  className={`h-full rounded-full ${questionNumber > 6 ? 'bg-orange-500' : 'bg-green-400'}`}
                   initial={{ width: '100%' }}
                   animate={{ width: `${(timeRemaining / maxTime) * 100}%` }}
                   transition={{ duration: 1, ease: "linear" }}
@@ -161,7 +158,7 @@ export default function QuestionCard({
           )}
         </motion.div>
 
-        {/* Answer options - only show after reading timer */}
+        {/* Answer options */}
         {showOptions && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -183,7 +180,7 @@ export default function QuestionCard({
   )
 }
 
-// Shuffled Answer Options Component
+// Simplified Answer Options Component
 interface ShuffledAnswerOptionsProps {
   question: QuizQuestion
   shuffledOptions: Array<{key: 'A' | 'B' | 'C' | 'D', text: string}>
@@ -230,7 +227,7 @@ function ShuffledAnswerOptions({
   )
 }
 
-// Individual Shuffled Answer Option Component
+// Simplified Answer Option Component
 interface ShuffledAnswerOptionProps {
   option: 'A' | 'B' | 'C' | 'D'
   text: string
@@ -279,28 +276,30 @@ function ShuffledAnswerOption({
   
   return (
     <motion.button
-      variants={getAccessibleVariants(answerOptionVariants)}
-      initial="initial"
-      animate="animate"
-      whileHover={!isDisabled && optionState === 'default' ? "hover" : undefined}
-      whileTap={!isDisabled ? "tap" : undefined}
-      custom={animationDelay * 10} // Convert to index for stagger
-      onClick={() => handleTouchPress(onClick)}
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{
+        delay: animationDelay,
+        duration: 0.3,
+        type: "spring",
+        stiffness: 200
+      }}
+      whileHover={!isDisabled && optionState === 'default' ? { scale: 1.02 } : {}}
+      whileTap={!isDisabled ? { scale: 0.98 } : {}}
+      onClick={onClick}
       disabled={isDisabled}
       className={`
         w-full p-3 sm:p-4 rounded-lg sm:rounded-xl border-2 transition-all duration-150 text-left
-        font-poppins font-medium text-sm sm:text-base min-h-touch
-        disabled:cursor-not-allowed transform touch-manipulation
+        font-poppins font-medium text-sm sm:text-base
+        disabled:cursor-not-allowed transform
         ${getStateClasses()}
         ${isDisabled && optionState === 'default' ? 'opacity-60' : ''}
       `}
-      // Mobile accessibility
       role="button"
       aria-pressed={isSelected}
       aria-disabled={isDisabled}
     >
       <div className="flex items-center">
-        {/* Option text */}
         <span className="flex-1 px-2 sm:px-4">
           {text}
         </span>

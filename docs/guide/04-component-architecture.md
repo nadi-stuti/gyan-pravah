@@ -2,7 +2,21 @@
 
 ## 🏗️ Architecture Overview
 
-The Gyan Pravah application follows a **hierarchical component architecture** with clear separation of concerns, reusable UI components, and specialized feature components. The architecture is designed for maintainability, testability, and scalability.
+The Gyan Pravah application follows a **server-first component architecture** with clear separation between server and client components. Server components handle data fetching and static rendering, while client components provide interactivity. The architecture is designed for performance, maintainability, and optimal user experience.
+
+### Server vs Client Components
+
+**Server Components (Default):**
+- Topic and subtopic pages
+- Data fetching and caching
+- Static content rendering
+- No JavaScript sent to client
+
+**Client Components ('use client'):**
+- Quiz game logic and interactions
+- Animations and transitions
+- User input handling
+- Real-time state updates
 
 ## 📁 Component Organization
 
@@ -11,28 +25,23 @@ components/
 ├── ui/                     # Reusable UI components (design system)
 │   ├── Button.tsx         # Primary button component
 │   ├── Card.tsx           # Card container component
-│   ├── LoadingScreen.tsx  # Loading states
-│   ├── ErrorBoundary.tsx  # Error handling
+│   ├── Timer.tsx          # Quiz timer component
 │   └── index.ts           # Barrel exports
-├── quiz/                  # Quiz-specific components
+├── quiz/                  # Quiz-specific components (client)
 │   ├── QuestionCard.tsx   # Individual question display
 │   ├── AnswerOptions.tsx  # Answer selection interface
+│   ├── QuizGame.tsx       # Main quiz game component
 │   ├── QuizGameLogic.tsx  # Core quiz logic
+│   └── index.ts           # Barrel exports
+├── topics/                # Topic display components
+│   ├── TopicGrid.tsx      # Topic grid display (client)
+│   ├── SubtopicsClient.tsx # Subtopic selection (client)
 │   └── index.ts           # Barrel exports
 ├── home/                  # Home page components
 │   ├── PlayNowButton.tsx  # Quick start button
-│   ├── TopicSelector.tsx  # Topic selection
 │   └── ExpertModeToggle.tsx # Difficulty toggle
-├── layout/                # Layout components
-│   ├── ClientLayout.tsx   # Client-side layout wrapper
-│   └── MobileLayout.tsx   # Mobile-specific layout
-├── navigation/            # Navigation components
-│   ├── BackButton.tsx     # Back navigation
-│   ├── NavigationButton.tsx # Generic nav button
-│   └── NavigationHandler.tsx # Global navigation logic
-└── animations/            # Animation components
-    ├── LottieWrapper.tsx  # Lottie animation wrapper
-    └── PageTransition.tsx # Page transition effects
+└── providers/             # Context providers
+    └── PHProvider.tsx     # PostHog analytics provider
 ```
 
 ## 🎨 Design System Components
@@ -290,14 +299,15 @@ const PlayNowButton = () => {
 - **Error Handling** - Graceful failure with retry options
 - **Analytics Integration** - Tracks user interactions
 
-### TopicSelector Component
+### TopicGrid Component (Client)
 
-Allows users to browse and select quiz topics:
+Client component that receives topics from server component:
 
 ```typescript
-const TopicSelector = () => {
-  const [topics, setTopics] = useState<QuizTopic[]>([])
-  const { availability } = useSubtopicStore()
+'use client'
+
+export function TopicGrid({ topics }: { topics: QuizTopic[] }) {
+  const router = useRouter()
   
   return (
     <div className="grid grid-cols-2 gap-4">
@@ -307,15 +317,23 @@ const TopicSelector = () => {
           className="bg-white rounded-2xl p-6"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => handleTopicSelect(topic)}
+          onClick={() => router.push(`/topics/${topic.slug}`)}
         >
-          <TopicIcon topicSlug={topic.slug} />
           <h3>{topic.topicName}</h3>
-          <p>{getAvailableSubtopics(topic)} subtopics</p>
+          <p>{topic.quiz_subtopics?.length || 0} subtopics</p>
         </motion.button>
       ))}
     </div>
   )
+}
+```
+
+**Server Component Usage:**
+```typescript
+// app/topics/page.tsx (Server Component)
+export default async function TopicsPage() {
+  const topics = await getTopicsWithAvailability()
+  return <TopicGrid topics={topics} />
 }
 ```
 

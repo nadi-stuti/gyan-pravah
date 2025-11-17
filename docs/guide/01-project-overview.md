@@ -13,20 +13,19 @@ Gyan Pravah is a **mobile-first quiz application** built with Next.js 16 that fo
 - **TypeScript** for type safety
 - **Tailwind CSS 4** for styling
 - **Motion** (Framer Motion) for animations
-- **Lottie React** for complex animations
 
 **State Management:**
-- **Zustand** for global state management
+- **Zustand** for minimal client-side state
+- Server components for data fetching
 - React hooks for local component state
 
 **Backend Integration:**
 - **Strapi CMS** as headless CMS
-- **Axios** for API communication
-- Custom API client with error handling
+- **Next.js fetch** with caching for server-side data
+- Server components for optimal performance
 
 **Analytics & Monitoring:**
 - **PostHog** for user analytics and tracking
-- Custom error service for error handling
 
 **Development Tools:**
 - **ESLint** for code linting
@@ -41,25 +40,23 @@ app/
 │   ├── layout.tsx         # Root layout with font and metadata
 │   ├── page.tsx           # Home page with first-visit logic
 │   ├── globals.css        # Global styles and Tailwind
+│   ├── error.tsx          # Global error handling
+│   ├── loading.tsx        # Global loading state
 │   ├── quiz/              # Quiz game page
-│   ├── topics/            # Topic selection pages
+│   ├── topics/            # Topic selection pages (server components)
 │   └── results/           # Quiz results page
 ├── components/            # React components
 │   ├── ui/               # Reusable UI components
 │   ├── quiz/             # Quiz-specific components
-│   ├── home/             # Home page components
-│   ├── layout/           # Layout components
-│   └── navigation/       # Navigation components
+│   ├── topics/           # Topic display components
+│   └── home/             # Home page components
 ├── lib/                  # Utilities and services
-│   ├── strapi.ts         # Strapi API client
-│   ├── analytics.ts      # PostHog analytics
-│   ├── quiz-api.ts       # Quiz-specific API calls
-│   └── error-service.ts  # Error handling service
-├── stores/               # Zustand state stores
-│   ├── useQuizStore.ts   # Quiz game state
-│   ├── useSubtopicStore.ts # Topic availability
-│   └── useUserPreferences.ts # User settings
-├── hooks/                # Custom React hooks
+│   ├── strapi-server.ts  # Server-side Strapi client
+│   ├── strapi.ts         # Client-side Strapi client (minimal)
+│   └── analytics.ts      # PostHog analytics
+├── stores/               # Zustand state stores (minimal)
+│   ├── useQuizStore.ts   # Quiz game state only
+│   └── useUserPreferences.ts # User settings only
 └── public/               # Static assets
 ```
 
@@ -87,7 +84,7 @@ app/
 
 ### First-Time User Journey
 1. **Landing** - User opens the app for the first time
-2. **Auto-start** - App automatically starts a 3-question intro quiz
+2. **Auto-start** - App automatically starts a 7-question intro quiz
 3. **Learning** - User experiences the quiz mechanics
 4. **Completion** - User sees results and understands the app
 
@@ -120,18 +117,18 @@ app/
 - **Answer shuffling** - Prevents pattern memorization
 
 ### State Management
-- **Persistent user preferences** across sessions
-- **Quiz state management** with complete game state tracking
+- **Minimal client state** - Only interactive quiz state
+- **Server-side data fetching** - Topics and questions loaded on server
+- **Persistent user preferences** - Expert mode and first visit flag
 - **Quiz metadata tracking** - Stores source, topic, difficulty for replay
 - **Reaction time tracking** - Average speed calculated in real-time
-- **Topic availability caching** for offline-like experience
-- **Error state handling** with retry mechanisms
 
 ### Performance Optimizations
 - **Turbopack** for fast development builds
+- **Server components** for reduced JavaScript bundle
+- **Next.js caching** with revalidation strategies
 - **Image optimization** with Next.js Image component
 - **Code splitting** with dynamic imports
-- **Caching strategies** for API responses
 
 ### Analytics Integration
 - **User behavior tracking** with PostHog
@@ -143,27 +140,29 @@ app/
 
 ### Next.js App Router Choice
 - **File-based routing** - Intuitive page organization
-- **Server components** - Better performance and SEO
+- **Server components by default** - Better performance and SEO
 - **Built-in optimizations** - Image, font, and bundle optimization
 - **TypeScript integration** - Excellent developer experience
+- **Native caching** - Fetch API with revalidation strategies
 
-### Zustand for State Management
-- **Lightweight** - Minimal boilerplate compared to Redux
+### Zustand for Minimal State
+- **Lightweight** - Only for interactive client state
 - **TypeScript-first** - Excellent type inference
-- **Devtools support** - Easy debugging
-- **Persistence** - Built-in localStorage integration
+- **Simple API** - Easy to understand and maintain
+- **Persistence** - Built-in localStorage for preferences
 
 ### Strapi CMS Integration
 - **Content management** - Non-technical users can manage questions
-- **API flexibility** - RESTful API with custom endpoints
-- **Media handling** - Image and file management
+- **Server-side fetching** - Data loaded on server for performance
+- **Next.js caching** - Automatic caching with revalidation
 - **Scalability** - Can handle growing content needs
 
 ### Component Architecture
-- **Atomic design** - Small, reusable components
-- **Separation of concerns** - Logic separated from presentation
+- **Server-first** - Server components by default
+- **Client components** - Only for interactive elements
+- **Separation of concerns** - Data fetching separated from UI
 - **Type safety** - All components properly typed
-- **Testing friendly** - Components designed for easy testing
+- **Flat design** - Simple, maintainable component structure
 
 ## 📱 Mobile-First Considerations
 
@@ -174,15 +173,15 @@ app/
 - **Thumb-friendly layouts** for one-handed use
 
 ### Performance
-- **Bundle size optimization** - Only load what's needed
+- **Server components** - Reduced JavaScript bundle size
+- **Next.js caching** - Automatic caching with revalidation
 - **Image optimization** - WebP format with fallbacks
 - **Lazy loading** - Components and images load on demand
-- **Caching strategies** - Reduce network requests
 
-### Offline Considerations
-- **Service worker ready** - PWA capabilities with next-pwa
-- **Local storage** - Critical data persisted locally
-- **Error boundaries** - Graceful degradation when offline
-- **Retry mechanisms** - Automatic retry for failed requests
+### Error Handling
+- **Simple error.tsx files** - Next.js built-in error handling
+- **Loading.tsx files** - Simple loading states
+- **Graceful degradation** - Clear error messages
+- **User-friendly feedback** - Retry options when appropriate
 
 This architecture provides a solid foundation for a scalable, maintainable, and performant quiz application that delivers an excellent user experience on mobile devices while maintaining code quality and developer productivity.

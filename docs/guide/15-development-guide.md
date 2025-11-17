@@ -2,6 +2,8 @@
 
 ## 🚀 Getting Started
 
+**Note:** As of v2.3, the codebase has been significantly simplified. This guide reflects the streamlined architecture with server components, minimal client state, and straightforward implementations.
+
 This guide will help you become proficient in developing and maintaining the Gyan Pravah Next.js application.
 
 ## 📋 Prerequisites
@@ -101,14 +103,14 @@ app/
 - `components/layout/ClientLayout.tsx` - Client-side layout wrapper
 
 **State Management:**
-- `stores/useQuizStore.ts` - Quiz game state
-- `stores/useUserPreferences.ts` - User settings (persisted)
-- `stores/useSubtopicStore.ts` - Topic availability cache
+- `stores/useQuizStore.ts` - Quiz game state (simplified)
+- `stores/useUserPreferences.ts` - User settings (minimal, persisted)
 
 **API Integration:**
-- `lib/strapi.ts` - Main Strapi client with all API methods
-- `lib/api-client.ts` - Enhanced client with retry logic
-- `lib/quiz-api.ts` - Quiz-specific API operations
+- `lib/strapi-server.ts` - Server-side Strapi client with fetch and caching
+- `lib/strapi.ts` - Client-side Strapi client (minimal usage)
+
+**Note:** The codebase has been significantly simplified. Complex error handling, retry logic, and unnecessary abstractions have been removed in favor of straightforward implementations.
 
 **Quiz System:**
 - `components/quiz/QuizGameLogic.tsx` - Core quiz orchestration
@@ -183,8 +185,6 @@ npm run dev
 
 import { motion } from 'motion/react'
 import { ReactNode } from 'react'
-import { getAccessibleVariants, cardAnimationVariants } from '@/lib/mobile-animations'
-import { handleTouchPress } from '@/lib/mobile-gestures'
 
 interface NewComponentProps {
   children: ReactNode
@@ -207,17 +207,14 @@ export default function NewComponent({
   }
   
   return (
-    <motion.div
-      variants={getAccessibleVariants(cardAnimationVariants)}
-      initial="initial"
-      animate="animate"
-      whileHover={onClick ? "hover" : undefined}
-      whileTap={onClick ? "tap" : undefined}
-      onClick={onClick ? () => handleTouchPress(onClick) : undefined}
+    <motion.button
+      onClick={onClick}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
       className={`${baseClasses} ${variantClasses[variant]} ${className}`}
     >
       {children}
-    </motion.div>
+    </motion.button>
   )
 }
 ```
@@ -225,10 +222,10 @@ export default function NewComponent({
 **Component Best Practices:**
 - Always use TypeScript interfaces for props
 - Follow the design system (no gradients, approved colors)
-- Include mobile optimizations
+- Keep animations simple and performant
 - Add proper accessibility attributes
-- Use motion for animations
-- Handle touch interactions properly
+- Use direct Motion animations (no complex wrappers)
+- Minimize abstractions and keep code straightforward
 
 ### 3. State Management
 
@@ -296,11 +293,11 @@ useEffect(() => {
 
 ### 4. API Integration
 
-**Adding New API Endpoints:**
+**Server-Side Data Fetching (Preferred):**
 
 ```typescript
-// lib/strapi.ts - Add to StrapiClient class
-async getNewData(filters: any = {}): Promise<NewDataType[]> {
+// lib/strapi-server.ts - Server-only API calls
+export async function getNewData(filters: any = {}): Promise<NewDataType[]> {
   const params = new URLSearchParams()
   
   // Add filters
@@ -311,28 +308,32 @@ async getNewData(filters: any = {}): Promise<NewDataType[]> {
   // Add population
   params.append('populate[related_field][fields][0]', 'name')
   
-  const response = await this.client.get<NewDataResponse>(
-    `/api/new-data?${params.toString()}`
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/new-data?${params.toString()}`,
+    {
+      next: { revalidate: 3600 } // Cache for 1 hour
+    }
   )
   
-  return response.data.data
+  if (!response.ok) throw new Error('Failed to fetch data')
+  
+  const json = await response.json()
+  return json.data
 }
 ```
 
-**Using the API:**
+**Using Server-Side API:**
 
 ```typescript
-// In a component or hook
-const loadNewData = async () => {
-  try {
-    const data = await strapiClient.getNewData({ category: 'example' })
-    // Handle success
-  } catch (error) {
-    // Handle error
-    console.error('Failed to load data:', error)
-  }
+// In a server component
+export default async function Page() {
+  const data = await getNewData({ category: 'example' })
+  
+  return <DataDisplay data={data} />
 }
 ```
+
+**Note:** Prefer server-side data fetching with Next.js fetch and caching. Use client-side fetching only when necessary for interactive features.
 
 ## 🎨 Design System Guidelines
 

@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import { strapiClient } from '@/lib/strapi'
 import { QuizQuestion } from '@gyan-pravah/types'
 
 interface FactsCardProps {
@@ -18,18 +17,19 @@ export default function FactsCard({ className = '' }: FactsCardProps) {
     try {
       setIsLoading(true)
       
-      // Fetch a random question for its explanation
-      const questions = await strapiClient.getRandomQuestions(1, 'normal')
+      // Fetch a random question for its explanation from our API
+      const response = await fetch('/api/random-fact?mode=normal&count=5')
       
-      if (questions.length > 0 && questions[0].explanation) {
-        setCurrentFact(questions[0])
-      } else {
-        // Fallback: try to get any question with explanation
-        const fallbackQuestions = await strapiClient.getRandomQuestions(5, 'normal')
-        const questionWithExplanation = fallbackQuestions.find(q => q.explanation && q.explanation.trim().length > 0)
-        if (questionWithExplanation) {
-          setCurrentFact(questionWithExplanation)
-        }
+      if (!response.ok) {
+        throw new Error('Failed to fetch random fact')
+      }
+      
+      const questions: QuizQuestion[] = await response.json()
+      
+      if (questions.length > 0) {
+        // Pick a random question from the returned set
+        const randomIndex = Math.floor(Math.random() * questions.length)
+        setCurrentFact(questions[randomIndex])
       }
     } catch (error) {
       console.error('Failed to fetch random fact:', error)

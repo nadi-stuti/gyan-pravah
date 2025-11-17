@@ -2,7 +2,9 @@
 
 ## 📱 Mobile-First Overview
 
-The Gyan Pravah application is designed with a mobile-first approach, ensuring optimal performance, usability, and accessibility on mobile devices. Every aspect of the application is optimized for touch interactions, small screens, and mobile-specific constraints.
+**Note:** As of v2.3, the mobile experience has been simplified to focus on reliable, straightforward interactions. Complex swipe gestures and wrapper components have been removed in favor of clear, touch-optimized buttons and simple animations.
+
+The Gyan Pravah application is designed with a mobile-first approach, ensuring optimal performance, usability, and accessibility on mobile devices through simple, reliable patterns.
 
 ## 🎯 Mobile Design Principles
 
@@ -153,32 +155,25 @@ export const handleTouchPress = (callback: () => void) => {
 </button>
 ```
 
-### Swipeable Quiz Interface
+### Touch-Optimized Quiz Interface
 
 ```typescript
-// Swipeable question cards
-const SwipeableQuestionCard = ({ question, onSwipeLeft, onSwipeRight }) => {
+// Simple touch-optimized question cards
+const QuestionCard = ({ question, onAnswer }) => {
   return (
     <motion.div
-      drag="x"
-      dragConstraints={{ left: 0, right: 0 }}
-      dragElastic={0.2}
-      onDragEnd={(event, info) => {
-        const swipeThreshold = 100
-        
-        if (info.offset.x > swipeThreshold) {
-          onSwipeRight?.() // Previous question
-        } else if (info.offset.x < -swipeThreshold) {
-          onSwipeLeft?.()  // Next question
-        }
-      }}
-      className="cursor-grab active:cursor-grabbing"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="touch-manipulation"
     >
       <QuestionContent question={question} />
+      <AnswerOptions onAnswer={onAnswer} />
     </motion.div>
   )
 }
 ```
+
+**Note:** Complex swipe gestures have been removed in favor of simple, reliable touch interactions. The focus is on clear, responsive buttons rather than gesture-based navigation.
 
 ## 📐 Safe Area Handling
 

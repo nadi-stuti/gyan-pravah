@@ -10,14 +10,17 @@ The quiz components form the core interactive experience of the Gyan Pravah appl
 
 ```
 Quiz System Components:
+├── QuizGame.tsx               # Main quiz wrapper component
 ├── QuizGameLogic.tsx          # Core game orchestration
 ├── QuestionCard.tsx           # Question display with timer
-├── AnswerOptions.tsx          # Answer selection interface
-├── GameHeader.tsx             # Progress and score display
-├── ResultsCard.tsx            # Individual question results
-├── SwipeableQuestionCard.tsx  # Mobile gesture support
-└── EnhancedQuizLoader.tsx     # Quiz loading states
+└── Timer.tsx                  # Reusable timer component
 ```
+
+**Simplified Architecture:**
+- Removed complex components like AnswerOptions, GameHeader, ResultsCard
+- Answer options are now inline in QuestionCard
+- Progress display is simplified and inline
+- Results use simple card layouts without dedicated components
 
 ## 🃏 QuestionCard Component
 
@@ -119,322 +122,132 @@ for (let i = shuffled.length - 1; i > 0; i--) {
 - **Cultural color coding** - Topic-specific color schemes
 - **Emoji indicators** - Visual cues for different question types
 
-## 🎯 AnswerOptions Component
+## 🎯 Answer Selection (Inline)
 
-Handles answer selection with sophisticated visual feedback and state management.
+Answer options are now rendered inline within QuestionCard for simplicity.
 
-### Answer State System
-
-```typescript
-const getOptionState = () => {
-  if (isWrong) return 'wrong'
-  if (isCorrect) return 'correct'
-  if (isSelected) return 'selected'
-  return 'default'
-}
-
-const getStateClasses = () => {
-  switch (optionState) {
-    case 'correct':
-      return 'border-green-500 bg-green-500 text-white shadow-lg'
-    case 'wrong':
-      return 'border-red-500 bg-red-500 text-white shadow-lg'
-    case 'selected':
-      return 'border-purple-500 bg-purple-500 text-white shadow-lg'
-    default:
-      return 'border-gray-200 bg-white text-gray-900 hover:border-purple-300'
-  }
-}
-```
-
-### Interactive Animations
+### Simple Answer Buttons
 
 ```typescript
-const buttonVariants = {
-  default: {
-    scale: 1,
-    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
-  },
-  hover: {
-    scale: 1.02,
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
-  },
-  tap: {
-    scale: 0.98
-  },
-  correct: {
-    scale: 1.02,
-    boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)'
-  },
-  wrong: {
-    scale: 1,
-    boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)'
-  }
-}
-```
-
-### Option Circle Component
-
-```typescript
-function OptionCircle({ option, state, isSelected }: OptionCircleProps) {
+// Inline answer rendering in QuestionCard
+{shuffledOptions.map(({ key, text }) => {
+  const isCorrect = key === question.correctOption
+  const isSelected = selectedAnswer === key
+  const showFeedback = isAnswered
+  
   return (
-    <motion.div
-      animate={{
-        scale: isSelected || state === 'correct' || state === 'wrong' ? 1.1 : 1,
-        rotate: state === 'wrong' ? [0, -5, 5, -5, 0] : 0
-      }}
-      transition={{ 
-        duration: state === 'wrong' ? 0.5 : 0.2,
-        type: "spring",
-        stiffness: 300
-      }}
-      className="w-8 h-8 rounded-full flex items-center justify-center font-bold"
+    <motion.button
+      key={key}
+      onClick={() => !isAnswered && onAnswerSelect(key)}
+      disabled={isAnswered}
+      className={`
+        w-full p-4 rounded-xl text-left transition-all
+        ${isSelected && showFeedback && isCorrect ? 'bg-green-500 text-white' : ''}
+        ${isSelected && showFeedback && !isCorrect ? 'bg-red-500 text-white' : ''}
+        ${!showFeedback ? 'bg-white hover:bg-gray-50' : ''}
+      `}
+      whileHover={!isAnswered ? { scale: 1.02 } : {}}
+      whileTap={!isAnswered ? { scale: 0.98 } : {}}
     >
-      {option}
-    </motion.div>
+      <span className="font-bold mr-3">{key}.</span>
+      {text}
+    </motion.button>
   )
-}
+})}
 ```
 
-**Animation Features:**
-- **Scale feedback** - Visual confirmation of selection
-- **Shake animation** - Wrong answers get subtle shake
-- **Color transitions** - Smooth state changes
-- **Spring physics** - Natural, bouncy animations
+**Simplified Features:**
+- **Inline rendering** - No separate component needed
+- **Simple state logic** - Direct conditional styling
+- **Basic animations** - Scale on hover/tap only
+- **Clear visual feedback** - Green for correct, red for wrong
 
-## 📊 GameHeader Component (v2.2)
+## 📊 Progress Display (Simplified)
 
-Displays quiz progress, score, round indicators, and **temperature meter** with real-time updates.
+Progress information is now displayed inline within QuizGameLogic for simplicity.
 
-### Round Indicator System
-
-```typescript
-const getRoundIndicators = () => {
-  const indicators = []
-  for (let i = 0; i < totalQuestions; i++) {
-    let status: 'pending' | 'current' | 'completed' | 'correct' | 'incorrect' | 'skipped' = 'pending'
-    const isBonus = i >= 6 // Questions 7+ are bonus rounds
-    
-    if (i < currentQuestion) {
-      const userAnswer = selectedAnswers[i]
-      const question = questions[i]
-      
-      if (!userAnswer) {
-        status = 'skipped'
-      } else if (userAnswer === question?.correctOption) {
-        status = 'correct'
-      } else {
-        status = 'incorrect'
-      }
-    } else if (i === currentQuestion) {
-      status = 'current'
-    }
-    
-    // Color coding based on status and bonus round
-    let colorClasses = ''
-    if (status === 'correct') {
-      colorClasses = isBonus 
-        ? 'bg-orange-500 text-white border-orange-600' 
-        : 'bg-green-500 text-white border-green-600'
-    } else if (status === 'incorrect') {
-      colorClasses = 'bg-red-500 text-white border-red-600'
-    } else if (status === 'current') {
-      colorClasses = 'bg-yellow-400 text-gray-900 border-yellow-500'
-    }
-    
-    indicators.push(
-      <motion.div
-        key={i}
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: i * 0.1, type: "spring", stiffness: 300 }}
-        className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 ${colorClasses}`}
-      >
-        {isBonus ? '★' : i + 1}
-      </motion.div>
-    )
-  }
-  return indicators
-}
-```
-
-### Progress Display (v2.2)
+### Simple Progress Header
 
 ```typescript
-<div className="flex justify-between items-center">
-  <div className="text-center">
-    <div className="text-2xl font-bold text-gray-900">{score}</div>
-    <div className="text-sm text-gray-600">Score</div>
+// Inline progress display in QuizGameLogic
+<div className="flex justify-between items-center mb-6">
+  <div className="text-white">
+    <div className="text-2xl font-bold">{totalScore}</div>
+    <div className="text-sm opacity-80">Score</div>
   </div>
   
-  <div className="text-center">
-    <div className="text-lg font-semibold text-gray-900">
-      Question {currentQuestion + 1} of {totalQuestions}
+  <div className="text-white text-center">
+    <div className="text-lg font-semibold">
+      Question {currentQuestion + 1} of {questions.length}
     </div>
-    <div className="text-sm text-gray-600">Progress</div>
   </div>
   
-  {/* v2.2: Temperature Meter replaces percentage */}
-  <ReactionTimeMeter avgTime={averageReactionTime} />
+  <div className="text-white text-right">
+    <div className="text-2xl font-bold">{averageReactionTime.toFixed(1)}s</div>
+    <div className="text-sm opacity-80">Avg Time</div>
+  </div>
 </div>
 ```
 
-### Temperature Meter Component (v2.2)
+**Simplified Features:**
+- **Inline rendering** - No separate component
+- **Essential info only** - Score, progress, average time
+- **Clean layout** - Three-column flex layout
+- **No complex indicators** - Simple text display
 
-Replaces the percentage display with a dynamic reaction time indicator:
+## 📋 Results Display (Simplified)
+
+Results are displayed using simple card layouts without dedicated components.
+
+### Simple Results Layout
 
 ```typescript
-function ReactionTimeMeter({ avgTime }: { avgTime: number }) {
-  // If no reactions yet, show neutral state
-  if (avgTime === 0) {
-    return (
-      <div className="text-center">
-        <div className="flex items-center justify-center gap-2 mb-1">
-          <span className="text-2xl">🌡️</span>
-          <div className="text-2xl font-bold text-gray-400">--</div>
-        </div>
-        <div className="text-sm text-gray-600">Avg Speed</div>
-      </div>
-    )
-  }
-  
-  // Determine temperature based on average reaction time
-  const getTemperature = () => {
-    if (avgTime < 3) {
-      return { 
-        emoji: '🔥', 
-        color: 'text-red-500', 
-        bgColor: 'bg-red-100',
-        label: 'Hot',
-        description: 'Lightning Fast!'
-      }
-    }
-    if (avgTime < 5) {
-      return { 
-        emoji: '🌡️', 
-        color: 'text-orange-500', 
-        bgColor: 'bg-orange-100',
-        label: 'Warm',
-        description: 'Great Speed'
-      }
-    }
-    if (avgTime < 7) {
-      return { 
-        emoji: '❄️', 
-        color: 'text-blue-400', 
-        bgColor: 'bg-blue-100',
-        label: 'Cool',
-        description: 'Good Pace'
-      }
-    }
-    return { 
-      emoji: '🧊', 
-      color: 'text-blue-600', 
-      bgColor: 'bg-blue-200',
-      label: 'Cold',
-      description: 'Take Your Time'
-    }
-  }
-  
-  const temp = getTemperature()
+// In results page - simple card rendering
+{questions.map((question, index) => {
+  const userAnswer = selectedAnswers[index]
+  const isCorrect = userAnswer === question.correctOption
   
   return (
-    <div className="text-center">
-      <div className="flex items-center justify-center gap-2 mb-1">
-        <motion.span 
-          key={temp.emoji}
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="text-2xl"
-        >
-          {temp.emoji}
-        </motion.span>
-        <div className={`text-2xl font-bold ${temp.color}`}>
-          {avgTime.toFixed(1)}s
+    <div key={question.id} className="bg-white rounded-2xl p-6 mb-4">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-bold">Question {index + 1}</h3>
+        <span className={isCorrect ? 'text-green-500' : 'text-red-500'}>
+          {isCorrect ? '✓ Correct' : '✗ Wrong'}
+        </span>
+      </div>
+      
+      <p className="mb-4">{question.question}</p>
+      
+      <div className="space-y-2">
+        {Object.entries(question.options).map(([key, text]) => (
+          <div
+            key={key}
+            className={`p-3 rounded-lg ${
+              key === question.correctOption ? 'bg-green-100' :
+              key === userAnswer ? 'bg-red-100' : 'bg-gray-50'
+            }`}
+          >
+            <span className="font-bold mr-2">{key}.</span>
+            {text}
+          </div>
+        ))}
+      </div>
+      
+      {question.explanation && (
+        <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+          <p className="text-sm text-gray-700">{question.explanation}</p>
         </div>
-      </div>
-      <div className={`inline-block ${temp.bgColor} ${temp.color} px-3 py-1 rounded-full text-xs font-semibold mb-1`}>
-        {temp.label}
-      </div>
-      <div className="text-xs text-gray-600">{temp.description}</div>
+      )}
     </div>
   )
-}
+})}
 ```
 
-**v2.2 Features:**
-- **Real-time score** - Updates immediately after each answer
-- **Temperature meter** - Visual feedback on answer speed (replaces percentage)
-- **Question counter** - Clear position in quiz
-- **Bonus round indicators** - Stars for bonus questions
-- **Dynamic emoji** - Changes based on reaction time (🔥 🌡️ ❄️ 🧊)
-- **Speed categories** - Hot (<3s), Warm (<5s), Cool (<7s), Cold (7s+)
-
-## 📋 ResultsCard Component
-
-Displays detailed results for individual questions with expandable explanations.
-
-### Question Review Interface
-
-```typescript
-interface ResultsCardProps {
-  questionNumber: number
-  question: string
-  options: Record<'A' | 'B' | 'C' | 'D', string>
-  userAnswer?: 'A' | 'B' | 'C' | 'D'
-  correctAnswer: 'A' | 'B' | 'C' | 'D'
-  explanation: string
-  isCorrect: boolean
-}
-```
-
-### Option Styling System
-
-```typescript
-const getOptionStyling = (optionKey: 'A' | 'B' | 'C' | 'D') => {
-  const isUserAnswer = userAnswer === optionKey
-  const isCorrectOption = correctAnswer === optionKey
-  
-  if (isCorrectOption) {
-    return 'bg-success-100 border-success-300 text-success-800'
-  }
-  
-  if (isUserAnswer && !isCorrect) {
-    return 'bg-danger-100 border-danger-300 text-danger-800'
-  }
-  
-  return 'bg-gray-50 border-gray-200 text-text-secondary'
-}
-```
-
-### Expandable Explanations
-
-```typescript
-<AnimatePresence>
-  {isExpanded && (
-    <motion.div
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: 'auto' }}
-      exit={{ opacity: 0, height: 0 }}
-      transition={{ duration: 0.3 }}
-      className="border-t border-gray-200 pt-4"
-    >
-      <div className="flex items-start gap-2">
-        <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center">
-          <InfoIcon />
-        </div>
-        <div>
-          <h4 className="text-sm font-semibold mb-1">Explanation:</h4>
-          <p className="text-sm text-text-secondary leading-relaxed">
-            {explanation}
-          </p>
-        </div>
-      </div>
-    </motion.div>
-  )}
-</AnimatePresence>
-```
+**Simplified Features:**
+- **Inline rendering** - No separate ResultsCard component
+- **Simple conditional styling** - Direct className logic
+- **Always visible explanations** - No expand/collapse
+- **Clean card layout** - Easy to understand
 
 ## 🎭 Animation Patterns
 

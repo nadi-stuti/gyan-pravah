@@ -8,42 +8,49 @@ The Gyan Pravah application integrates with **Strapi CMS** as its headless conte
 
 ```
 API Integration Layers:
-├── Strapi Client (strapi.ts)      # Direct Strapi communication
-├── Enhanced API Client (api-client.ts) # Retry logic & error handling
-├── Quiz API (quiz-api.ts)         # Quiz-specific operations
-└── Analytics (analytics.ts)       # User behavior tracking
+├── Server-Side Client (strapi-server.ts) # Server-side data fetching with Next.js fetch
+├── Client-Side Client (strapi.ts)        # Minimal client-side API calls
+└── Analytics (analytics.ts)              # User behavior tracking
 ```
 
-## 🎯 Strapi Client (`strapi.ts`)
+**Simplified Architecture:**
+- Server components use `strapi-server.ts` with Next.js fetch and caching
+- Client components use minimal `strapi.ts` only when necessary
+- No complex retry logic or error handling layers
+- Simple, straightforward API integration
 
-The core Strapi client handles direct communication with the CMS.
+## 🎯 Server-Side Strapi Client (`strapi-server.ts`)
+
+The server-side client uses Next.js fetch with caching for optimal performance.
 
 ### Configuration
 
 ```typescript
-class StrapiClient {
-  private client: AxiosInstance
-  private baseURL: string
+const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337'
+const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN
 
-  constructor() {
-    this.baseURL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337'
-
-    this.client = axios.create({
-      baseURL: this.baseURL,
-      timeout: 10000,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+// Server-side fetch with caching
+export async function getTopicsWithAvailability() {
+  const res = await fetch(`${STRAPI_URL}/api/quiz-topics?populate=*`, {
+    headers: {
+      Authorization: `Bearer ${STRAPI_TOKEN}`,
+    },
+    next: { revalidate: 3600 } // Cache for 1 hour
+  })
+  
+  if (!res.ok) {
+    throw new Error('Failed to fetch topics')
   }
+  
+  return res.json()
 }
 ```
 
 **Key Features:**
+- **Next.js fetch** - Built-in caching and revalidation
+- **Server-side only** - No client-side JavaScript
+- **Simple error handling** - Throw errors for Next.js to catch
 - **Environment-based URLs** - Automatic dev/production switching
-- **Request timeout** - 10-second timeout for reliability
-- **Authentication ready** - Token-based auth support
-- **Error interceptors** - Automatic error handling
 
 ### Authentication Setup
 
@@ -239,132 +246,37 @@ async getRandomQuestions(count: number = 5, mode: 'normal' | 'expert' | 'first-v
 - **Difficulty filtering** - Mode-appropriate difficulty levels
 - **Randomization** - Multiple shuffle points for variety
 
-## 🔄 Enhanced API Client (`api-client.ts`)
+## 🎮 Client-Side Strapi Client (`strapi.ts`)
 
-Adds retry logic and enhanced error handling on top of the Strapi client.
+Minimal client-side API calls for interactive features.
 
-### Retry Logic
+### Simple Client-Side Fetching
 
 ```typescript
-private async withRetry<T>(
-  operation: () => Promise<T>,
-  context: string,
-  maxRetries: number = this.retryAttempts
-): Promise<T> {
-  let lastError: Error | StrapiError
-
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    try {
-      return await operation()
-    } catch (error) {
-      lastError = error as Error | StrapiError
-      
-      // Don't retry on certain error types
-      if (this.shouldNotRetry(error)) {
-        throw error
-      }
-
-      // If this was the last attempt, throw the error
-      if (attempt === maxRetries) {
-        break
-      }
-
-      // Wait before retrying (exponential backoff)
-      const delay = this.retryDelay * Math.pow(2, attempt - 1)
-      await new Promise(resolve => setTimeout(resolve, delay))
-    }
+// Only used when server-side fetching isn't possible
+export async function getRandomQuestions(count: number = 7) {
+  const res = await fetch(`${STRAPI_URL}/api/quiz-questions?pagination[limit]=${count}`)
+  
+  if (!res.ok) {
+    throw new Error('Failed to fetch questions')
   }
-
-  throw lastError!
+  
+  const data = await res.json()
+  return data.data
 }
 ```
 
-**Retry Strategy:**
-- **Exponential backoff** - Increasing delays between retries
-- **Smart retry logic** - Don't retry auth/not found errors
-- **Context logging** - Track which operations are failing
-- **Configurable attempts** - Adjustable retry count
-
-### Connection Status Checking
-
-```typescript
-async checkConnectionStatus(): Promise<{
-  isOnline: boolean
-  isServerReachable: boolean
-  error?: StrapiError | Error
-}> {
-  // Check basic connectivity
-  const isOnline = navigator.onLine
-
-  if (!isOnline) {
-    return {
-      isOnline: false,
-      isServerReachable: false,
-      error: {
-        status: 0,
-        name: 'NetworkError',
-        message: 'No internet connection detected'
-      }
-    }
-  }
-
-  // Check server reachability
-  try {
-    const isServerReachable = await this.healthCheck()
-    return {
-      isOnline: true,
-      isServerReachable,
-      error: isServerReachable ? undefined : {
-        status: 503,
-        name: 'ServiceUnavailable',
-        message: 'Server is not reachable'
-      }
-    }
-  } catch (error) {
-    return {
-      isOnline: true,
-      isServerReachable: false,
-      error: error as StrapiError | Error
-    }
-  }
-}
-```
-
-## 🎮 Quiz API (`quiz-api.ts`)
-
-Provides quiz-specific API operations with simplified interfaces.
-
-### Convenience Methods
-
-```typescript
-export class QuizAPI {
-  // Get questions by topic and difficulty (for quiz setup)
-  static async getQuizQuestions(
-    topicSlug?: string,
-    subtopicSlug?: string,
-    difficulty?: 'Easy' | 'Medium' | 'Hard',
-    count: number = 5
-  ): Promise<QuizQuestion[]> {
-    const filters: QuestionFilters = {
-      limit: count * 2, // Get more questions to allow for randomization
-    }
-    
-    if (topicSlug) filters.topic = topicSlug
-    if (subtopicSlug) filters.subtopic = subtopicSlug
-    if (difficulty) filters.difficulty = difficulty
-    
-    const questions = await this.getQuestions(filters)
-    
-    // Shuffle and return requested count
-    const shuffled = [...questions].sort(() => Math.random() - 0.5)
-    return shuffled.slice(0, count)
-  }
-}
-```
+**Usage:**
+- Only for client-side interactions
+- No complex retry logic
+- Simple error handling
+- Minimal JavaScript bundle
 
 ## 📊 Analytics Integration (`analytics.ts`)
 
 Comprehensive user behavior tracking with PostHog.
+
+**📖 For complete analytics documentation, see:** [`docs/analytics-readme.md`](../analytics-readme.md)
 
 ### Type-Safe Event Tracking
 
@@ -444,118 +356,88 @@ export function initializeUserTracking(): void {
 
 ## 🔧 Usage Patterns
 
-### Component Integration
+### Server Component Integration
 
 ```typescript
-const QuizPage = () => {
-  const [questions, setQuestions] = useState<QuizQuestion[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    const loadQuestions = async () => {
-      try {
-        setLoading(true)
-        setError(null)
-        
-        // Use enhanced API client with retry logic
-        const fetchedQuestions = await apiClient.getRandomQuestions(7, 'normal')
-        setQuestions(fetchedQuestions)
-        
-        // Track successful load
-        trackEvent('quiz_started', {
-          mode: 'normal',
-          total_questions: fetchedQuestions.length,
-          is_expert_mode: false,
-          is_first_visit: false
-        })
-        
-      } catch (err) {
-        const errorMessage = getErrorMessage(err)
-        setError(errorMessage)
-        
-        // Track error
-        trackEvent('quiz_error', {
-          error_type: 'api_failure',
-          error_message: errorMessage,
-          context: 'quiz_load'
-        })
-        
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadQuestions()
-  }, [])
-
-  if (loading) return <LoadingScreen />
-  if (error) return <ErrorScreen error={error} onRetry={loadQuestions} />
+// Server Component - No loading states needed
+export default async function QuizPage({ params }: { params: { topic: string, subtopic: string } }) {
+  // Fetch server-side with caching
+  const questions = await getQuizQuestions(params.topic, params.subtopic)
   
+  // Pass to client component
   return <QuizGame questions={questions} />
+}
+
+// Server-side fetch function
+async function getQuizQuestions(topic: string, subtopic: string) {
+  const res = await fetch(
+    `${STRAPI_URL}/api/quiz-questions?filters[quiz_topic][slug]=${topic}&filters[quiz_subtopic][slug]=${subtopic}`,
+    {
+      next: { revalidate: 300 } // Cache for 5 minutes
+    }
+  )
+  
+  if (!res.ok) throw new Error('Failed to fetch questions')
+  const data = await res.json()
+  return data.data
 }
 ```
 
-### Error Handling Patterns
+### Error Handling with error.tsx
 
 ```typescript
-// Check error types
-if (isNetworkError(error)) {
-  return <NoInternetConnection onRetry={retryOperation} />
-}
+// app/quiz/[topic]/[subtopic]/error.tsx
+'use client'
 
-if (isTimeoutError(error)) {
-  return <TimeoutError onRetry={retryOperation} />
+export default function Error({ error, reset }: { error: Error, reset: () => void }) {
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="text-center">
+        <h2 className="text-2xl font-bold mb-4">Failed to load quiz</h2>
+        <p className="text-gray-600 mb-6">{error.message}</p>
+        <button onClick={reset} className="bg-[#8B7FC8] text-white px-6 py-3 rounded-xl">
+          Try again
+        </button>
+      </div>
+    </div>
+  )
 }
-
-if (isServerError(error)) {
-  return <ServerError onRetry={retryOperation} />
-}
-
-// Generic error with user-friendly message
-return <ErrorMessage message={getErrorMessage(error)} onRetry={retryOperation} />
 ```
 
 ### Caching Strategy
 
 ```typescript
-// Subtopic availability caching
-const { availability, isStale, refreshAvailability } = useSubtopicStore()
+// Next.js handles caching automatically
+// Revalidate every hour for topics
+next: { revalidate: 3600 }
 
-useEffect(() => {
-  // Only refresh if cache is stale (5 minutes)
-  if (isStale()) {
-    refreshAvailability()
-  }
-}, [])
+// Revalidate every 5 minutes for questions
+next: { revalidate: 300 }
 
-// Use cached data immediately for better UX
-const availableTopics = topics.filter(topic => 
-  topic.subtopics.some(subtopic => availability[subtopic.slug]?.hasQuestions)
-)
+// No cache for user-specific data
+cache: 'no-store'
 ```
 
 ## 🚀 Performance Optimizations
 
-### Request Optimization
+### Server-Side Optimizations
 
-1. **Field Selection** - Only fetch required fields
-2. **Pagination** - Handle large datasets efficiently
-3. **Population** - Include related data in single requests
-4. **Caching** - Cache frequently accessed data
-5. **Retry Logic** - Automatic retry with exponential backoff
+1. **Next.js Caching** - Automatic caching with revalidation
+2. **Server Components** - No client-side JavaScript for data fetching
+3. **Field Selection** - Only fetch required fields
+4. **Population** - Include related data in single requests
 
 ### Bundle Optimization
 
-1. **Dynamic Imports** - Load API clients on demand
-2. **Tree Shaking** - Only include used functions
-3. **Code Splitting** - Separate API logic from components
+1. **Server Components** - Reduced client-side JavaScript
+2. **Minimal Client API** - Only essential client-side calls
+3. **Code Splitting** - Automatic with Next.js
 
-### Error Recovery
+### Error Handling
 
-1. **Graceful Degradation** - Show cached data when possible
-2. **Retry Mechanisms** - Automatic retry for transient failures
-3. **User Feedback** - Clear error messages with retry options
-4. **Offline Support** - Handle offline scenarios gracefully
+1. **Simple error.tsx** - Next.js built-in error handling
+2. **Clear Error Messages** - User-friendly feedback
+3. **Retry Options** - Simple retry buttons
+4. **Server-Side Errors** - Caught and handled by Next.js
 
-This API integration architecture provides a robust, scalable, and maintainable foundation for the quiz application with excellent error handling, performance optimization, and user experience.
+This simplified API integration provides better performance, easier maintenance, and a cleaner codebase while leveraging Next.js built-in features.
