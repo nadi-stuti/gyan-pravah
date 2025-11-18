@@ -242,9 +242,10 @@ function ResultsContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3"
+          // className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3"
+          className="bg-white rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6 text-center shadow-lg"
         >
-          <button
+          {/* <button
             onClick={handleReplaySame}
             disabled={isRestarting}
             className="bg-green-400 hover:bg-green-500 text-white font-bold py-3 px-3 sm:px-4 rounded-xl transition-all duration-200 shadow-lg text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
@@ -274,16 +275,18 @@ function ResultsContent() {
           >
             <span className="block sm:hidden">📖</span>
             <span className="hidden sm:block">📖 Topics</span>
-          </button>
+          </button> */}
 
           <button
             onClick={handleGoHome}
-            className="bg-white hover:bg-gray-50 text-gray-900 font-bold py-3 px-3 sm:px-4 rounded-xl transition-all duration-200 shadow-lg border-2 border-gray-200 text-sm sm:text-base"
+            // className="bg-white hover:bg-gray-50 text-gray-900 font-bold py-3 px-3 sm:px-4 rounded-xl transition-all duration-200 shadow-lg border-2 border-gray-200 text-sm sm:text-base"
+            className="text-lg sm:text-xl font-poppins font-semibold text-gray-900"
             role="button"
-            title="Go to Home"
+            title="Play Again"
           >
-            <span className="block sm:hidden">🏠</span>
-            <span className="hidden sm:block">🏠 Home</span>
+            {/* <span className="block sm:hidden">🏠</span>
+            <span className="hidden sm:block">🏠 Home</span> */}
+            🔄️Play Again
           </button>
         </motion.div>
 

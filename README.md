@@ -16,24 +16,24 @@ gyan-pravah/
 
 ## 🚀 Complete Setup Guide
 
-### Step 1: Install Node.js 22 LTS
+### Step 1: Install Node.js 24 LTS
 
 **Option A: Using Node Version Manager (Recommended)**
 ```bash
 # Install nvm (Windows - use nvm-windows)
 # Download from: https://github.com/coreybutler/nvm-windows/releases
 
-# Install and use Node.js 22 LTS
-nvm install 22
-nvm use 22
+# Install and use Node.js 24 LTS
+nvm install 24
+nvm use 24
 
 # Verify installation
-node --version  # Should show v22.x.x
+node --version  # Should show v24.x.x
 ```
 
 **Option B: Direct Download**
 1. Visit [Node.js official website](https://nodejs.org/)
-2. Download Node.js 22 LTS (Long Term Support)
+2. Download Node.js 24 LTS (Long Term Support)
 3. Run the installer and follow the setup wizard
 4. Verify installation: `node --version`
 
