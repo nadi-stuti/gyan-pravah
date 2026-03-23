@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getTopicsWithAvailability } from '@/lib/strapi-server'
 import TopicsHeader from '@/components/topics/TopicsHeader'
 import TopicGrid from '@/components/topics/TopicGrid'
