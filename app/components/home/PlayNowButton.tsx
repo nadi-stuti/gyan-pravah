@@ -18,8 +18,12 @@ export default function PlayNowButton() {
     
     // Navigate to random quiz page
     // Questions will be fetched server-side
+    // temp fix:  nadi/ganga?mode=normal
     const mode = expertModeEnabled ? 'expert' : 'normal'
-    router.push(`/quiz/random?mode=${mode}`)
+    router.push(`nadi/ganga?mode=normal`)
+    
+    //const mode = expertModeEnabled ? 'expert' : 'normal'
+    //router.push(`/quiz/random?mode=${mode}`)
   }
 
   return (
