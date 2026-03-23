@@ -50,6 +50,21 @@ export default function Home() {
     const hasBooted = sessionStorage.getItem("strapiBooted");
     if (!hasBooted) {
       setIsBooting(true);
+      
+          fetch('/api/random-fact?count=1')
+        .then((res) => {
+          if (res.ok) {
+            console.log("Strapi server is awake and responded!");
+            // The server woke up early! Force the timer to 0 to end the loading screen immediately.
+            setTimeLeft(0); 
+          }
+        })
+        .catch((err) => {
+          // If the request fails or times out (e.g., Vercel 10s timeout limit), 
+          // we just silently fail and let the 30-second UI timer finish its course 
+          // while Strapi continues booting in the background.
+          console.log("Ping timeout/error. Strapi is likely still booting in the background.", err);
+        });
     }
     setCurrentFactIndex(Math.floor(Math.random() * RIVER_FACTS.length));
   }, []);
