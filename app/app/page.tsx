@@ -41,7 +41,7 @@ export default function Home() {
 
   // Cold Boot Timer States
   const [isBooting, setIsBooting] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(30);
+  const [timeLeft, setTimeLeft] = useState(90);
   const [currentFactIndex, setCurrentFactIndex] = useState(0);
 
   // Initialize boot check and random starting fact
@@ -51,7 +51,7 @@ export default function Home() {
     if (!hasBooted) {
       setIsBooting(true);
       
-          fetch('/api/random-fact?count=1')
+        fetch('/api/random-fact?count=1')
         .then((res) => {
           if (res.ok) {
             console.log("Strapi server is awake and responded!");
@@ -133,7 +133,7 @@ export default function Home() {
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">Waking up Servers</h2>
           <div className="text-5xl font-extrabold text-white mb-2 tracking-widest">{timeLeft}s</div>
           <p className="text-sm sm:text-base text-white/80 mb-6">
-            Our databases are doing a quick cold-boot. Expand your knowledge while you wait!
+            Our databases are doing a quick cold-boot. Please return after a bit or Expand your knowledge while you wait!
           </p>
 
           <div className="min-h-[140px] flex items-center justify-center bg-white/20 p-5 rounded-2xl mb-6 w-full relative overflow-hidden">
